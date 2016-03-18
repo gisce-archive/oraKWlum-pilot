@@ -76,9 +76,7 @@ class Consumption(object):
                 time_disc=self.time_disc))
 
 
-
-
-class History (object):
+class History(object):
     """Historical consumptions for a time period (normally events from the last year)
     
     Can receive (optional) the time period to fetch and the possible filters to apply:
@@ -89,12 +87,12 @@ class History (object):
 
     If not reached any filter, will fetch one year ago events for all CUPS
     """
-    
+
     def __init__(self, dini=None, dfi=None, cups=None):
         logger.info('Creating new History')
         self.cups_list = cups if cups else []
         self.date_end = dfi if dfi else datetime.today()
         self.date_start = dini if dini else self.date_end - timedelta(days=365)
-        logger.debug('  between {ini} - {fi}'.format( ini=self.date_start, fi=self.date_end))
-        logger.debug('  filtering for cups: {cups}'.format( cups=cups))
-
+        logger.debug('  between {ini} - {fi}'.format(ini=self.date_start,
+                                                     fi=self.date_end))
+        logger.debug('  filtering for cups: {cups}'.format(cups=cups))
