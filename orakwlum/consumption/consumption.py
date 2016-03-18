@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class Consumption(object):
     """Consumption for a certain hour.
 
-    Have the followint properties:
+    Have the following properties:
        cups: A CUPS object to identify the related customer
        hour: A localized datetime to set the affected hour. Track the initial hour and assume 60min period
        consumption_real: The real amount of energy consumed. Setted once the data is really confirmed
@@ -74,3 +74,27 @@ class Consumption(object):
                 pom=self.pom_type,
                 distr=self.distributor,
                 time_disc=self.time_disc))
+
+
+
+
+class History (object):
+    """Historical consumptions for a time period (normally events from the last year)
+    
+    Can receive (optional) the time period to fetch and the possible filters to apply:
+        date_start: Initial date
+        date_end: Last date
+        cups: List of CUPS to filter
+        ...
+
+    If not reached any filter, will fetch one year ago events for all CUPS
+    """
+    
+    def __init__(self, dini=None, dfi=None, cups=None):
+        logger.info('Creating new History')
+        self.cups_list = cups if cups else []
+        self.date_end = dfi if dfi else datetime.today()
+        self.date_start = dini if dini else self.date_end - timedelta(days=365)
+        logger.debug('  between {ini} - {fi}'.format( ini=self.date_start, fi=self.date_end))
+        logger.debug('  filtering for cups: {cups}'.format( cups=cups))
+
