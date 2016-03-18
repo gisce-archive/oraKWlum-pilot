@@ -1,0 +1,3 @@
+pytz
+enerdata
+https://github.com/gisce/one_year_ago/archive/master.zip
