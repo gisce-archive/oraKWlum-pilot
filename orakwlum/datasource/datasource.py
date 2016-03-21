@@ -132,6 +132,7 @@ class Mongo(DataSource):
 
         return resultat
 
+
     def aggregate_count(self, field = "cups", collection = "test_data"):
         """
         Aggregate a collection by field and extract the count
@@ -147,19 +148,28 @@ class Mongo(DataSource):
 
 
 
-    def aggregate_sum (self, field = "cups", field_to_sum = "consumption_real", collection = "test_data"):
+
+    def aggregate_sum (self, field_to_agg = "cups", fields_to_sum = ["consumption_real", "consumption_proposal"], collection = "test_data"):
         """
         Aggregate a collection by field and extract the sum of field_to_sum
 
         Return a list of dicts:
             [ {'_id': 'FIELD', field_to_sum+"_TOTAL": COUNT}, ...]
         """
-        expression = [{"$group": {"_id": "$" + field,
-                                  "sum_"+field_to_sum: {"$sum": "$"+ field_to_sum},
+
+        field_to_sum2 = "consumption_proposal"
+
+        expression = [{"$group": {"_id": "$" + field_to_agg,
                                   }
                        }]
 
-        logger.info("Aggregating by '{}' and adding by '{}'".format(field, field_to_sum))
+
+        for field in fields_to_sum:
+            expression[0]['$group']["sum_"+field] =  {"$sum": "$"+ field}
+
+
+
+        logger.info("Aggregating by '{}' and adding by '{}'".format(field_to_agg, fields_to_sum))
 
         return self.aggregate(collection, expression)
 
