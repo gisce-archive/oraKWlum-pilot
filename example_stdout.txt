@@ -1,0 +1,57 @@
+INFO:orakwlum.consumption.consumption:Creating new consumption
+INFO:DataSource:Establishing new Mongo datasource at 'mongodb://localhost:27017/'
+ES0031406229285001HS0F - 2016-03-02 15:00:00: None / None
+INFO:DataSource:Creating new dummy data in 'test_data' ('mongodb://localhost:27017/')
+INFO:DataSource:Created 240 dummy elements on 'test_data'
+INFO:DataSource:Aggregating and counting by 'hour'
+48 elements aggregatig by 'hour':
+  2016-03-16 22:00:00, count: 5
+  2016-03-16 21:00:00, count: 5
+  2016-03-16 20:00:00, count: 5
+  2016-03-16 16:00:00, count: 5
+  2016-03-16 15:00:00, count: 5
+  2016-03-16 13:00:00, count: 5
+  2016-03-16 12:00:00, count: 5
+  2016-03-16 10:00:00, count: 5
+  2016-03-16 09:00:00, count: 5
+  2016-03-16 08:00:00, count: 5
+  2016-03-16 06:00:00, count: 5
+  2016-03-16 04:00:00, count: 5
+  2016-03-16 19:00:00, count: 5
+  2016-03-16 14:00:00, count: 5
+  2016-03-16 03:00:00, count: 5
+  2016-03-16 02:00:00, count: 5
+  2016-03-16 01:00:00, count: 5
+  2016-03-16 05:00:00, count: 5
+  2016-03-16 17:00:00, count: 5
+  2016-03-15 21:00:00, count: 5
+  2016-03-15 19:00:00, count: 5
+  2016-03-15 18:00:00, count: 5
+  2016-03-15 15:00:00, count: 5
+  2016-03-15 14:00:00, count: 5
+  2016-03-16 00:00:00, count: 5
+  2016-03-15 13:00:00, count: 5
+  2016-03-15 11:00:00, count: 5
+  2016-03-15 17:00:00, count: 5
+  2016-03-15 10:00:00, count: 5
+  2016-03-15 22:00:00, count: 5
+  2016-03-15 07:00:00, count: 5
+  2016-03-15 23:00:00, count: 5
+  2016-03-15 06:00:00, count: 5
+  2016-03-16 11:00:00, count: 5
+  2016-03-15 03:00:00, count: 5
+  2016-03-15 12:00:00, count: 5
+  2016-03-15 08:00:00, count: 5
+  2016-03-15 20:00:00, count: 5
+  2016-03-16 23:00:00, count: 5
+  2016-03-15 02:00:00, count: 5
+  2016-03-15 09:00:00, count: 5
+  2016-03-15 04:00:00, count: 5
+  2016-03-15 01:00:00, count: 5
+  2016-03-16 18:00:00, count: 5
+  2016-03-15 05:00:00, count: 5
+  2016-03-16 07:00:00, count: 5
+  2016-03-15 00:00:00, count: 5
+  2016-03-15 16:00:00, count: 5
+
+Process finished with exit code 0
