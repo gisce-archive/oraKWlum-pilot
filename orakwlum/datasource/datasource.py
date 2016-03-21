@@ -133,16 +133,65 @@ class Mongo(DataSource):
         return resultat
 
 
+    def aggregate_action (self, agg_exp, action, fields_to_operate):
+        """
+        Extends aggregate expression to integrate an action with multiple involved fields
+
+        p.e (agg_exp, "sum", [ "consumption_real" ]) will
+            - extend agg_exp to integrate the sum of the field "consumption_real" for the aggregation
+            - return the extended agg_exp
+        """
+
+        if action not in ("sum", "count"):
+            print "ERROR action not implemented"
+            raise
+
+
+        count = False
+
+        if action == "count":
+            count = True
+
+
+        for field in fields_to_operate:
+            if count:   #convert to  { .... , "count": {"$sum": 1} }
+                agg_exp[0]['$group']["count_"+field] =  {"$sum": 1}
+            else:
+                agg_exp[0]['$group']["sum_"+field] =  {"$"+ action: "$"+ field}
+
+        return agg_exp
+
+
     def aggregate_count(self, field = "cups", collection = "test_data"):
         """
-        Aggregate a collection by field and extract the count
+        Aggregate a collection by field and extract the count of elements for each aggr
 
         Return a list of dicts:
-            [ {'_id': 'FIELD', 'entries': COUNT}, ...]
+            [ {'_id': 'FIELD', 'count': COUNT}, ...]
         """
         expression = [{"$group": {"_id": "$" + field, "count": {"$sum": 1}}}]
 
         logger.info("Aggregating and counting by '{}'".format(field))
+
+        return self.aggregate(collection, expression)
+
+
+    def aggregate_count_fields(self, field_to_agg, fields_to_count = ["cups"], collection = "test_data"):
+        """
+        Aggregate a collection by field and extract the count of fields_to_count list for each aggr
+
+        Useful for asymethric collections on Mongo, or for non fully-initialised elements inside collection.
+
+        Return a list of dicts:
+            [ {'_id': 'FIELD', 'count_'+field1_to_count: COUNT, ..., 'count_'+fieldN_to_count: COUNT}, ...]
+        """
+        expression = [{"$group": {"_id": "$" + field_to_agg,
+                                  }
+                       }]
+
+        expression = self.aggregate_action(expression, "count", fields_to_count)
+
+        logger.info("Aggregating by '{}' and adding by '{}'".format(field_to_agg, field_to_agg))
 
         return self.aggregate(collection, expression)
 
@@ -157,17 +206,11 @@ class Mongo(DataSource):
             [ {'_id': 'FIELD', field_to_sum+"_TOTAL": COUNT}, ...]
         """
 
-        field_to_sum2 = "consumption_proposal"
-
         expression = [{"$group": {"_id": "$" + field_to_agg,
                                   }
                        }]
 
-
-        for field in fields_to_sum:
-            expression[0]['$group']["sum_"+field] =  {"$sum": "$"+ field}
-
-
+        expression = self.aggregate_action(expression,"sum",fields_to_sum)
 
         logger.info("Aggregating by '{}' and adding by '{}'".format(field_to_agg, fields_to_sum))
 
