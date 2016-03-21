@@ -58,7 +58,7 @@ class Mongo(DataSource):
             print "Error while connecting to Mongo DB '{}'".format(
                 self.db_name)
 
-    def test_data(self, drop=False, collection="test_data"):
+    def test_data(self, drop = False, collection = "test_data"):
         """
         Creates dummy data on collection.
 
@@ -126,21 +126,40 @@ class Mongo(DataSource):
         logger.debug("Aggregating using expression: '{}'".format(exp))
         resultat = list(dades_test.aggregate(exp))
 
-        if logger.getEffectiveLevel() >= logging.INFO:
+        if logger.getEffectiveLevel() <= logging.INFO:
             for entrada in resultat:
-                logger.debug(entrada)
+                logger.debug(" - " + str(entrada))
 
         return resultat
 
-    def aggregate_count(self, field="cups", collection="test_data"):
+    def aggregate_count(self, field = "cups", collection = "test_data"):
         """
         Aggregate a collection by field and extract the count
 
         Return a list of dicts:
             [ {'_id': 'FIELD', 'entries': COUNT}, ...]
         """
-        expression = [{"$group": {"_id": "$" + field, "entries": {"$sum": 1}}}]
+        expression = [{"$group": {"_id": "$" + field, "count": {"$sum": 1}}}]
 
         logger.info("Aggregating and counting by '{}'".format(field))
 
         return self.aggregate(collection, expression)
+
+
+
+    def aggregate_sum (self, field = "cups", field_to_sum = "consumption_real", collection = "test_data"):
+        """
+        Aggregate a collection by field and extract the sum of field_to_sum
+
+        Return a list of dicts:
+            [ {'_id': 'FIELD', field_to_sum+"_TOTAL": COUNT}, ...]
+        """
+        expression = [{"$group": {"_id": "$" + field,
+                                  "sum_"+field_to_sum: {"$sum": "$"+ field_to_sum},
+                                  }
+                       }]
+
+        logger.info("Aggregating by '{}' and adding by '{}'".format(field, field_to_sum))
+
+        return self.aggregate(collection, expression)
+
