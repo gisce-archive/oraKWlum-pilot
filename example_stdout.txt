@@ -1,57 +1,152 @@
+/usr/bin/python2.7 /home/k/projectes/oraKWlum/example.py
 INFO:orakwlum.consumption.consumption:Creating new consumption
-DEBUG:orakwlum.consumption.consumption:  for ES0031406229285001HS0F at 2016-03-02 15:00:00. Real: None, estimated: None
-DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
-ES0031406229285001HS0F - 2016-03-02 15:00:00: None / None
 INFO:DataSource:Establishing new Mongo datasource at 'mongodb://localhost:27017/'
+ES0031406229285001HS0F - 2016-03-02 15:00:00: None / None
 INFO:DataSource:Aggregating by 'hour' and adding by '['consumption_real', 'consumption_proposal']'
-DEBUG:DataSource:Aggregating using expression: '[{'$group': {'_id': '$hour', 'sum_consumption_real': {'$sum': '$consumption_real'}, 'sum_consumption_proposal': {'$sum': '$consumption_proposal'}}}]'
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 22, 0), u'sum_consumption_real': 175, u'sum_consumption_proposal': 304}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 21, 0), u'sum_consumption_real': 263, u'sum_consumption_proposal': 155}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 20, 0), u'sum_consumption_real': 215, u'sum_consumption_proposal': 213}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 16, 0), u'sum_consumption_real': 293, u'sum_consumption_proposal': 306}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 15, 0), u'sum_consumption_real': 221, u'sum_consumption_proposal': 213}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 13, 0), u'sum_consumption_real': 255, u'sum_consumption_proposal': 258}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 12, 0), u'sum_consumption_real': 324, u'sum_consumption_proposal': 329}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 10, 0), u'sum_consumption_real': 226, u'sum_consumption_proposal': 268}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 9, 0), u'sum_consumption_real': 249, u'sum_consumption_proposal': 163}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 8, 0), u'sum_consumption_real': 281, u'sum_consumption_proposal': 242}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 6, 0), u'sum_consumption_real': 210, u'sum_consumption_proposal': 280}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 4, 0), u'sum_consumption_real': 288, u'sum_consumption_proposal': 303}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 19, 0), u'sum_consumption_real': 176, u'sum_consumption_proposal': 384}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 14, 0), u'sum_consumption_real': 260, u'sum_consumption_proposal': 315}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 3, 0), u'sum_consumption_real': 190, u'sum_consumption_proposal': 323}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 2, 0), u'sum_consumption_real': 182, u'sum_consumption_proposal': 222}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 1, 0), u'sum_consumption_real': 313, u'sum_consumption_proposal': 192}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 5, 0), u'sum_consumption_real': 306, u'sum_consumption_proposal': 251}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 17, 0), u'sum_consumption_real': 145, u'sum_consumption_proposal': 341}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 21, 0), u'sum_consumption_real': 236, u'sum_consumption_proposal': 245}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 19, 0), u'sum_consumption_real': 97, u'sum_consumption_proposal': 159}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 18, 0), u'sum_consumption_real': 329, u'sum_consumption_proposal': 224}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 15, 0), u'sum_consumption_real': 174, u'sum_consumption_proposal': 135}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 14, 0), u'sum_consumption_real': 292, u'sum_consumption_proposal': 133}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 0, 0), u'sum_consumption_real': 362, u'sum_consumption_proposal': 241}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 13, 0), u'sum_consumption_real': 288, u'sum_consumption_proposal': 195}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 11, 0), u'sum_consumption_real': 261, u'sum_consumption_proposal': 243}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 17, 0), u'sum_consumption_real': 208, u'sum_consumption_proposal': 283}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 10, 0), u'sum_consumption_real': 112, u'sum_consumption_proposal': 258}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 22, 0), u'sum_consumption_real': 249, u'sum_consumption_proposal': 173}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 7, 0), u'sum_consumption_real': 349, u'sum_consumption_proposal': 353}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 23, 0), u'sum_consumption_real': 310, u'sum_consumption_proposal': 136}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 6, 0), u'sum_consumption_real': 180, u'sum_consumption_proposal': 196}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 11, 0), u'sum_consumption_real': 244, u'sum_consumption_proposal': 218}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 3, 0), u'sum_consumption_real': 267, u'sum_consumption_proposal': 144}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 12, 0), u'sum_consumption_real': 227, u'sum_consumption_proposal': 279}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 8, 0), u'sum_consumption_real': 172, u'sum_consumption_proposal': 148}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 20, 0), u'sum_consumption_real': 248, u'sum_consumption_proposal': 187}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 23, 0), u'sum_consumption_real': 327, u'sum_consumption_proposal': 267}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 2, 0), u'sum_consumption_real': 262, u'sum_consumption_proposal': 134}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 9, 0), u'sum_consumption_real': 359, u'sum_consumption_proposal': 272}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 4, 0), u'sum_consumption_real': 222, u'sum_consumption_proposal': 362}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 1, 0), u'sum_consumption_real': 169, u'sum_consumption_proposal': 190}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 18, 0), u'sum_consumption_real': 276, u'sum_consumption_proposal': 257}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 5, 0), u'sum_consumption_real': 261, u'sum_consumption_proposal': 206}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 16, 7, 0), u'sum_consumption_real': 289, u'sum_consumption_proposal': 251}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 0, 0), u'sum_consumption_real': 131, u'sum_consumption_proposal': 196}
-DEBUG:DataSource: - {u'_id': datetime.datetime(2016, 3, 15, 16, 0), u'sum_consumption_real': 141, u'sum_consumption_proposal': 340}
+48 elements aggregating by 'hour':
+  2016-03-16 22:00:00, sum: 201 / 179
+  2016-03-16 22:00:00, sum: 201 / 179
+  2016-03-16 22:00:00, sum: 201 / 179
+  2016-03-16 21:00:00, sum: 327 / 199
+  2016-03-16 21:00:00, sum: 327 / 199
+  2016-03-16 21:00:00, sum: 327 / 199
+  2016-03-16 20:00:00, sum: 272 / 117
+  2016-03-16 20:00:00, sum: 272 / 117
+  2016-03-16 20:00:00, sum: 272 / 117
+  2016-03-16 16:00:00, sum: 319 / 336
+  2016-03-16 16:00:00, sum: 319 / 336
+  2016-03-16 16:00:00, sum: 319 / 336
+  2016-03-16 15:00:00, sum: 197 / 267
+  2016-03-16 15:00:00, sum: 197 / 267
+  2016-03-16 15:00:00, sum: 197 / 267
+  2016-03-16 13:00:00, sum: 366 / 187
+  2016-03-16 13:00:00, sum: 366 / 187
+  2016-03-16 13:00:00, sum: 366 / 187
+  2016-03-16 12:00:00, sum: 231 / 234
+  2016-03-16 12:00:00, sum: 231 / 234
+  2016-03-16 12:00:00, sum: 231 / 234
+  2016-03-16 10:00:00, sum: 193 / 241
+  2016-03-16 10:00:00, sum: 193 / 241
+  2016-03-16 10:00:00, sum: 193 / 241
+  2016-03-16 09:00:00, sum: 129 / 303
+  2016-03-16 09:00:00, sum: 129 / 303
+  2016-03-16 09:00:00, sum: 129 / 303
+  2016-03-16 08:00:00, sum: 268 / 234
+  2016-03-16 08:00:00, sum: 268 / 234
+  2016-03-16 08:00:00, sum: 268 / 234
+  2016-03-16 06:00:00, sum: 282 / 264
+  2016-03-16 06:00:00, sum: 282 / 264
+  2016-03-16 06:00:00, sum: 282 / 264
+  2016-03-16 04:00:00, sum: 199 / 174
+  2016-03-16 04:00:00, sum: 199 / 174
+  2016-03-16 04:00:00, sum: 199 / 174
+  2016-03-16 19:00:00, sum: 235 / 239
+  2016-03-16 19:00:00, sum: 235 / 239
+  2016-03-16 19:00:00, sum: 235 / 239
+  2016-03-16 14:00:00, sum: 306 / 205
+  2016-03-16 14:00:00, sum: 306 / 205
+  2016-03-16 14:00:00, sum: 306 / 205
+  2016-03-16 03:00:00, sum: 235 / 287
+  2016-03-16 03:00:00, sum: 235 / 287
+  2016-03-16 03:00:00, sum: 235 / 287
+  2016-03-16 02:00:00, sum: 267 / 230
+  2016-03-16 02:00:00, sum: 267 / 230
+  2016-03-16 02:00:00, sum: 267 / 230
+  2016-03-16 01:00:00, sum: 202 / 317
+  2016-03-16 01:00:00, sum: 202 / 317
+  2016-03-16 01:00:00, sum: 202 / 317
+  2016-03-16 05:00:00, sum: 162 / 308
+  2016-03-16 05:00:00, sum: 162 / 308
+  2016-03-16 05:00:00, sum: 162 / 308
+  2016-03-16 17:00:00, sum: 187 / 137
+  2016-03-16 17:00:00, sum: 187 / 137
+  2016-03-16 17:00:00, sum: 187 / 137
+  2016-03-15 21:00:00, sum: 278 / 294
+  2016-03-15 21:00:00, sum: 278 / 294
+  2016-03-15 21:00:00, sum: 278 / 294
+  2016-03-15 19:00:00, sum: 241 / 272
+  2016-03-15 19:00:00, sum: 241 / 272
+  2016-03-15 19:00:00, sum: 241 / 272
+  2016-03-15 18:00:00, sum: 98 / 144
+  2016-03-15 18:00:00, sum: 98 / 144
+  2016-03-15 18:00:00, sum: 98 / 144
+  2016-03-15 15:00:00, sum: 318 / 227
+  2016-03-15 15:00:00, sum: 318 / 227
+  2016-03-15 15:00:00, sum: 318 / 227
+  2016-03-15 14:00:00, sum: 295 / 277
+  2016-03-15 14:00:00, sum: 295 / 277
+  2016-03-15 14:00:00, sum: 295 / 277
+  2016-03-16 00:00:00, sum: 111 / 326
+  2016-03-16 00:00:00, sum: 111 / 326
+  2016-03-16 00:00:00, sum: 111 / 326
+  2016-03-15 13:00:00, sum: 227 / 131
+  2016-03-15 13:00:00, sum: 227 / 131
+  2016-03-15 13:00:00, sum: 227 / 131
+  2016-03-15 11:00:00, sum: 160 / 352
+  2016-03-15 11:00:00, sum: 160 / 352
+  2016-03-15 11:00:00, sum: 160 / 352
+  2016-03-15 17:00:00, sum: 195 / 319
+  2016-03-15 17:00:00, sum: 195 / 319
+  2016-03-15 17:00:00, sum: 195 / 319
+  2016-03-15 10:00:00, sum: 203 / 205
+  2016-03-15 10:00:00, sum: 203 / 205
+  2016-03-15 10:00:00, sum: 203 / 205
+  2016-03-15 22:00:00, sum: 184 / 143
+  2016-03-15 22:00:00, sum: 184 / 143
+  2016-03-15 22:00:00, sum: 184 / 143
+  2016-03-15 07:00:00, sum: 185 / 171
+  2016-03-15 07:00:00, sum: 185 / 171
+  2016-03-15 07:00:00, sum: 185 / 171
+  2016-03-15 23:00:00, sum: 165 / 290
+  2016-03-15 23:00:00, sum: 165 / 290
+  2016-03-15 23:00:00, sum: 165 / 290
+  2016-03-15 06:00:00, sum: 379 / 96
+  2016-03-15 06:00:00, sum: 379 / 96
+  2016-03-15 06:00:00, sum: 379 / 96
+  2016-03-16 11:00:00, sum: 270 / 206
+  2016-03-16 11:00:00, sum: 270 / 206
+  2016-03-16 11:00:00, sum: 270 / 206
+  2016-03-15 03:00:00, sum: 187 / 311
+  2016-03-15 03:00:00, sum: 187 / 311
+  2016-03-15 03:00:00, sum: 187 / 311
+  2016-03-15 12:00:00, sum: 341 / 215
+  2016-03-15 12:00:00, sum: 341 / 215
+  2016-03-15 12:00:00, sum: 341 / 215
+  2016-03-15 08:00:00, sum: 197 / 221
+  2016-03-15 08:00:00, sum: 197 / 221
+  2016-03-15 08:00:00, sum: 197 / 221
+  2016-03-15 20:00:00, sum: 142 / 235
+  2016-03-15 20:00:00, sum: 142 / 235
+  2016-03-15 20:00:00, sum: 142 / 235
+  2016-03-16 23:00:00, sum: 290 / 101
+  2016-03-16 23:00:00, sum: 290 / 101
+  2016-03-16 23:00:00, sum: 290 / 101
+  2016-03-15 02:00:00, sum: 201 / 238
+  2016-03-15 02:00:00, sum: 201 / 238
+  2016-03-15 02:00:00, sum: 201 / 238
+  2016-03-15 09:00:00, sum: 273 / 210
+  2016-03-15 09:00:00, sum: 273 / 210
+  2016-03-15 09:00:00, sum: 273 / 210
+  2016-03-15 04:00:00, sum: 238 / 144
+  2016-03-15 04:00:00, sum: 238 / 144
+  2016-03-15 04:00:00, sum: 238 / 144
+  2016-03-15 01:00:00, sum: 223 / 227
+  2016-03-15 01:00:00, sum: 223 / 227
+  2016-03-15 01:00:00, sum: 223 / 227
+  2016-03-16 18:00:00, sum: 225 / 246
+  2016-03-16 18:00:00, sum: 225 / 246
+  2016-03-16 18:00:00, sum: 225 / 246
+  2016-03-15 05:00:00, sum: 262 / 255
+  2016-03-15 05:00:00, sum: 262 / 255
+  2016-03-15 05:00:00, sum: 262 / 255
+  2016-03-16 07:00:00, sum: 264 / 282
+  2016-03-16 07:00:00, sum: 264 / 282
+  2016-03-16 07:00:00, sum: 264 / 282
+  2016-03-15 00:00:00, sum: 217 / 136
+  2016-03-15 00:00:00, sum: 217 / 136
+  2016-03-15 00:00:00, sum: 217 / 136
+  2016-03-15 16:00:00, sum: 299 / 341
+  2016-03-15 16:00:00, sum: 299 / 341
+  2016-03-15 16:00:00, sum: 299 / 341
 
 Process finished with exit code 0

@@ -4,7 +4,7 @@ __author__ = 'XaviTorello'
 from orakwlum.consumption import *
 from orakwlum.datasource import *
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 consum = Consumption("ES0031406229285001HS0F", 2016, 3, 2, 15)
 
@@ -24,5 +24,6 @@ agregant_per_hores = dades.aggregate_sum(field_to_agg=agg,fields_to_sum=sum)
 
 print "{} elements aggregating by '{}':".format(len(agregant_per_hores), agg)
 
-#for entrada in agregant_per_hores:
-#    print "  {}, sum: {} / {}".format(entrada['_id'], entrada['entries'], entrada['entries'])
+for entrada in agregant_per_hores:
+    for camp in entrada.iteritems():
+        print "  {}, sum: {} / {}".format(entrada['_id'], entrada['sum_consumption_real'], entrada['sum_consumption_proposal'])
