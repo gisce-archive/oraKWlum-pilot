@@ -45,7 +45,7 @@ class Consumption(object):
     time_disc = None
 
     def __init__(self, cups, hour, real=None, proposal=None):
-        logger.info('Creating new consumption')
+        logger.debug('Creating new consumption')
         self.cups = CUPS(cups)
 
         if type(hour) == list:
@@ -107,6 +107,7 @@ class History(object):
 
         self.load_history()
 
+
     def load_history(self):
         self.dataset = Mongo(user="orakwlum", db="orakwlum")
         agg = "cup"
@@ -121,8 +122,34 @@ class History(object):
             self.consumptions.append(self.consumption_from_JSON(consumption))
 
         # Getting cups list
-        for cups in list(self.dataset.get_list_unique_fields(field="cups")):
+        cups_list = list(self.dataset.get_list_unique_fields(field="cups"))
+        for cups in cups_list:
             self.cups_list.append(cups['_id'])
+
+
+    def get_consumption_hourly(self):
+        logger.info("Get consumption hourly by dates")
+
+        ## todo add $match to aggreg exp
+
+        # Initialize consumptions_hourly
+        self.consumptions_hourly=[]
+
+        agg_by_hour = "hour"
+        filter_by_dates = [self.date_start, self.date_end]
+
+        sort_by_hour = [["hour",1]]
+
+        logger.info("Reaching consumption by {}, between {} and sort by {}".format(agg_by_hour, filter_by_dates, sort_by_hour))
+
+        consumptions = list(self.dataset.aggregate_sum(field_to_agg=agg_by_hour, fields_to_sort=sort_by_hour, fields_to_filter=filter_by_dates ))
+
+        for consumption in consumptions:
+            self.consumptions_hourly.append(consumption)
+
+        self.dump_history_hourly()
+
+
 
     def consumption_decoder(self, JSON):
         # Ensure object type at DB
@@ -141,6 +168,14 @@ class History(object):
         #json.loads(JSON, object_hook=self.consumption_decoder)
 
         return self.consumption_decoder(JSON)
+
+    def dump_history_hourly (self, limit=None):
+        for element in self.consumptions_hourly[:limit]:
+            print "  {}: {}kw / {}kw".format(
+                element['_id'],
+                element['sum_consumption_real'],
+                element['sum_consumption_proposal'])
+
 
     def dump_history(self, limit=None):
         for element in self.consumptions[:limit]:

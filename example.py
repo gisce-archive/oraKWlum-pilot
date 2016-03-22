@@ -36,14 +36,22 @@ def Datasource_tester():
 
 
 def History_tester():
-    date_start = datetime(2016, 3, 15)
-    date_end = datetime(2016, 3, 16)
+    date_start = datetime(2016, 3, 01)
+    date_end = datetime(2016, 3, 3)
 
     history = History(dini=date_start, dfi=date_end)
 
-    history.dump_history()
+    #history.dump_history()
+    history.get_consumption_hourly()
 
 
-logging.basicConfig(level=logging.DEBUG)
+def Sampledata_tester():
+    dades = Mongo(user="orakwlum", db="orakwlum")
+    dades.test_data(drop=True)
+
+
+#Sampledata_tester()
+
+logging.basicConfig(level=logging.INFO)
 
 History_tester()
