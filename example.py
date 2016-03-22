@@ -44,7 +44,7 @@ def History_tester():
     #history.dump_history()
     history.get_consumption_hourly()
 
-    insert_example = {"cups" : "ES0031300798436013HSx0F", "consumption_real" : 223, "consumption_proposal" : 179, "hour" : datetime(2016,03,01,01,00) }
+    insert_example = {"cups" : "ES0031300798436013HSx0F", "consumption_real" : 550, "consumption_proposal" : 179, "hour" : datetime(2016,03,01,01,00) }
 
     history.upsert_consumption(values=insert_example)
 

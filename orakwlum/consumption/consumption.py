@@ -141,24 +141,34 @@ class History(object):
         "PK" will be (cups, hour)
         """
 
+        key_fields = ["cups","hour"]
+        fields_to_upsert = ["consumption_real", "consumption_proposal"]
 
+        key = dict()
+        update = dict()
+
+        # Prepare the key and the values. Handles dict and Consumption objects
         if values and type(values) == dict:
-            assert values['cups'] and values['hour']
-            key = { "cups" : values['cups'], "hour": values['hour']}
-            assert values['consumption_real'] or values['consumption_proposal']
-            update = { "consumption_real": values['consumption_real'] , "consumption_proposal": values['consumption_proposal']  }
+            for key_field in key_fields:
+                assert values[key_field]
+                key[key_field] = values[key_field]
+                #key = { "cups" : values['cups'], "hour": values['hour']}
 
+            for field_to_upsert in fields_to_upsert:
+                assert values[field_to_upsert]
+                if values[field_to_upsert]:  #if None not update this field
+                    update[field_to_upsert] = values[field_to_upsert]
+
+        # todo RIP it and create save method on Consumption that calls JSON upsert if needed
         elif type(values) == Consumption:
             assert values.cups.number and values.hour
             key = { "cups" : values.cups.number, "hour": values.hour}
             assert values.consumption_proposal or values.consumption_real
             update = { "consumption_real": values.consumption_real , "consumption_proposal": values.consumption_proposal }
 
-        #values = {"cups" : "ES0031300798436013HSx0F", "consumption_real" : 123, "consumption_proposal" : 179, "hour" : datetime(2016,03,01,01,00) }
-
+        # Upsert it through datasource!
         self.dataset.upsert(key=key, what=update)
 
-        #self.dataset.
 
     def get_consumption_hourly(self):
         logger.info("Get consumption hourly by dates")

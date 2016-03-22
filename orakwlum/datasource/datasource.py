@@ -316,7 +316,7 @@ class Mongo(DataSource):
 
         dades.update(key, update, upsert=True)
 
-        logger.debug("Value post upserting: '{}'".format( list(dades.find(key)) ))
+        logger.info("Value post upserting: '{}'".format( list(dades.find(key)) ))
 
 
 
