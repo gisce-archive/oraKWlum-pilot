@@ -115,24 +115,19 @@ class Mongo(DataSource):
         except:
             print "Error insering on '{}'".format(collection)
 
-
     def filter(self, by_date=None, by_cups=None, collection="test_data"):
         if by_date:
-        #validate [date_ini, date_fi] datetime
-            exp = {"hour": {
-                "$gte": by_date[0] ,
-                "$lte": by_date[1]}
-                }
+            #validate [date_ini, date_fi] datetime
+            exp = {"hour": {"$gte": by_date[0], "$lte": by_date[1]}}
             logger.debug("Date by hour expression {}".format(exp))
 
         if by_cups:
-        #validate cups
+            #validate cups
             pass
 
         data_filter = self.db[collection]
 
         return data_filter.find(exp)
-
 
     def aggregate(self, collection, exp):
         """
@@ -178,7 +173,6 @@ class Mongo(DataSource):
 
         return agg_exp
 
-
     def aggregate_count(self, field="cups", collection="test_data"):
         """
         Aggregate a collection by field and extract the count of elements for each aggr
@@ -191,7 +185,6 @@ class Mongo(DataSource):
         logger.info("Aggregating and counting by '{}'".format(field))
 
         return self.aggregate(collection, expression)
-
 
     def get_list_unique_fields(self, field="cups", collection="test_data"):
         """

@@ -1,152 +1,514 @@
-/usr/bin/python2.7 /home/k/projectes/oraKWlum/example.py
+INFO:orakwlum.consumption.consumption:Creating new History
+DEBUG:orakwlum.consumption.consumption:  between 2016-03-15 00:00:00 - 2016-03-16 00:00:00
+DEBUG:orakwlum.consumption.consumption:  filtering for cups: None
+INFO:orakwlum.consumption.consumption:Loading History from datasource
+INFO:orakwlum.datasource.datasource:Establishing new Mongo datasource at 'mongodb://localhost:27017/'
+INFO:orakwlum.consumption.consumption:Filtering datasource by dates
+DEBUG:orakwlum.datasource.datasource:Date by hour expression {'hour': {'$lte': datetime.datetime(2016, 3, 16, 0, 0), '$gte': datetime.datetime(2016, 3, 15, 0, 0)}}
 INFO:orakwlum.consumption.consumption:Creating new consumption
-INFO:DataSource:Establishing new Mongo datasource at 'mongodb://localhost:27017/'
-ES0031406229285001HS0F - 2016-03-02 15:00:00: None / None
-INFO:DataSource:Aggregating by 'hour' and adding by '['consumption_real', 'consumption_proposal']'
-48 elements aggregating by 'hour':
-  2016-03-16 22:00:00, sum: 201 / 179
-  2016-03-16 22:00:00, sum: 201 / 179
-  2016-03-16 22:00:00, sum: 201 / 179
-  2016-03-16 21:00:00, sum: 327 / 199
-  2016-03-16 21:00:00, sum: 327 / 199
-  2016-03-16 21:00:00, sum: 327 / 199
-  2016-03-16 20:00:00, sum: 272 / 117
-  2016-03-16 20:00:00, sum: 272 / 117
-  2016-03-16 20:00:00, sum: 272 / 117
-  2016-03-16 16:00:00, sum: 319 / 336
-  2016-03-16 16:00:00, sum: 319 / 336
-  2016-03-16 16:00:00, sum: 319 / 336
-  2016-03-16 15:00:00, sum: 197 / 267
-  2016-03-16 15:00:00, sum: 197 / 267
-  2016-03-16 15:00:00, sum: 197 / 267
-  2016-03-16 13:00:00, sum: 366 / 187
-  2016-03-16 13:00:00, sum: 366 / 187
-  2016-03-16 13:00:00, sum: 366 / 187
-  2016-03-16 12:00:00, sum: 231 / 234
-  2016-03-16 12:00:00, sum: 231 / 234
-  2016-03-16 12:00:00, sum: 231 / 234
-  2016-03-16 10:00:00, sum: 193 / 241
-  2016-03-16 10:00:00, sum: 193 / 241
-  2016-03-16 10:00:00, sum: 193 / 241
-  2016-03-16 09:00:00, sum: 129 / 303
-  2016-03-16 09:00:00, sum: 129 / 303
-  2016-03-16 09:00:00, sum: 129 / 303
-  2016-03-16 08:00:00, sum: 268 / 234
-  2016-03-16 08:00:00, sum: 268 / 234
-  2016-03-16 08:00:00, sum: 268 / 234
-  2016-03-16 06:00:00, sum: 282 / 264
-  2016-03-16 06:00:00, sum: 282 / 264
-  2016-03-16 06:00:00, sum: 282 / 264
-  2016-03-16 04:00:00, sum: 199 / 174
-  2016-03-16 04:00:00, sum: 199 / 174
-  2016-03-16 04:00:00, sum: 199 / 174
-  2016-03-16 19:00:00, sum: 235 / 239
-  2016-03-16 19:00:00, sum: 235 / 239
-  2016-03-16 19:00:00, sum: 235 / 239
-  2016-03-16 14:00:00, sum: 306 / 205
-  2016-03-16 14:00:00, sum: 306 / 205
-  2016-03-16 14:00:00, sum: 306 / 205
-  2016-03-16 03:00:00, sum: 235 / 287
-  2016-03-16 03:00:00, sum: 235 / 287
-  2016-03-16 03:00:00, sum: 235 / 287
-  2016-03-16 02:00:00, sum: 267 / 230
-  2016-03-16 02:00:00, sum: 267 / 230
-  2016-03-16 02:00:00, sum: 267 / 230
-  2016-03-16 01:00:00, sum: 202 / 317
-  2016-03-16 01:00:00, sum: 202 / 317
-  2016-03-16 01:00:00, sum: 202 / 317
-  2016-03-16 05:00:00, sum: 162 / 308
-  2016-03-16 05:00:00, sum: 162 / 308
-  2016-03-16 05:00:00, sum: 162 / 308
-  2016-03-16 17:00:00, sum: 187 / 137
-  2016-03-16 17:00:00, sum: 187 / 137
-  2016-03-16 17:00:00, sum: 187 / 137
-  2016-03-15 21:00:00, sum: 278 / 294
-  2016-03-15 21:00:00, sum: 278 / 294
-  2016-03-15 21:00:00, sum: 278 / 294
-  2016-03-15 19:00:00, sum: 241 / 272
-  2016-03-15 19:00:00, sum: 241 / 272
-  2016-03-15 19:00:00, sum: 241 / 272
-  2016-03-15 18:00:00, sum: 98 / 144
-  2016-03-15 18:00:00, sum: 98 / 144
-  2016-03-15 18:00:00, sum: 98 / 144
-  2016-03-15 15:00:00, sum: 318 / 227
-  2016-03-15 15:00:00, sum: 318 / 227
-  2016-03-15 15:00:00, sum: 318 / 227
-  2016-03-15 14:00:00, sum: 295 / 277
-  2016-03-15 14:00:00, sum: 295 / 277
-  2016-03-15 14:00:00, sum: 295 / 277
-  2016-03-16 00:00:00, sum: 111 / 326
-  2016-03-16 00:00:00, sum: 111 / 326
-  2016-03-16 00:00:00, sum: 111 / 326
-  2016-03-15 13:00:00, sum: 227 / 131
-  2016-03-15 13:00:00, sum: 227 / 131
-  2016-03-15 13:00:00, sum: 227 / 131
-  2016-03-15 11:00:00, sum: 160 / 352
-  2016-03-15 11:00:00, sum: 160 / 352
-  2016-03-15 11:00:00, sum: 160 / 352
-  2016-03-15 17:00:00, sum: 195 / 319
-  2016-03-15 17:00:00, sum: 195 / 319
-  2016-03-15 17:00:00, sum: 195 / 319
-  2016-03-15 10:00:00, sum: 203 / 205
-  2016-03-15 10:00:00, sum: 203 / 205
-  2016-03-15 10:00:00, sum: 203 / 205
-  2016-03-15 22:00:00, sum: 184 / 143
-  2016-03-15 22:00:00, sum: 184 / 143
-  2016-03-15 22:00:00, sum: 184 / 143
-  2016-03-15 07:00:00, sum: 185 / 171
-  2016-03-15 07:00:00, sum: 185 / 171
-  2016-03-15 07:00:00, sum: 185 / 171
-  2016-03-15 23:00:00, sum: 165 / 290
-  2016-03-15 23:00:00, sum: 165 / 290
-  2016-03-15 23:00:00, sum: 165 / 290
-  2016-03-15 06:00:00, sum: 379 / 96
-  2016-03-15 06:00:00, sum: 379 / 96
-  2016-03-15 06:00:00, sum: 379 / 96
-  2016-03-16 11:00:00, sum: 270 / 206
-  2016-03-16 11:00:00, sum: 270 / 206
-  2016-03-16 11:00:00, sum: 270 / 206
-  2016-03-15 03:00:00, sum: 187 / 311
-  2016-03-15 03:00:00, sum: 187 / 311
-  2016-03-15 03:00:00, sum: 187 / 311
-  2016-03-15 12:00:00, sum: 341 / 215
-  2016-03-15 12:00:00, sum: 341 / 215
-  2016-03-15 12:00:00, sum: 341 / 215
-  2016-03-15 08:00:00, sum: 197 / 221
-  2016-03-15 08:00:00, sum: 197 / 221
-  2016-03-15 08:00:00, sum: 197 / 221
-  2016-03-15 20:00:00, sum: 142 / 235
-  2016-03-15 20:00:00, sum: 142 / 235
-  2016-03-15 20:00:00, sum: 142 / 235
-  2016-03-16 23:00:00, sum: 290 / 101
-  2016-03-16 23:00:00, sum: 290 / 101
-  2016-03-16 23:00:00, sum: 290 / 101
-  2016-03-15 02:00:00, sum: 201 / 238
-  2016-03-15 02:00:00, sum: 201 / 238
-  2016-03-15 02:00:00, sum: 201 / 238
-  2016-03-15 09:00:00, sum: 273 / 210
-  2016-03-15 09:00:00, sum: 273 / 210
-  2016-03-15 09:00:00, sum: 273 / 210
-  2016-03-15 04:00:00, sum: 238 / 144
-  2016-03-15 04:00:00, sum: 238 / 144
-  2016-03-15 04:00:00, sum: 238 / 144
-  2016-03-15 01:00:00, sum: 223 / 227
-  2016-03-15 01:00:00, sum: 223 / 227
-  2016-03-15 01:00:00, sum: 223 / 227
-  2016-03-16 18:00:00, sum: 225 / 246
-  2016-03-16 18:00:00, sum: 225 / 246
-  2016-03-16 18:00:00, sum: 225 / 246
-  2016-03-15 05:00:00, sum: 262 / 255
-  2016-03-15 05:00:00, sum: 262 / 255
-  2016-03-15 05:00:00, sum: 262 / 255
-  2016-03-16 07:00:00, sum: 264 / 282
-  2016-03-16 07:00:00, sum: 264 / 282
-  2016-03-16 07:00:00, sum: 264 / 282
-  2016-03-15 00:00:00, sum: 217 / 136
-  2016-03-15 00:00:00, sum: 217 / 136
-  2016-03-15 00:00:00, sum: 217 / 136
-  2016-03-15 16:00:00, sum: 299 / 341
-  2016-03-15 16:00:00, sum: 299 / 341
-  2016-03-15 16:00:00, sum: 299 / 341
-
-Process finished with exit code 0
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 00:00:00. Real: 7, estimated: 8
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 00:00:00. Real: 61, estimated: 22
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 00:00:00. Real: 50, estimated: 84
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 00:00:00. Real: 40, estimated: 9
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 00:00:00. Real: 59, estimated: 13
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 01:00:00. Real: 20, estimated: 16
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 01:00:00. Real: 7, estimated: 94
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 01:00:00. Real: 18, estimated: 12
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 01:00:00. Real: 99, estimated: 49
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 01:00:00. Real: 79, estimated: 56
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 02:00:00. Real: 95, estimated: 68
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 02:00:00. Real: 16, estimated: 46
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 02:00:00. Real: 9, estimated: 14
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 02:00:00. Real: 79, estimated: 48
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 02:00:00. Real: 2, estimated: 62
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 03:00:00. Real: 68, estimated: 26
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 03:00:00. Real: 21, estimated: 88
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 03:00:00. Real: 34, estimated: 81
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 03:00:00. Real: 42, estimated: 75
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 03:00:00. Real: 22, estimated: 41
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 04:00:00. Real: 92, estimated: 49
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 04:00:00. Real: 42, estimated: 28
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 04:00:00. Real: 35, estimated: 56
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 04:00:00. Real: 43, estimated: 3
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 04:00:00. Real: 26, estimated: 8
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 05:00:00. Real: 29, estimated: 47
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 05:00:00. Real: 51, estimated: 38
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 05:00:00. Real: 77, estimated: 68
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 05:00:00. Real: 49, estimated: 93
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 05:00:00. Real: 56, estimated: 9
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 06:00:00. Real: 63, estimated: 7
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 06:00:00. Real: 59, estimated: 6
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 06:00:00. Real: 100, estimated: 10
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 06:00:00. Real: 68, estimated: 72
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 06:00:00. Real: 89, estimated: 1
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 07:00:00. Real: 19, estimated: 31
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 07:00:00. Real: 77, estimated: 14
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 07:00:00. Real: 1, estimated: 67
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 07:00:00. Real: 47, estimated: 59
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 07:00:00. Real: 41, estimated: 0
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 08:00:00. Real: 100, estimated: 81
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 08:00:00. Real: 27, estimated: 14
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 08:00:00. Real: 16, estimated: 32
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 08:00:00. Real: 35, estimated: 85
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 08:00:00. Real: 19, estimated: 9
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 09:00:00. Real: 100, estimated: 99
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 09:00:00. Real: 32, estimated: 0
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 09:00:00. Real: 39, estimated: 77
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 09:00:00. Real: 9, estimated: 29
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 09:00:00. Real: 93, estimated: 5
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 10:00:00. Real: 51, estimated: 67
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 10:00:00. Real: 55, estimated: 47
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 10:00:00. Real: 55, estimated: 10
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 10:00:00. Real: 1, estimated: 30
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 10:00:00. Real: 41, estimated: 51
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 11:00:00. Real: 5, estimated: 38
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 11:00:00. Real: 18, estimated: 58
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 11:00:00. Real: 28, estimated: 83
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 11:00:00. Real: 42, estimated: 86
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 11:00:00. Real: 67, estimated: 87
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 12:00:00. Real: 52, estimated: 44
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 12:00:00. Real: 96, estimated: 28
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 12:00:00. Real: 82, estimated: 82
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 12:00:00. Real: 62, estimated: 33
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 12:00:00. Real: 49, estimated: 28
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 13:00:00. Real: 24, estimated: 45
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 13:00:00. Real: 68, estimated: 54
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 13:00:00. Real: 95, estimated: 11
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 13:00:00. Real: 0, estimated: 13
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 13:00:00. Real: 40, estimated: 8
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 14:00:00. Real: 87, estimated: 49
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 14:00:00. Real: 12, estimated: 34
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 14:00:00. Real: 43, estimated: 57
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 14:00:00. Real: 100, estimated: 82
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 14:00:00. Real: 53, estimated: 55
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 15:00:00. Real: 58, estimated: 69
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 15:00:00. Real: 86, estimated: 49
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 15:00:00. Real: 74, estimated: 48
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 15:00:00. Real: 97, estimated: 47
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 15:00:00. Real: 3, estimated: 14
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 16:00:00. Real: 38, estimated: 70
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 16:00:00. Real: 88, estimated: 33
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 16:00:00. Real: 94, estimated: 96
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 16:00:00. Real: 50, estimated: 82
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 16:00:00. Real: 29, estimated: 60
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 17:00:00. Real: 40, estimated: 28
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 17:00:00. Real: 57, estimated: 99
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 17:00:00. Real: 54, estimated: 34
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 17:00:00. Real: 34, estimated: 78
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 17:00:00. Real: 10, estimated: 80
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 18:00:00. Real: 25, estimated: 6
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 18:00:00. Real: 11, estimated: 8
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 18:00:00. Real: 6, estimated: 17
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 18:00:00. Real: 52, estimated: 65
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 18:00:00. Real: 4, estimated: 48
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 19:00:00. Real: 54, estimated: 99
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 19:00:00. Real: 97, estimated: 16
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 19:00:00. Real: 63, estimated: 83
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 19:00:00. Real: 15, estimated: 61
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 19:00:00. Real: 12, estimated: 13
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 20:00:00. Real: 5, estimated: 88
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 20:00:00. Real: 19, estimated: 71
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 20:00:00. Real: 94, estimated: 14
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 20:00:00. Real: 1, estimated: 33
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 20:00:00. Real: 23, estimated: 29
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 21:00:00. Real: 88, estimated: 55
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 21:00:00. Real: 16, estimated: 58
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 21:00:00. Real: 45, estimated: 47
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 21:00:00. Real: 62, estimated: 82
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 21:00:00. Real: 67, estimated: 52
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 22:00:00. Real: 12, estimated: 33
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 22:00:00. Real: 43, estimated: 19
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 22:00:00. Real: 3, estimated: 42
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 22:00:00. Real: 84, estimated: 9
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 22:00:00. Real: 42, estimated: 40
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-15 23:00:00. Real: 9, estimated: 63
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-15 23:00:00. Real: 64, estimated: 83
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-15 23:00:00. Real: 1, estimated: 21
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-15 23:00:00. Real: 53, estimated: 82
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-15 23:00:00. Real: 38, estimated: 41
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300629986007HP0F at 2016-03-16 00:00:00. Real: 36, estimated: 78
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406174543003VH0F at 2016-03-16 00:00:00. Real: 9, estimated: 71
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031405989553003MF0F at 2016-03-16 00:00:00. Real: 17, estimated: 67
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031406213600001NA0F at 2016-03-16 00:00:00. Real: 41, estimated: 20
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.consumption.consumption:Creating new consumption
+DEBUG:orakwlum.consumption.consumption:  for ES0031300808670001QS0F at 2016-03-16 00:00:00. Real: 8, estimated: 90
+DEBUG:orakwlum.consumption.consumption:  static data: prov: None, ZIP: None, Tariff: None, voltage: None, PoM: None, Distr: None, Time Discrimination: None
+INFO:orakwlum.datasource.datasource:Aggregating by 'cups'
+DEBUG:orakwlum.datasource.datasource:Aggregating using expression: '[{'$group': {'_id': '$cups'}}]'
+DEBUG:orakwlum.datasource.datasource: - {u'_id': u'ES0031300808670001QS0F'}
+DEBUG:orakwlum.datasource.datasource: - {u'_id': u'ES0031406213600001NA0F'}
+DEBUG:orakwlum.datasource.datasource: - {u'_id': u'ES0031405989553003MF0F'}
+DEBUG:orakwlum.datasource.datasource: - {u'_id': u'ES0031406174543003VH0F'}
+DEBUG:orakwlum.datasource.datasource: - {u'_id': u'ES0031300629986007HP0F'}
+  [2016-03-15 00:00:00] ES0031300629986007HP0F: 7kw / 8kw
+  [2016-03-15 00:00:00] ES0031406174543003VH0F: 61kw / 22kw
+  [2016-03-15 00:00:00] ES0031405989553003MF0F: 50kw / 84kw
+  [2016-03-15 00:00:00] ES0031406213600001NA0F: 40kw / 9kw
+  [2016-03-15 00:00:00] ES0031300808670001QS0F: 59kw / 13kw
+  [2016-03-15 01:00:00] ES0031300629986007HP0F: 20kw / 16kw
+  [2016-03-15 01:00:00] ES0031406174543003VH0F: 7kw / 94kw
+  [2016-03-15 01:00:00] ES0031405989553003MF0F: 18kw / 12kw
+  [2016-03-15 01:00:00] ES0031406213600001NA0F: 99kw / 49kw
+  [2016-03-15 01:00:00] ES0031300808670001QS0F: 79kw / 56kw
+  [2016-03-15 02:00:00] ES0031300629986007HP0F: 95kw / 68kw
+  [2016-03-15 02:00:00] ES0031406174543003VH0F: 16kw / 46kw
+  [2016-03-15 02:00:00] ES0031405989553003MF0F: 9kw / 14kw
+  [2016-03-15 02:00:00] ES0031406213600001NA0F: 79kw / 48kw
+  [2016-03-15 02:00:00] ES0031300808670001QS0F: 2kw / 62kw
+  [2016-03-15 03:00:00] ES0031300629986007HP0F: 68kw / 26kw
+  [2016-03-15 03:00:00] ES0031406174543003VH0F: 21kw / 88kw
+  [2016-03-15 03:00:00] ES0031405989553003MF0F: 34kw / 81kw
+  [2016-03-15 03:00:00] ES0031406213600001NA0F: 42kw / 75kw
+  [2016-03-15 03:00:00] ES0031300808670001QS0F: 22kw / 41kw
+  [2016-03-15 04:00:00] ES0031300629986007HP0F: 92kw / 49kw
+  [2016-03-15 04:00:00] ES0031406174543003VH0F: 42kw / 28kw
+  [2016-03-15 04:00:00] ES0031405989553003MF0F: 35kw / 56kw
+  [2016-03-15 04:00:00] ES0031406213600001NA0F: 43kw / 3kw
+  [2016-03-15 04:00:00] ES0031300808670001QS0F: 26kw / 8kw
+  [2016-03-15 05:00:00] ES0031300629986007HP0F: 29kw / 47kw
+  [2016-03-15 05:00:00] ES0031406174543003VH0F: 51kw / 38kw
+  [2016-03-15 05:00:00] ES0031405989553003MF0F: 77kw / 68kw
+  [2016-03-15 05:00:00] ES0031406213600001NA0F: 49kw / 93kw
+  [2016-03-15 05:00:00] ES0031300808670001QS0F: 56kw / 9kw
+  [2016-03-15 06:00:00] ES0031300629986007HP0F: 63kw / 7kw
+  [2016-03-15 06:00:00] ES0031406174543003VH0F: 59kw / 6kw
+  [2016-03-15 06:00:00] ES0031405989553003MF0F: 100kw / 10kw
+  [2016-03-15 06:00:00] ES0031406213600001NA0F: 68kw / 72kw
+  [2016-03-15 06:00:00] ES0031300808670001QS0F: 89kw / 1kw
+  [2016-03-15 07:00:00] ES0031300629986007HP0F: 19kw / 31kw
+  [2016-03-15 07:00:00] ES0031406174543003VH0F: 77kw / 14kw
+  [2016-03-15 07:00:00] ES0031405989553003MF0F: 1kw / 67kw
+  [2016-03-15 07:00:00] ES0031406213600001NA0F: 47kw / 59kw
+  [2016-03-15 07:00:00] ES0031300808670001QS0F: 41kw / 0kw
+  [2016-03-15 08:00:00] ES0031300629986007HP0F: 100kw / 81kw
+  [2016-03-15 08:00:00] ES0031406174543003VH0F: 27kw / 14kw
+  [2016-03-15 08:00:00] ES0031405989553003MF0F: 16kw / 32kw
+  [2016-03-15 08:00:00] ES0031406213600001NA0F: 35kw / 85kw
+  [2016-03-15 08:00:00] ES0031300808670001QS0F: 19kw / 9kw
+  [2016-03-15 09:00:00] ES0031300629986007HP0F: 100kw / 99kw
+  [2016-03-15 09:00:00] ES0031406174543003VH0F: 32kw / 0kw
+  [2016-03-15 09:00:00] ES0031405989553003MF0F: 39kw / 77kw
+  [2016-03-15 09:00:00] ES0031406213600001NA0F: 9kw / 29kw
+  [2016-03-15 09:00:00] ES0031300808670001QS0F: 93kw / 5kw
+  [2016-03-15 10:00:00] ES0031300629986007HP0F: 51kw / 67kw
+  [2016-03-15 10:00:00] ES0031406174543003VH0F: 55kw / 47kw
+  [2016-03-15 10:00:00] ES0031405989553003MF0F: 55kw / 10kw
+  [2016-03-15 10:00:00] ES0031406213600001NA0F: 1kw / 30kw
+  [2016-03-15 10:00:00] ES0031300808670001QS0F: 41kw / 51kw
+  [2016-03-15 11:00:00] ES0031300629986007HP0F: 5kw / 38kw
+  [2016-03-15 11:00:00] ES0031406174543003VH0F: 18kw / 58kw
+  [2016-03-15 11:00:00] ES0031405989553003MF0F: 28kw / 83kw
+  [2016-03-15 11:00:00] ES0031406213600001NA0F: 42kw / 86kw
+  [2016-03-15 11:00:00] ES0031300808670001QS0F: 67kw / 87kw
+  [2016-03-15 12:00:00] ES0031300629986007HP0F: 52kw / 44kw
+  [2016-03-15 12:00:00] ES0031406174543003VH0F: 96kw / 28kw
+  [2016-03-15 12:00:00] ES0031405989553003MF0F: 82kw / 82kw
+  [2016-03-15 12:00:00] ES0031406213600001NA0F: 62kw / 33kw
+  [2016-03-15 12:00:00] ES0031300808670001QS0F: 49kw / 28kw
+  [2016-03-15 13:00:00] ES0031300629986007HP0F: 24kw / 45kw
+  [2016-03-15 13:00:00] ES0031406174543003VH0F: 68kw / 54kw
+  [2016-03-15 13:00:00] ES0031405989553003MF0F: 95kw / 11kw
+  [2016-03-15 13:00:00] ES0031406213600001NA0F: 0kw / 13kw
+  [2016-03-15 13:00:00] ES0031300808670001QS0F: 40kw / 8kw
+  [2016-03-15 14:00:00] ES0031300629986007HP0F: 87kw / 49kw
+  [2016-03-15 14:00:00] ES0031406174543003VH0F: 12kw / 34kw
+  [2016-03-15 14:00:00] ES0031405989553003MF0F: 43kw / 57kw
+  [2016-03-15 14:00:00] ES0031406213600001NA0F: 100kw / 82kw
+  [2016-03-15 14:00:00] ES0031300808670001QS0F: 53kw / 55kw
+  [2016-03-15 15:00:00] ES0031300629986007HP0F: 58kw / 69kw
+  [2016-03-15 15:00:00] ES0031406174543003VH0F: 86kw / 49kw
+  [2016-03-15 15:00:00] ES0031405989553003MF0F: 74kw / 48kw
+  [2016-03-15 15:00:00] ES0031406213600001NA0F: 97kw / 47kw
+  [2016-03-15 15:00:00] ES0031300808670001QS0F: 3kw / 14kw
+  [2016-03-15 16:00:00] ES0031300629986007HP0F: 38kw / 70kw
+  [2016-03-15 16:00:00] ES0031406174543003VH0F: 88kw / 33kw
+  [2016-03-15 16:00:00] ES0031405989553003MF0F: 94kw / 96kw
+  [2016-03-15 16:00:00] ES0031406213600001NA0F: 50kw / 82kw
+  [2016-03-15 16:00:00] ES0031300808670001QS0F: 29kw / 60kw
+  [2016-03-15 17:00:00] ES0031300629986007HP0F: 40kw / 28kw
+  [2016-03-15 17:00:00] ES0031406174543003VH0F: 57kw / 99kw
+  [2016-03-15 17:00:00] ES0031405989553003MF0F: 54kw / 34kw
+  [2016-03-15 17:00:00] ES0031406213600001NA0F: 34kw / 78kw
+  [2016-03-15 17:00:00] ES0031300808670001QS0F: 10kw / 80kw
+  [2016-03-15 18:00:00] ES0031300629986007HP0F: 25kw / 6kw
+  [2016-03-15 18:00:00] ES0031406174543003VH0F: 11kw / 8kw
+  [2016-03-15 18:00:00] ES0031405989553003MF0F: 6kw / 17kw
+  [2016-03-15 18:00:00] ES0031406213600001NA0F: 52kw / 65kw
+  [2016-03-15 18:00:00] ES0031300808670001QS0F: 4kw / 48kw
+  [2016-03-15 19:00:00] ES0031300629986007HP0F: 54kw / 99kw
+  [2016-03-15 19:00:00] ES0031406174543003VH0F: 97kw / 16kw
+  [2016-03-15 19:00:00] ES0031405989553003MF0F: 63kw / 83kw
+  [2016-03-15 19:00:00] ES0031406213600001NA0F: 15kw / 61kw
+  [2016-03-15 19:00:00] ES0031300808670001QS0F: 12kw / 13kw
+  [2016-03-15 20:00:00] ES0031300629986007HP0F: 5kw / 88kw
+  [2016-03-15 20:00:00] ES0031406174543003VH0F: 19kw / 71kw
+  [2016-03-15 20:00:00] ES0031405989553003MF0F: 94kw / 14kw
+  [2016-03-15 20:00:00] ES0031406213600001NA0F: 1kw / 33kw
+  [2016-03-15 20:00:00] ES0031300808670001QS0F: 23kw / 29kw
+  [2016-03-15 21:00:00] ES0031300629986007HP0F: 88kw / 55kw
+  [2016-03-15 21:00:00] ES0031406174543003VH0F: 16kw / 58kw
+  [2016-03-15 21:00:00] ES0031405989553003MF0F: 45kw / 47kw
+  [2016-03-15 21:00:00] ES0031406213600001NA0F: 62kw / 82kw
+  [2016-03-15 21:00:00] ES0031300808670001QS0F: 67kw / 52kw
+  [2016-03-15 22:00:00] ES0031300629986007HP0F: 12kw / 33kw
+  [2016-03-15 22:00:00] ES0031406174543003VH0F: 43kw / 19kw
+  [2016-03-15 22:00:00] ES0031405989553003MF0F: 3kw / 42kw
+  [2016-03-15 22:00:00] ES0031406213600001NA0F: 84kw / 9kw
+  [2016-03-15 22:00:00] ES0031300808670001QS0F: 42kw / 40kw
+  [2016-03-15 23:00:00] ES0031300629986007HP0F: 9kw / 63kw
+  [2016-03-15 23:00:00] ES0031406174543003VH0F: 64kw / 83kw
+  [2016-03-15 23:00:00] ES0031405989553003MF0F: 1kw / 21kw
+  [2016-03-15 23:00:00] ES0031406213600001NA0F: 53kw / 82kw
+  [2016-03-15 23:00:00] ES0031300808670001QS0F: 38kw / 41kw
+  [2016-03-16 00:00:00] ES0031300629986007HP0F: 36kw / 78kw
+  [2016-03-16 00:00:00] ES0031406174543003VH0F: 9kw / 71kw
+  [2016-03-16 00:00:00] ES0031405989553003MF0F: 17kw / 67kw
+  [2016-03-16 00:00:00] ES0031406213600001NA0F: 41kw / 20kw
+  [2016-03-16 00:00:00] ES0031300808670001QS0F: 8kw / 90kw
