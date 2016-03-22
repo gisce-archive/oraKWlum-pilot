@@ -74,12 +74,22 @@ class Mongo(DataSource):
             collection, self.db_connection_string))
 
         cups_list = ["ES0031300629986007HP0F", "ES0031406174543003VH0F",
-                     "ES0031405989553003MF0F", "ES0031406213600001NA0F",
+                     "ES0031300714101001PT0F", "ES0031406213600001NA0F",
+                     "ES0031406223927009YB0F", "ES0031406213354001BB0F",
+                     "ES0031405458897012HQ0F", "ES0031406058147001NR0F",
+                     "ES0031300798436013HS0F", "ES0031406223989001XH0F",
+                     "ES0031405534374002DE0F", "ES0031405879092008YP0F",
+                     "ES0031405567043016JC0F", "ES0031300002988011PK0F",
+                     "ES0031405667112006KN0F", "ES0031406057682003BV0F",
+                     "ES0031406213108001XL0F", "ES0031300814622002AF0F",
+                     "ES0031300828111030MH0F", "ES0031406229285001HS0F",
+                     "ES0031406216506001CE0F", "ES0031406270151013MH0F",
+                     "ES0031300826614001FJ0F", "ES0031406227364001DK0F",
                      "ES0031300808670001QS0F"]
         hour_start = 00
         hour_end = 24
-        day_start = 15
-        day_end = 17
+        day_start = 01
+        day_end = 31
         month = 03
         year = 2016
 
@@ -115,7 +125,10 @@ class Mongo(DataSource):
         except:
             print "Error insering on '{}'".format(collection)
 
-    def filter(self, by_date=None, by_cups=None, collection="test_data"):
+    def set_filter(self, by_date=None, by_cups=None):
+        """
+        Return a filter expression based on date ranges or filtering by CUPS
+        """
         if by_date:
             #validate [date_ini, date_fi] datetime
             exp = {"hour": {"$gte": by_date[0], "$lte": by_date[1]}}
@@ -124,6 +137,14 @@ class Mongo(DataSource):
         if by_cups:
             #validate cups
             pass
+
+        return exp
+
+    def filter(self, by_date=None, by_cups=None, collection="test_data"):
+        """
+        Return a filtered collection cursor
+        """
+        exp = self.set_filter(by_date, by_cups)
 
         data_filter = self.db[collection]
 
@@ -166,10 +187,9 @@ class Mongo(DataSource):
 
         for field in fields_to_operate:
             if count:  #convert to  { .... , "count": {"$sum": 1} }
-                agg_exp[0]['$group']["count_" + field] = {"$sum": 1}
+                agg_exp['$group']["count_" + field] = {"$sum": 1}
             else:
-                agg_exp[0]['$group']["sum_" + field] = {"$" + action:
-                                                        "$" + field}
+                agg_exp['$group']["sum_" + field] = {"$" + action: "$" + field}
 
         return agg_exp
 
@@ -221,23 +241,79 @@ class Mongo(DataSource):
 
         return self.aggregate(collection, expression)
 
+    # todo multiple aggregation and standarize other aggreg
     def aggregate_sum(
             self,
-            field_to_agg="cups",
+            field_to_agg="hour",
             fields_to_sum=["consumption_real", "consumption_proposal"],
+            fields_to_filter=None,
+            fields_to_sort=None,
             collection="test_data"):
         """
         Aggregate a collection by field and extract the sum of field_to_sum
+
+        Filter the collection by fields_to_filter
+
+        Sort the aggregate result by fielts_to_sort
 
         Return a list of dicts:
             [ {'_id': 'FIELD', field_to_sum+"_TOTAL": COUNT}, ...]
         """
 
-        expression = [{"$group": {"_id": "$" + field_to_agg, }}]
+        expression = []
 
-        expression = self.aggregate_action(expression, "sum", fields_to_sum)
+        # Set the match filter
+        if fields_to_filter:
+            # todo validate filters
+            #for filter in fields_to_filter:
+            filter = self.set_filter(by_date=fields_to_filter)
+            expression.append({"$match": filter})
+
+        # Set the agroupation and SUMs
+        group = {"$group": {"_id": "$" + field_to_agg, }}
+        group = self.aggregate_action(group, "sum", fields_to_sum)
+        expression.append(group)
+
+        if fields_to_sort:
+            #todo validate format of fields_to_sort
+            for sort in fields_to_sort:
+                if field_to_agg == sort[
+                        0]:  #if field_to_aggregate is the same thant the sort, ensure that sort name is "_id"
+                    sort[0] = "_id"
+                expression.append({"$sort": {sort[0]: sort[1]}})
+
+        #print "db.test_data.aggregate( " + str(expression) + ")"
+
+        logger.info(" Using expression: \n{}".format(expression))
 
         logger.info("Aggregating by '{}' and adding by '{}'".format(
             field_to_agg, fields_to_sum))
 
         return self.aggregate(collection, expression)
+
+    def upsert(self, key, what, collection="test_data"):
+        """
+        Insert or update if exist what using key
+
+            what: dictionary with all elements to upsert
+            key: restriction to update
+
+        """
+        if not what or type(what) is not dict:
+            print "Upsert failed, not correctly formatted values to insert/update :'{}'".format(
+                what)
+            return
+
+        logger.info("Upserting {} for {} on {}".format(what, key, collection))
+
+        update = {"$set": what}
+
+        dades = self.db[collection]
+
+        logger.debug("Val   ue pre  upserting: '{}'".format(list(dades.find(
+            key))))
+
+        dades.update(key, update, upsert=True)
+
+        logger.debug("Value post upserting: '{}'".format(list(dades.find(
+            key))))

@@ -45,7 +45,7 @@ class Consumption(object):
     time_disc = None
 
     def __init__(self, cups, hour, real=None, proposal=None):
-        logger.info('Creating new consumption')
+        logger.debug('Creating new consumption')
         self.cups = CUPS(cups)
 
         if type(hour) == list:
@@ -89,7 +89,7 @@ class History(object):
         consumption_list: List of consumptions
         ...
 
-    If not reached any filter, will fetch one year ago events for all CUPS
+    If not reached any filter, will fetch for TOMORROW one year ago events for all CUPS
     """
 
     def __init__(self, dini=None, dfi=None, cups=None):
@@ -108,6 +108,11 @@ class History(object):
         self.load_history()
 
     def load_history(self):
+        """
+        Load all Consumptions from datasource for the defined History
+
+        Takes care about the defined range of dates
+        """
         self.dataset = Mongo(user="orakwlum", db="orakwlum")
         agg = "cup"
         #sum = ["consumption_real", "consumption_proposal"]
@@ -121,10 +126,97 @@ class History(object):
             self.consumptions.append(self.consumption_from_JSON(consumption))
 
         # Getting cups list
-        for cups in list(self.dataset.get_list_unique_fields(field="cups")):
+        cups_list = list(self.dataset.get_list_unique_fields(field="cups"))
+        for cups in cups_list:
             self.cups_list.append(cups['_id'])
 
+    # todo review upsert static data
+    def upsert_consumption(self, values):
+        """
+        Update or Insert a Consumption to DB
+
+        Consumption can be passed as a dict or as a Consumption object
+
+        Currently just upsert consumptions, future static data
+
+        "PK" will be (cups, hour)
+        """
+
+        key_fields = ["cups", "hour"]
+        fields_to_upsert = ["consumption_real", "consumption_proposal"]
+
+        key = dict()
+        update = dict()
+
+        # Prepare the key and the values. Handles dict and Consumption objects
+        if values and type(values) == dict:
+            for key_field in key_fields:
+                assert values[key_field]
+                key[key_field] = values[key_field]
+                #key = { "cups" : values['cups'], "hour": values['hour']}
+
+            for field_to_upsert in fields_to_upsert:
+                assert values[field_to_upsert]
+                if values[field_to_upsert]:  #if None not update this field
+                    update[field_to_upsert] = values[field_to_upsert]
+
+        # todo RIP it and create save method on Consumption that calls JSON upsert if needed
+        elif type(values) == Consumption:
+            assert values.cups.number and values.hour
+            key = {"cups": values.cups.number, "hour": values.hour}
+            assert values.consumption_proposal or values.consumption_real
+            update = {"consumption_real": values.consumption_real,
+                      "consumption_proposal": values.consumption_proposal}
+
+        # Upsert it through datasource!
+        self.dataset.upsert(key=key, what=update)
+
+    def get_consumption_hourly(self):
+        """
+        Extract the consumption by hours for the current history!
+
+        All is done on DB side
+
+        Stores the result on self.consumptions_hourly
+
+        Filter by dates the collection to review
+
+        Aggregates by hour
+
+        Process the sum foreach aggregate
+
+        Sort by hour ascending the final result
+        """
+        logger.info("Get consumption hourly by dates")
+
+        ## todo add $match to aggreg exp
+
+        # Initialize consumptions_hourly
+        self.consumptions_hourly = []
+
+        agg_by_hour = "hour"
+        filter_by_dates = [self.date_start, self.date_end]
+
+        sort_by_hour = [["hour", 1]]
+
+        logger.info(
+            "Reaching consumption by {}, between {} and sort by {}".format(
+                agg_by_hour, filter_by_dates, sort_by_hour))
+
+        consumptions = list(
+            self.dataset.aggregate_sum(field_to_agg=agg_by_hour,
+                                       fields_to_sort=sort_by_hour,
+                                       fields_to_filter=filter_by_dates))
+
+        for consumption in consumptions:
+            self.consumptions_hourly.append(consumption)
+
+        self.dump_history_hourly()
+
     def consumption_decoder(self, JSON):
+        """
+        Useful to quickly create a Consumption object from JSON
+        """
         # Ensure object type at DB
         #if '__type__' in obj and obj['__type__'] == 'Consumption':
         return Consumption(JSON['cups'], JSON['hour'],
@@ -137,17 +229,40 @@ class History(object):
 
         Useful to load from Mongo
         """
-
         #json.loads(JSON, object_hook=self.consumption_decoder)
-
         return self.consumption_decoder(JSON)
 
+    def dump_history_hourly(self, limit=None):
+        """
+        Dump to screen current processed hourly consumptions
+
+        The number of entries to print can be limited
+        """
+        if not self.consumptions_hourly or len(self.consumptions_hourly) == 0:
+            print "Hourly consumptions has not been processed for current History."
+            return
+
+        for element in self.consumptions_hourly[:limit]:
+            print "  {}: {}kw / {}kw".format(
+                element['_id'], element['sum_consumption_real'],
+                element['sum_consumption_proposal'])
+
     def dump_history(self, limit=None):
+        """
+        Dump to screen current processed consumption History
+
+        The number of entries to print can be limited
+        """
+        if not self.consumptions or len(self.consumptions) == 0:
+            print "Consumptions has not been processed for current History."
+            return
+
         for element in self.consumptions[:limit]:
             print "  [{}] {}: {}kw / {}kw".format(
                 element.hour, element.cups.number, element.consumption_real,
                 element.consumption_proposal)
 
+    # interal method. todo RIP
     def create_summary(self):
         if not self.dataset:
             print "Not connected to any datasource!"
