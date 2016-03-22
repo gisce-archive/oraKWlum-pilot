@@ -50,8 +50,11 @@ class Consumption(object):
 
         if type(hour) == list:
             self.hour = datetime(hour[0], hour[1], hour[2], hour[3])
-        else:
+        elif type(hour) == datetime:
             self.hour = hour
+        else:
+            print "Hour is not propertly defined"
+            raise
 
         self.consumption_real = real
         self.consumption_proposal = proposal
