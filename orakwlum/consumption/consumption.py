@@ -89,7 +89,7 @@ class History(object):
         consumption_list: List of consumptions
         ...
 
-    If not reached any filter, will fetch one year ago events for all CUPS
+    If not reached any filter, will fetch for TOMORROW one year ago events for all CUPS
     """
 
     def __init__(self, dini=None, dfi=None, cups=None):
@@ -107,8 +107,12 @@ class History(object):
 
         self.load_history()
 
-
     def load_history(self):
+        """
+        Load all Consumptions from datasource for the defined History
+
+        Takes care about the defined range of dates
+        """
         self.dataset = Mongo(user="orakwlum", db="orakwlum")
         agg = "cup"
         #sum = ["consumption_real", "consumption_proposal"]
@@ -126,11 +130,8 @@ class History(object):
         for cups in cups_list:
             self.cups_list.append(cups['_id'])
 
-
-
-
     # todo review upsert static data
-    def upsert_consumption (self, values):
+    def upsert_consumption(self, values):
         """
         Update or Insert a Consumption to DB
 
@@ -141,7 +142,7 @@ class History(object):
         "PK" will be (cups, hour)
         """
 
-        key_fields = ["cups","hour"]
+        key_fields = ["cups", "hour"]
         fields_to_upsert = ["consumption_real", "consumption_proposal"]
 
         key = dict()
@@ -162,39 +163,60 @@ class History(object):
         # todo RIP it and create save method on Consumption that calls JSON upsert if needed
         elif type(values) == Consumption:
             assert values.cups.number and values.hour
-            key = { "cups" : values.cups.number, "hour": values.hour}
+            key = {"cups": values.cups.number, "hour": values.hour}
             assert values.consumption_proposal or values.consumption_real
-            update = { "consumption_real": values.consumption_real , "consumption_proposal": values.consumption_proposal }
+            update = {"consumption_real": values.consumption_real,
+                      "consumption_proposal": values.consumption_proposal}
 
         # Upsert it through datasource!
         self.dataset.upsert(key=key, what=update)
 
-
     def get_consumption_hourly(self):
+        """
+        Extract the consumption by hours for the current history!
+
+        All is done on DB side
+
+        Stores the result on self.consumptions_hourly
+
+        Filter by dates the collection to review
+
+        Aggregates by hour
+
+        Process the sum foreach aggregate
+
+        Sort by hour ascending the final result
+        """
         logger.info("Get consumption hourly by dates")
 
         ## todo add $match to aggreg exp
 
         # Initialize consumptions_hourly
-        self.consumptions_hourly=[]
+        self.consumptions_hourly = []
 
         agg_by_hour = "hour"
         filter_by_dates = [self.date_start, self.date_end]
 
-        sort_by_hour = [["hour",1]]
+        sort_by_hour = [["hour", 1]]
 
-        logger.info("Reaching consumption by {}, between {} and sort by {}".format(agg_by_hour, filter_by_dates, sort_by_hour))
+        logger.info(
+            "Reaching consumption by {}, between {} and sort by {}".format(
+                agg_by_hour, filter_by_dates, sort_by_hour))
 
-        consumptions = list(self.dataset.aggregate_sum(field_to_agg=agg_by_hour, fields_to_sort=sort_by_hour, fields_to_filter=filter_by_dates ))
+        consumptions = list(
+            self.dataset.aggregate_sum(field_to_agg=agg_by_hour,
+                                       fields_to_sort=sort_by_hour,
+                                       fields_to_filter=filter_by_dates))
 
         for consumption in consumptions:
             self.consumptions_hourly.append(consumption)
 
         self.dump_history_hourly()
 
-
-
     def consumption_decoder(self, JSON):
+        """
+        Useful to quickly create a Consumption object from JSON
+        """
         # Ensure object type at DB
         #if '__type__' in obj and obj['__type__'] == 'Consumption':
         return Consumption(JSON['cups'], JSON['hour'],
@@ -207,25 +229,40 @@ class History(object):
 
         Useful to load from Mongo
         """
-
         #json.loads(JSON, object_hook=self.consumption_decoder)
-
         return self.consumption_decoder(JSON)
 
-    def dump_history_hourly (self, limit=None):
+    def dump_history_hourly(self, limit=None):
+        """
+        Dump to screen current processed hourly consumptions
+
+        The number of entries to print can be limited
+        """
+        if not self.consumptions_hourly or len(self.consumptions_hourly) == 0:
+            print "Hourly consumptions has not been processed for current History."
+            return
+
         for element in self.consumptions_hourly[:limit]:
             print "  {}: {}kw / {}kw".format(
-                element['_id'],
-                element['sum_consumption_real'],
+                element['_id'], element['sum_consumption_real'],
                 element['sum_consumption_proposal'])
 
-
     def dump_history(self, limit=None):
+        """
+        Dump to screen current processed consumption History
+
+        The number of entries to print can be limited
+        """
+        if not self.consumptions or len(self.consumptions) == 0:
+            print "Consumptions has not been processed for current History."
+            return
+
         for element in self.consumptions[:limit]:
             print "  [{}] {}: {}kw / {}kw".format(
                 element.hour, element.cups.number, element.consumption_real,
                 element.consumption_proposal)
 
+    # interal method. todo RIP
     def create_summary(self):
         if not self.dataset:
             print "Not connected to any datasource!"

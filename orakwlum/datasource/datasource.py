@@ -125,8 +125,7 @@ class Mongo(DataSource):
         except:
             print "Error insering on '{}'".format(collection)
 
-
-    def set_filter (self,by_date=None, by_cups=None):
+    def set_filter(self, by_date=None, by_cups=None):
         """
         Return a filter expression based on date ranges or filtering by CUPS
         """
@@ -190,8 +189,7 @@ class Mongo(DataSource):
             if count:  #convert to  { .... , "count": {"$sum": 1} }
                 agg_exp['$group']["count_" + field] = {"$sum": 1}
             else:
-                agg_exp['$group']["sum_" + field] = {"$" + action:
-                                                        "$" + field}
+                agg_exp['$group']["sum_" + field] = {"$" + action: "$" + field}
 
         return agg_exp
 
@@ -269,22 +267,22 @@ class Mongo(DataSource):
             # todo validate filters
             #for filter in fields_to_filter:
             filter = self.set_filter(by_date=fields_to_filter)
-            expression.append( { "$match": filter } )
+            expression.append({"$match": filter})
 
         # Set the agroupation and SUMs
         group = {"$group": {"_id": "$" + field_to_agg, }}
         group = self.aggregate_action(group, "sum", fields_to_sum)
-        expression.append ( group)
+        expression.append(group)
 
         if fields_to_sort:
             #todo validate format of fields_to_sort
             for sort in fields_to_sort:
-                if field_to_agg == sort[0]:   #if field_to_aggregate is the same thant the sort, ensure that sort name is "_id"
+                if field_to_agg == sort[
+                        0]:  #if field_to_aggregate is the same thant the sort, ensure that sort name is "_id"
                     sort[0] = "_id"
-                expression.append ( { "$sort" : { sort[0] : sort[1]} }  )
+                expression.append({"$sort": {sort[0]: sort[1]}})
 
         #print "db.test_data.aggregate( " + str(expression) + ")"
-
 
         logger.info(" Using expression: \n{}".format(expression))
 
@@ -293,8 +291,7 @@ class Mongo(DataSource):
 
         return self.aggregate(collection, expression)
 
-
-    def upsert (self, key, what, collection="test_data"):
+    def upsert(self, key, what, collection="test_data"):
         """
         Insert or update if exist what using key
 
@@ -303,20 +300,20 @@ class Mongo(DataSource):
 
         """
         if not what or type(what) is not dict:
-            print "Upsert failed, not correctly formatted values to insert/update :'{}'".format(what)
+            print "Upsert failed, not correctly formatted values to insert/update :'{}'".format(
+                what)
             return
 
-        logger.info ("Upserting {} for {} on {}".format(what, key, collection))
+        logger.info("Upserting {} for {} on {}".format(what, key, collection))
 
-        update = { "$set": what}
+        update = {"$set": what}
 
         dades = self.db[collection]
 
-        logger.debug("Value pre  upserting: '{}'".format( list(dades.find(key)) ))
+        logger.debug("Val   ue pre  upserting: '{}'".format(list(dades.find(
+            key))))
 
         dades.update(key, update, upsert=True)
 
-        logger.info("Value post upserting: '{}'".format( list(dades.find(key)) ))
-
-
-
+        logger.debug("Value post upserting: '{}'".format(list(dades.find(
+            key))))
