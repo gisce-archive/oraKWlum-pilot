@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 __author__ = 'XaviTorello'
-__name__ = "DataSource"
+#__name__ = "DataSource"
 
 import logging
 import pymongo
@@ -115,6 +115,20 @@ class Mongo(DataSource):
         except:
             print "Error insering on '{}'".format(collection)
 
+    def filter(self, by_date=None, by_cups=None, collection="test_data"):
+        if by_date:
+            #validate [date_ini, date_fi] datetime
+            exp = {"hour": {"$gte": by_date[0], "$lte": by_date[1]}}
+            logger.debug("Date by hour expression {}".format(exp))
+
+        if by_cups:
+            #validate cups
+            pass
+
+        data_filter = self.db[collection]
+
+        return data_filter.find(exp)
+
     def aggregate(self, collection, exp):
         """
         Aggregate a collection by expression
@@ -169,6 +183,19 @@ class Mongo(DataSource):
         expression = [{"$group": {"_id": "$" + field, "count": {"$sum": 1}}}]
 
         logger.info("Aggregating and counting by '{}'".format(field))
+
+        return self.aggregate(collection, expression)
+
+    def get_list_unique_fields(self, field="cups", collection="test_data"):
+        """
+        Aggregate a collection by field and extract the count of elements for each aggr
+
+        Return a list of dicts:
+            [ {'_id': 'FIELD', 'count': COUNT}, ...]
+        """
+        expression = [{"$group": {"_id": "$" + field}}]
+
+        logger.info("Aggregating by '{}'".format(field))
 
         return self.aggregate(collection, expression)
 
