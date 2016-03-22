@@ -127,6 +127,39 @@ class History(object):
             self.cups_list.append(cups['_id'])
 
 
+
+
+    # todo review upsert static data
+    def upsert_consumption (self, values):
+        """
+        Update or Insert a Consumption to DB
+
+        Consumption can be passed as a dict or as a Consumption object
+
+        Currently just upsert consumptions, future static data
+
+        "PK" will be (cups, hour)
+        """
+
+
+        if values and type(values) == dict:
+            assert values['cups'] and values['hour']
+            key = { "cups" : values['cups'], "hour": values['hour']}
+            assert values['consumption_real'] or values['consumption_proposal']
+            update = { "consumption_real": values['consumption_real'] , "consumption_proposal": values['consumption_proposal']  }
+
+        elif type(values) == Consumption:
+            assert values.cups.number and values.hour
+            key = { "cups" : values.cups.number, "hour": values.hour}
+            assert values.consumption_proposal or values.consumption_real
+            update = { "consumption_real": values.consumption_real , "consumption_proposal": values.consumption_proposal }
+
+        #values = {"cups" : "ES0031300798436013HSx0F", "consumption_real" : 123, "consumption_proposal" : 179, "hour" : datetime(2016,03,01,01,00) }
+
+        self.dataset.upsert(key=key, what=update)
+
+        #self.dataset.
+
     def get_consumption_hourly(self):
         logger.info("Get consumption hourly by dates")
 

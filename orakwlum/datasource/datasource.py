@@ -243,6 +243,7 @@ class Mongo(DataSource):
 
         return self.aggregate(collection, expression)
 
+    # todo multiple aggregation and standarize other aggreg
     def aggregate_sum(
             self,
             field_to_agg="hour",
@@ -265,6 +266,7 @@ class Mongo(DataSource):
 
         # Set the match filter
         if fields_to_filter:
+            # todo validate filters
             #for filter in fields_to_filter:
             filter = self.set_filter(by_date=fields_to_filter)
             expression.append( { "$match": filter } )
@@ -290,3 +292,31 @@ class Mongo(DataSource):
             field_to_agg, fields_to_sum))
 
         return self.aggregate(collection, expression)
+
+
+    def upsert (self, key, what, collection="test_data"):
+        """
+        Insert or update if exist what using key
+
+            what: dictionary with all elements to upsert
+            key: restriction to update
+
+        """
+        if not what or type(what) is not dict:
+            print "Upsert failed, not correctly formatted values to insert/update :'{}'".format(what)
+            return
+
+        logger.info ("Upserting {} for {} on {}".format(what, key, collection))
+
+        update = { "$set": what}
+
+        dades = self.db[collection]
+
+        logger.debug("Value pre  upserting: '{}'".format( list(dades.find(key)) ))
+
+        dades.update(key, update, upsert=True)
+
+        logger.debug("Value post upserting: '{}'".format( list(dades.find(key)) ))
+
+
+
