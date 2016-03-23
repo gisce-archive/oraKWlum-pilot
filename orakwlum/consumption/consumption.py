@@ -50,8 +50,11 @@ class Consumption(object):
 
         if type(hour) == list:
             self.hour = datetime(hour[0], hour[1], hour[2], hour[3])
-        else:
+        elif type(hour) == datetime:
             self.hour = hour
+        else:
+            print "Hour is not propertly defined"
+            raise
 
         self.consumption_real = real
         self.consumption_proposal = proposal
@@ -170,6 +173,17 @@ class History(object):
 
         # Upsert it through datasource!
         self.dataset.upsert(key=key, what=update)
+
+    def get_consumption (self, cups, hour):
+        print type(hour)
+        assert type(hour) == datetime
+        assert type(cups) == str
+
+        return list(self.dataset.get_specific(hour=hour,cups_one=cups))[0]
+
+
+
+
 
     def get_consumption_hourly(self):
         """
