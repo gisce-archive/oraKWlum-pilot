@@ -174,6 +174,17 @@ class History(object):
         # Upsert it through datasource!
         self.dataset.upsert(key=key, what=update)
 
+    def get_consumption (self, cups, hour):
+        print type(hour)
+        assert type(hour) == datetime
+        assert type(cups) == str
+
+        return list(self.dataset.get_specific(hour=hour,cups_one=cups))[0]
+
+
+
+
+
     def get_consumption_hourly(self):
         """
         Extract the consumption by hours for the current history!

@@ -7,6 +7,10 @@ import pymongo
 from datetime import datetime
 import random
 
+from enerdata.cups.cups import CUPS
+
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -124,6 +128,23 @@ class Mongo(DataSource):
 
         except:
             print "Error insering on '{}'".format(collection)
+
+
+    def get_specific(self, hour, cups_one, collection="test_data"):
+
+        if type(cups_one) == CUPS:
+            cups = cups_one.number
+        elif type(cups_one) == str:
+            cups = cups_one
+        else:
+            print "CUPS is not well formatted"
+            raise
+
+        exp = {"cups": cups, "hour": hour}
+
+        data_filter = self.db[collection]
+
+        return list(data_filter.find(exp))
 
     def set_filter(self, by_date=None, by_cups=None):
         """
