@@ -23,13 +23,13 @@ with description("A Consumption"):
             def create_consum_error():
                 consum = Consumption(cups=None, hour=datetime(2016,3,2,15))
 
-            expect(create_consum_error).to(raise_error(TypeError))
+            expect(create_consum_error).to(raise_error(AssertionError))
 
         with it ('if no hour is defined'):
             def create_consum_error():
                 consum = Consumption(cups="ES0031406229285001HS0F", hour=None)
 
-            expect(create_consum_error).to(raise_error(TypeError))
+            expect(create_consum_error).to(raise_error(AssertionError))
 
 
     with context ("must correctly initialize"):

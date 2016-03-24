@@ -13,14 +13,14 @@ with description("A History"):
         with it ('with base params start date and end data'):
             date_start = datetime.datetime(2016, 3, 01)
             date_end = datetime.datetime(2016, 3, 3)
-            history = History(dini=date_start, dfi=date_end)
+            history = History(start_date=date_start, end_date=date_end)
             assert type(history) == History
 
         with it ('with base params CUPS list, start date and end data'):
             date_start = datetime.datetime(2016, 3, 01)
             date_end = datetime.datetime(2016, 3, 3)
             cups_list = ["ES0031406229285001XS0F"]
-            history = History(dini=date_start, dfi=date_end, cups=cups_list)
+            history = History(start_date=date_start, end_date=date_end, cups=cups_list)
             assert type(history) == History
 
         with it ('without any incoming param'):
@@ -31,7 +31,7 @@ with description("A History"):
         with it ('doesn\'t exists'):
             date_start = datetime.datetime(2016, 3, 01, 00)
             date_end = datetime.datetime(2016, 3, 3, 16)
-            history = History(dini=date_start, dfi=date_end)
+            history = History(start_date=date_start, end_date=date_end)
 
             cups = "ES0031300798436013HSX0F"
             hour = datetime.datetime(2016, 03, 01, 01, 12)
