@@ -9,8 +9,6 @@ import random
 
 from enerdata.cups.cups import CUPS
 
-
-
 logger = logging.getLogger(__name__)
 
 
@@ -128,7 +126,6 @@ class Mongo(DataSource):
 
         except:
             print "Error insering on '{}'".format(collection)
-
 
     def get_specific(self, hour, cups_one, collection="test_data"):
 

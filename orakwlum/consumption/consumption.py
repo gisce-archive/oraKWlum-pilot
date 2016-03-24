@@ -91,8 +91,7 @@ class Consumption(object):
                 distr=self.distributor,
                 time_disc=self.time_disc))
 
-
-    def save (self, dataset):
+    def save(self, dataset):
         """
         Update or Insert a Consumption to DB
 
@@ -109,19 +108,14 @@ class Consumption(object):
         key = dict()
         update = dict()
 
-
         assert self.cups.number and self.hour
         key = {"cups": self.cups.number, "hour": self.hour}
 
-        assert self.consumption_proposal>=0 or self.consumption_real>=0
+        assert self.consumption_proposal >= 0 or self.consumption_real >= 0
         update = {"consumption_real": self.consumption_real,
                   "consumption_proposal": self.consumption_proposal}
 
-
         dataset.upsert(key=key, what=update)
-
-
-
 
 
 class History(object):
@@ -140,10 +134,13 @@ class History(object):
     def __init__(self, start_date=None, end_date=None, cups=None):
         logger.info('Creating new History')
         self.consumptions = []
+        self.consumptions_hourly = []
 
         self.cups_list = cups if cups else []
-        self.date_end = end_date if end_date else datetime.today() + timedelta(days=1)
-        self.date_start = start_date if start_date else self.date_end - timedelta(days=365)
+        self.date_end = end_date if end_date else datetime.today() + timedelta(
+            days=1)
+        self.date_start = start_date if start_date else self.date_end - timedelta(
+            days=365)
         logger.debug('  between {ini} - {fi}'.format(ini=self.date_start,
                                                      fi=self.date_end))
         logger.debug('  filtering for cups: {cups}'.format(cups=cups))
@@ -211,16 +208,11 @@ class History(object):
         elif type(values) == Consumption:
             values.save()
 
-
-    def get_consumption (self, cups, hour):
+    def get_consumption(self, cups, hour):
         assert type(hour) == datetime
         assert type(cups) == str
 
-        return list(self.dataset.get_specific(hour=hour,cups_one=cups))[0]
-
-
-
-
+        return list(self.dataset.get_specific(hour=hour, cups_one=cups))[0]
 
     def get_consumption_hourly(self):
         """
@@ -265,7 +257,6 @@ class History(object):
         return consumptions
         #self.dump_history_hourly()
 
-
     def load_consumption_hourly(self):
         """
         Load a consumption into the History!
@@ -276,8 +267,6 @@ class History(object):
         """
 
         self.consumptions_hourly = self.get_consumption_hourly()
-
-
 
     def consumption_decoder(self, JSON):
         """
@@ -304,6 +293,7 @@ class History(object):
 
         The number of entries to print can be limited
         """
+
         if not self.consumptions_hourly or len(self.consumptions_hourly) == 0:
             print "Hourly consumptions has not been processed for current History."
             return

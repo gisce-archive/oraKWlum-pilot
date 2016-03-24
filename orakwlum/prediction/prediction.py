@@ -24,40 +24,85 @@ logger = logging.getLogger(__name__)
 
 one_day = timedelta(days=1)
 
-class Prediction(object):
-    def __init__(self, start_date, end_date, filter_cups=None):
-        assert type(start_date) == datetime, "Start date must contain a valid datetime"
-        assert type(end_date) == datetime, "End date must contain a valid datetime"
-        assert end_date >= start_date, "End date must be greater than start date"
-        assert filter_cups == None or type(filter_cups) == list, "cups filter must be None or a list"
 
-        logger.info("Initialising prediction for {} - {}".format(start_date, end_date))
+class Prediction(object):
+    def __init__(self, start_date, end_date, filter_cups=None, compute=True):
+        """
+        Creates a new Prediction
+
+        If compute, process all the following steps to reach the proposal values:
+            1) Reach equivalent past days using one_year_lib
+            2) Extract the related past Consumptions
+            3) Project past Consumptions to Future as a consumption_proposal
+            4) Save to Future Consumptions to DB!
+
+        If not, just initializes the History, load related consumption and print it
+
+        """
+        assert type(
+            start_date) == datetime, "Start date must contain a valid datetime"
+        assert type(
+            end_date) == datetime, "End date must contain a valid datetime"
+        assert end_date >= start_date, "End date must be greater than start date"
+        assert filter_cups == None or type(
+            filter_cups) == list, "cups filter must be None or a list"
+
+        assert type(compute) == bool, "compute must be a flag True/False"
+
+        logger.info("Initialising prediction for {} - {}".format(start_date,
+                                                                 end_date))
 
         self.date_start = start_date
         self.date_end = end_date
         self.cups_to_filter = filter_cups
 
+        ## just fetch from DS the prediction and ¿draw the report?
+        if not compute:
+            self.future = History(start_date=self.date_start,
+                                  end_date=self.date_end,
+                                  cups=self.cups_to_filter)
+            self.future.load_consumption_hourly()
+            self.future.dump_history_hourly()
+            return
+
+        ## if compute, reach the equivalent past Consumptions, project to future and save it on Datasource!
+
         # Init FUTURE History
         logger.info("Creating FUTURE history")
-        self.future = History(start_date=self.date_start, end_date=self.date_end, cups=self.cups_to_filter)
-        self.future_days = self.get_list_of_days (self.date_start, self.date_end)
+        self.future = History(start_date=self.date_start,
+                              end_date=self.date_end,
+                              cups=self.cups_to_filter)
+        self.future_days = self.get_list_of_days(self.date_start,
+                                                 self.date_end)
 
         # Init PAST Histories
         ## Past days can be non consequent, IE holidays inside a week
         ## To ensure it, we create a list of Histories for each day
         logger.info("Creating PAST history")
         self.past = []
-        self.past_days = self.get_past_days (self.future_days)
+        self.past_days = self.get_past_days(self.future_days)
 
         for past_day in self.past_days:
-            past_hist = History(start_date=past_day, end_date=past_day + one_day, cups=self.cups_to_filter)
-            self.past.append( past_hist )
+            past_hist = History(start_date=past_day,
+                                end_date=past_day + one_day,
+                                cups=self.cups_to_filter)
+            self.past.append(past_hist)
 
         # Start projection from past
         self.project_past_to_future()
 
+        # Update future definition
+        self.future = History(start_date=self.date_start,
+                              end_date=self.date_end,
+                              cups=self.cups_to_filter)
 
-    def get_equivalent_hour (self, past_day = None, future_day = None):
+        # Load hourly aggregation and print it!
+        print "Created Prediction for {} - {}".format(self.date_start,
+                                                      self.date_end)
+        self.future.load_consumption_hourly()
+        self.future.dump_history_hourly()
+
+    def get_equivalent_hour(self, past_day=None, future_day=None):
         """
         Return the equivalence for a hour
 
@@ -69,40 +114,53 @@ class Prediction(object):
         """
         assert past_day or future_day
 
-
         if past_day:
             where = self.past_days
             where_eq = self.future_days
             what_hour = past_day.hour
-            what = past_day.replace(hour=0)     #safe processing without hour
+            what = past_day.replace(hour=0)  #safe processing without hour
 
         else:
             where = self.future_days
             where_eq = self.past_days
             what_hour = future_day.hour
-            what = future_day.replace(hour=0)   #safe processing without hour
+            what = future_day.replace(hour=0)  #safe processing without hour
 
         equivalent = where_eq[bisect.bisect_left(where, what)]
         equivalent.replace(hour=what_hour)
-        logger.info("Fetched {} as equivalent day for {} in {}".format( equivalent, what, where))
+        logger.info("Processing {} as equivalent day for {} in {}".format(
+            equivalent, what, where))
 
         return equivalent
 
-
-
     def project_past_to_future(self):
-        logger.info("Taking matching past values to future!")
-        logger.debug("DOC >> Marty, are you ready to jump to the future?")
-        logger.debug("Delorean has been started their motor")
+        """
+        Fetch all past Consumptions and project it to the future
+
+        Past real consumption -> Future proposal consumption
+
+        Future real consumption -> 0 (that's future, real not yet accomplished)
+        ## todo :: keep not enforce 0, keep current value or 0
+
+        Save to datasource as Future
+        """
+        logger.info("")
+        logger.info("Starting DELOREAN's engine....")
+        logger.info("   DOC >> Marty, are you ready to jump to the future?")
+        logger.info("")
+        logger.info("Taking past real values to future as a proposal!")
+
+        previous_hour = datetime(1500, 1, 1, 0, 0)
+
         # each past History
-        previous_hour = None
         for past in self.past:
             for consumption in past.consumptions:
                 # avoid reach the equivalent day if not really needed (based on previous execution)
-                if previous_hour == None or consumption.hour.date() != previous_hour.date():
+                if consumption.hour.date() != previous_hour.date():
                     previous_hour = consumption.hour
                     try:
-                        equivalent = self.get_equivalent_hour(past_day=consumption.hour)
+                        equivalent = self.get_equivalent_hour(
+                            past_day=consumption.hour)
                     except:
                         print "WARNING equivalent not processed correctly for", consumption.hour
                         continue
@@ -119,10 +177,10 @@ class Prediction(object):
                 consumption.consumption_real = 0
 
                 #save it to DB with the new values!
+                ## todo think about use different datasets (self.futureXX.dataset)
                 consumption.save(self.future.dataset)
 
-
-    def get_past_days (self, future):
+    def get_past_days(self, future):
         """
         For each future day calc the related past day using one_year_ago lib
 
@@ -134,8 +192,7 @@ class Prediction(object):
             past_days.append(day_past)
         return past_days
 
-
-    def get_list_of_days (self, ini, end):
+    def get_list_of_days(self, ini, end):
         """
         return an ordered list of days between ini and end (both included)
         """
@@ -148,9 +205,8 @@ class Prediction(object):
 
         return days_list
 
-
-
     ## PREDICT todo profile and more
+    ## Initial profiling section WIP
     def process_prediction(self):
         logger.info("Starting prediction")
 
@@ -164,16 +220,11 @@ class Prediction(object):
             print consumption
             #print consumption['sum_consumption_proposal']
 
-
     def day_profile(self, dini, dfi, real_consumption_hourly):
-        assert type(real_consumption_hourly) == list, "Real hourly consumption for this day must be a list"
+        assert type(
+            real_consumption_hourly) == list, "Real hourly consumption for this day must be a list"
 
         date_start = TIMEZONE.localize(dini)
         date_end = TIMEZONE.localize(dini)
 
-        estimated = Profile(date_start, date_end, []).estimate(t,{'P1': 5})
-
-
-
-
-
+        estimated = Profile(date_start, date_end, []).estimate(t, {'P1': 5})

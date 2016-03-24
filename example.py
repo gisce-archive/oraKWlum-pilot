@@ -62,7 +62,7 @@ def Prediction_tester():
 
     cups_to_filter = None
 
-    prediction = Prediction(start_date=date_start, end_date=date_end, filter_cups=cups_to_filter)
+    prediction = Prediction(start_date=date_start, end_date=date_end, filter_cups=cups_to_filter, compute=True)
 
 
 
