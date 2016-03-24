@@ -92,6 +92,38 @@ class Consumption(object):
                 time_disc=self.time_disc))
 
 
+    def save (self, dataset):
+        """
+        Update or Insert a Consumption to DB
+
+        Consumption can be passed as a dict or as a Consumption object
+
+        Currently just upsert consumptions, future static data
+
+        "PK" will be (cups, hour)
+        """
+
+        key_fields = ["cups", "hour"]
+        fields_to_upsert = ["consumption_real", "consumption_proposal"]
+
+        key = dict()
+        update = dict()
+
+
+        assert self.cups.number and self.hour
+        key = {"cups": self.cups.number, "hour": self.hour}
+
+        assert self.consumption_proposal>=0 or self.consumption_real>=0
+        update = {"consumption_real": self.consumption_real,
+                  "consumption_proposal": self.consumption_proposal}
+
+
+        dataset.upsert(key=key, what=update)
+
+
+
+
+
 class History(object):
     """Historical consumptions for a time period (normally events from the last year)
     
@@ -173,16 +205,12 @@ class History(object):
                 if values[field_to_upsert]:  #if None not update this field
                     update[field_to_upsert] = values[field_to_upsert]
 
-        # todo RIP it and create save method on Consumption that calls JSON upsert if needed
-        elif type(values) == Consumption:
-            assert values.cups.number and values.hour
-            key = {"cups": values.cups.number, "hour": values.hour}
-            assert values.consumption_proposal or values.consumption_real
-            update = {"consumption_real": values.consumption_real,
-                      "consumption_proposal": values.consumption_proposal}
+            # Upsert it through datasource!
+            self.dataset.upsert(key=key, what=update)
 
-        # Upsert it through datasource!
-        self.dataset.upsert(key=key, what=update)
+        elif type(values) == Consumption:
+            values.save()
+
 
     def get_consumption (self, cups, hour):
         assert type(hour) == datetime

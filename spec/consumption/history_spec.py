@@ -34,7 +34,7 @@ with description("A History"):
             history = History(start_date=date_start, end_date=date_end)
 
             cups = "ES0031300798436013HSX0F"
-            hour = datetime.datetime(2016, 03, 01, 01, 12)
+            hour = datetime.datetime(2016, 03, 01, 01, 0)
 
             insert_example = {"cups": cups,
                   "consumption_real": 550,

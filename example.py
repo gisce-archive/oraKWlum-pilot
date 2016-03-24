@@ -58,17 +58,12 @@ def History_tester():
 
 def Prediction_tester():
     date_start = datetime(2016, 3, 01)
-    date_end = datetime(2016, 3, 3)
-
-    history = History(start_date=date_start, end_date=date_end)
-
-#    history._consumption_hourly()
-#    history.dump_history_hourly()
+    date_end = datetime(2016, 3, 2)
 
     cups_to_filter = None
 
-    history.prediction = Prediction(history=history, start_date=date_start, end_date=date_end, filter_cups=cups_to_filter)
-    history.prediction.process_prediction()
+    prediction = Prediction(start_date=date_start, end_date=date_end, filter_cups=cups_to_filter)
+
 
 
 

@@ -93,9 +93,9 @@ class Mongo(DataSource):
         hour_start = 00
         hour_end = 24
         day_start = 01
-        day_end = 31
-        month = 03
-        year = 2016
+        day_end = 29
+        month = 02
+        year = 2015
 
         dades_test = self.db[collection]
 
@@ -325,7 +325,7 @@ class Mongo(DataSource):
                 what)
             return
 
-        logger.info("Upserting {} for {} on {}".format(what, key, collection))
+        logger.debug("Upserting {} for {} on {}".format(what, key, collection))
 
         update = {"$set": what}
 
