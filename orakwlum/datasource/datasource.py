@@ -9,8 +9,6 @@ import random
 
 from enerdata.cups.cups import CUPS
 
-
-
 logger = logging.getLogger(__name__)
 
 
@@ -93,9 +91,9 @@ class Mongo(DataSource):
         hour_start = 00
         hour_end = 24
         day_start = 01
-        day_end = 31
-        month = 03
-        year = 2016
+        day_end = 29
+        month = 02
+        year = 2015
 
         dades_test = self.db[collection]
 
@@ -128,7 +126,6 @@ class Mongo(DataSource):
 
         except:
             print "Error insering on '{}'".format(collection)
-
 
     def get_specific(self, hour, cups_one, collection="test_data"):
 
@@ -325,7 +322,7 @@ class Mongo(DataSource):
                 what)
             return
 
-        logger.info("Upserting {} for {} on {}".format(what, key, collection))
+        logger.debug("Upserting {} for {} on {}".format(what, key, collection))
 
         update = {"$set": what}
 

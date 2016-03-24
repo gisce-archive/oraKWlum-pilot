@@ -1,61 +1,68 @@
+/usr/bin/python2.7 /home/k/projectes/oraKWlum/example.py
+INFO:orakwlum.prediction.prediction:Initialising prediction for 2016-03-01 00:00:00 - 2016-03-02 00:00:00
+INFO:orakwlum.prediction.prediction:Creating FUTURE history
+INFO:orakwlum.consumption.consumption:Creating new History
+INFO:orakwlum.consumption.consumption:Loading History from datasource
+INFO:orakwlum.datasource.datasource:Establishing new Mongo datasource at 'mongodb://localhost:27017/'
+INFO:orakwlum.consumption.consumption:Filtering datasource by dates
+INFO:orakwlum.datasource.datasource:Aggregating by 'cups'
+INFO:orakwlum.prediction.prediction:Creating PAST history
+INFO:one_year_ago.one_year_ago:1 year ago from 2016-03-01 was 2015-02-24
+INFO:one_year_ago.one_year_ago:1 year ago from 2016-03-02 was 2015-02-25
+INFO:orakwlum.consumption.consumption:Creating new History
+INFO:orakwlum.consumption.consumption:Loading History from datasource
+INFO:orakwlum.datasource.datasource:Establishing new Mongo datasource at 'mongodb://localhost:27017/'
+INFO:orakwlum.consumption.consumption:Filtering datasource by dates
+INFO:orakwlum.datasource.datasource:Aggregating by 'cups'
+INFO:orakwlum.consumption.consumption:Creating new History
+INFO:orakwlum.consumption.consumption:Loading History from datasource
+INFO:orakwlum.datasource.datasource:Establishing new Mongo datasource at 'mongodb://localhost:27017/'
+INFO:orakwlum.consumption.consumption:Filtering datasource by dates
+INFO:orakwlum.datasource.datasource:Aggregating by 'cups'
+INFO:orakwlum.prediction.prediction:
+INFO:orakwlum.prediction.prediction:Starting DELOREAN's engine....
+INFO:orakwlum.prediction.prediction:   DOC >> Marty, are you ready to jump to the future?
+INFO:orakwlum.prediction.prediction:
+INFO:orakwlum.prediction.prediction:Taking past real values to future as a proposal!
+INFO:orakwlum.prediction.prediction:Processing 2016-03-01 00:00:00 as equivalent day for 2015-02-24 00:00:00 in [datetime.datetime(2015, 2, 24, 0, 0), datetime.datetime(2015, 2, 25, 0, 0)]
+INFO:orakwlum.prediction.prediction:Processing 2016-03-02 00:00:00 as equivalent day for 2015-02-25 00:00:00 in [datetime.datetime(2015, 2, 24, 0, 0), datetime.datetime(2015, 2, 25, 0, 0)]
+WARNING equivalent not processed correctly for 2015-02-26 00:00:00
 INFO:orakwlum.consumption.consumption:Creating new History
 INFO:orakwlum.consumption.consumption:Loading History from datasource
 INFO:orakwlum.datasource.datasource:Establishing new Mongo datasource at 'mongodb://localhost:27017/'
 INFO:orakwlum.consumption.consumption:Filtering datasource by dates
 INFO:orakwlum.datasource.datasource:Aggregating by 'cups'
 INFO:orakwlum.consumption.consumption:Get consumption hourly by dates
-INFO:orakwlum.consumption.consumption:Reaching consumption by hour, between [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 3, 0, 0)] and sort by [['hour', 1]]
+INFO:orakwlum.consumption.consumption:Reaching consumption by hour, between [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)] and sort by [['hour', 1]]
 INFO:orakwlum.datasource.datasource: Using expression:
-[{'$match': {'hour': {'$lte': datetime.datetime(2016, 3, 3, 0, 0), '$gte': datetime.datetime(2016, 3, 1, 0, 0)}}}, {'$group': {'_id': '$hour', 'sum_consumption_real': {'$sum': '$consumption_real'}, 'sum_consumption_proposal': {'$sum': '$consumption_proposal'}}}, {'$sort': {'_id': 1}}]
+[{'$match': {'hour': {'$lte': datetime.datetime(2016, 3, 2, 0, 0), '$gte': datetime.datetime(2016, 3, 1, 0, 0)}}}, {'$group': {'_id': '$hour', 'sum_consumption_real': {'$sum': '$consumption_real'}, 'sum_consumption_proposal': {'$sum': '$consumption_proposal'}}}, {'$sort': {'_id': 1}}]
 INFO:orakwlum.datasource.datasource:Aggregating by 'hour' and adding by '['consumption_real', 'consumption_proposal']'
-INFO:orakwlum.datasource.datasource:Upserting {'consumption_real': 550, 'consumption_proposal': 179} for {'cups': 'ES0031300798436013HSx0F', 'hour': datetime.datetime(2016, 3, 1, 1, 0)} on test_data
 
-  2016-03-01 00:00:00: 1284kw / 1381kw
-  2016-03-01 01:00:00: 2169kw / 1424kw
-  2016-03-01 02:00:00: 1358kw / 1030kw
-  2016-03-01 03:00:00: 1180kw / 1242kw
-  2016-03-01 04:00:00: 1331kw / 1353kw
-  2016-03-01 05:00:00: 1110kw / 1146kw
-  2016-03-01 06:00:00: 1386kw / 1244kw
-  2016-03-01 07:00:00: 1406kw / 1378kw
-  2016-03-01 08:00:00: 1139kw / 1308kw
-  2016-03-01 09:00:00: 1311kw / 1289kw
-  2016-03-01 10:00:00: 1247kw / 1206kw
-  2016-03-01 11:00:00: 1313kw / 1503kw
-  2016-03-01 12:00:00: 1251kw / 1121kw
-  2016-03-01 13:00:00: 1400kw / 1409kw
-  2016-03-01 14:00:00: 1334kw / 1223kw
-  2016-03-01 15:00:00: 1221kw / 1408kw
-  2016-03-01 16:00:00: 1151kw / 1518kw
-  2016-03-01 17:00:00: 1374kw / 1356kw
-  2016-03-01 18:00:00: 1401kw / 1357kw
-  2016-03-01 19:00:00: 1377kw / 1173kw
-  2016-03-01 20:00:00: 1265kw / 1482kw
-  2016-03-01 21:00:00: 1203kw / 1268kw
-  2016-03-01 22:00:00: 1139kw / 991kw
-  2016-03-01 23:00:00: 1221kw / 1066kw
-  2016-03-02 00:00:00: 1120kw / 1100kw
-  2016-03-02 01:00:00: 1364kw / 1298kw
-  2016-03-02 02:00:00: 1065kw / 1060kw
-  2016-03-02 03:00:00: 1335kw / 1250kw
-  2016-03-02 04:00:00: 1340kw / 1582kw
-  2016-03-02 05:00:00: 1027kw / 1070kw
-  2016-03-02 06:00:00: 1332kw / 1361kw
-  2016-03-02 07:00:00: 1032kw / 1067kw
-  2016-03-02 08:00:00: 1324kw / 1218kw
-  2016-03-02 09:00:00: 1339kw / 1310kw
-  2016-03-02 10:00:00: 1326kw / 1049kw
-  2016-03-02 11:00:00: 1451kw / 1269kw
-  2016-03-02 12:00:00: 1221kw / 1353kw
-  2016-03-02 13:00:00: 1063kw / 1119kw
-  2016-03-02 14:00:00: 1094kw / 1304kw
-  2016-03-02 15:00:00: 1299kw / 1433kw
-  2016-03-02 16:00:00: 1402kw / 1213kw
-  2016-03-02 17:00:00: 1291kw / 1376kw
-  2016-03-02 18:00:00: 1331kw / 1271kw
-  2016-03-02 19:00:00: 1034kw / 1172kw
-  2016-03-02 20:00:00: 1252kw / 1244kw
-  2016-03-02 21:00:00: 1301kw / 1488kw
-  2016-03-02 22:00:00: 1206kw / 1193kw
-  2016-03-02 23:00:00: 1353kw / 1107kw
-  2016-03-03 00:00:00: 1461kw / 1219kw
+Created Prediction for 2016-03-01 00:00:00 - 2016-03-02 00:00:00
+  2016-03-01 00:00:00: 0kw / 1176kw
+  2016-03-01 01:00:00: 0kw / 1331kw
+  2016-03-01 02:00:00: 0kw / 1340kw
+  2016-03-01 03:00:00: 0kw / 1125kw
+  2016-03-01 04:00:00: 0kw / 1432kw
+  2016-03-01 05:00:00: 0kw / 1298kw
+  2016-03-01 06:00:00: 0kw / 1357kw
+  2016-03-01 07:00:00: 0kw / 1324kw
+  2016-03-01 08:00:00: 0kw / 1424kw
+  2016-03-01 09:00:00: 0kw / 1380kw
+  2016-03-01 10:00:00: 0kw / 1308kw
+  2016-03-01 11:00:00: 0kw / 1199kw
+  2016-03-01 12:00:00: 0kw / 1319kw
+  2016-03-01 13:00:00: 0kw / 1121kw
+  2016-03-01 14:00:00: 0kw / 1146kw
+  2016-03-01 15:00:00: 0kw / 1187kw
+  2016-03-01 16:00:00: 0kw / 1125kw
+  2016-03-01 17:00:00: 0kw / 1341kw
+  2016-03-01 18:00:00: 0kw / 1283kw
+  2016-03-01 19:00:00: 0kw / 1234kw
+  2016-03-01 20:00:00: 0kw / 1236kw
+  2016-03-01 21:00:00: 0kw / 1271kw
+  2016-03-01 22:00:00: 0kw / 1317kw
+  2016-03-01 23:00:00: 0kw / 1432kw
+  2016-03-02 00:00:00: 0kw / 1303kw
+
+Process finished with exit code 0

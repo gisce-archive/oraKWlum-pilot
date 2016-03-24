@@ -3,6 +3,7 @@ __author__ = 'XaviTorello'
 
 from orakwlum.consumption import *
 from orakwlum.datasource import *
+from orakwlum.prediction import *
 
 
 def Consumption_tester():
@@ -39,10 +40,12 @@ def History_tester():
     date_start = datetime(2016, 3, 01)
     date_end = datetime(2016, 3, 3)
 
-    history = History(dini=date_start, dfi=date_end)
+    history = History(start_date=date_start, end_date=date_end)
 
     #history.dump_history()
-    history.get_consumption_hourly()
+    history.load_consumption_hourly()
+
+    history.dump_history_hourly()
 
     insert_example = {"cups": "ES0031300798436013HSx0F",
                       "consumption_real": 550,
@@ -50,6 +53,20 @@ def History_tester():
                       "hour": datetime(2016, 03, 01, 01, 00)}
 
     history.upsert_consumption(values=insert_example)
+
+
+
+def Prediction_tester():
+    date_start = datetime(2016, 3, 01)
+    date_end = datetime(2016, 3, 2)
+
+    cups_to_filter = None
+
+    prediction = Prediction(start_date=date_start, end_date=date_end, filter_cups=cups_to_filter, compute=True)
+
+
+
+
 
 
 def Sampledata_tester():
@@ -60,4 +77,4 @@ def Sampledata_tester():
 
 logging.basicConfig(level=logging.INFO)
 
-History_tester()
+Prediction_tester()

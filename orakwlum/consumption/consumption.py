@@ -5,10 +5,7 @@ __author__ = 'XaviTorello'
 from datetime import datetime, date, timedelta
 import logging
 
-from enerdata.contracts.tariff import *
 from enerdata.cups.cups import CUPS
-from enerdata.datetime.timezone import TIMEZONE
-from enerdata.profiles.profile import Profile
 
 from orakwlum.datasource import *
 #import json
@@ -46,14 +43,27 @@ class Consumption(object):
 
     def __init__(self, cups, hour, real=None, proposal=None):
         logger.debug('Creating new consumption')
-        self.cups = CUPS(cups)
+        assert cups, "CUPS is needed to create a Consumption"
+        assert hour, "hour is mandatory to create a Consumption"
 
-        if type(hour) == list:
+        type_cups = type(cups)
+        if type_cups == CUPS:
+            self.cups = cups
+        elif type_cups == str or type_cups == unicode:
+            self.cups = CUPS(cups)
+        else:
+            print "CUPS is not well defined:"
+            print type_cups
+            raise
+
+        type_hour = type(hour)
+        if type_hour == list:
             self.hour = datetime(hour[0], hour[1], hour[2], hour[3])
-        elif type(hour) == datetime:
+        elif type_hour == datetime:
             self.hour = hour
         else:
-            print "Hour is not propertly defined"
+            print "Hour is not propertly defined:"
+            print type_hour
             raise
 
         self.consumption_real = real
@@ -81,6 +91,32 @@ class Consumption(object):
                 distr=self.distributor,
                 time_disc=self.time_disc))
 
+    def save(self, dataset):
+        """
+        Update or Insert a Consumption to DB
+
+        Consumption can be passed as a dict or as a Consumption object
+
+        Currently just upsert consumptions, future static data
+
+        "PK" will be (cups, hour)
+        """
+
+        key_fields = ["cups", "hour"]
+        fields_to_upsert = ["consumption_real", "consumption_proposal"]
+
+        key = dict()
+        update = dict()
+
+        assert self.cups.number and self.hour
+        key = {"cups": self.cups.number, "hour": self.hour}
+
+        assert self.consumption_proposal >= 0 or self.consumption_real >= 0
+        update = {"consumption_real": self.consumption_real,
+                  "consumption_proposal": self.consumption_proposal}
+
+        dataset.upsert(key=key, what=update)
+
 
 class History(object):
     """Historical consumptions for a time period (normally events from the last year)
@@ -95,13 +131,16 @@ class History(object):
     If not reached any filter, will fetch for TOMORROW one year ago events for all CUPS
     """
 
-    def __init__(self, dini=None, dfi=None, cups=None):
+    def __init__(self, start_date=None, end_date=None, cups=None):
         logger.info('Creating new History')
         self.consumptions = []
+        self.consumptions_hourly = []
 
         self.cups_list = cups if cups else []
-        self.date_end = dfi if dfi else datetime.today() + timedelta(days=1)
-        self.date_start = dini if dini else self.date_end - timedelta(days=365)
+        self.date_end = end_date if end_date else datetime.today() + timedelta(
+            days=1)
+        self.date_start = start_date if start_date else self.date_end - timedelta(
+            days=365)
         logger.debug('  between {ini} - {fi}'.format(ini=self.date_start,
                                                      fi=self.date_end))
         logger.debug('  filtering for cups: {cups}'.format(cups=cups))
@@ -163,35 +202,23 @@ class History(object):
                 if values[field_to_upsert]:  #if None not update this field
                     update[field_to_upsert] = values[field_to_upsert]
 
-        # todo RIP it and create save method on Consumption that calls JSON upsert if needed
+            # Upsert it through datasource!
+            self.dataset.upsert(key=key, what=update)
+
         elif type(values) == Consumption:
-            assert values.cups.number and values.hour
-            key = {"cups": values.cups.number, "hour": values.hour}
-            assert values.consumption_proposal or values.consumption_real
-            update = {"consumption_real": values.consumption_real,
-                      "consumption_proposal": values.consumption_proposal}
+            values.save()
 
-        # Upsert it through datasource!
-        self.dataset.upsert(key=key, what=update)
-
-    def get_consumption (self, cups, hour):
-        print type(hour)
+    def get_consumption(self, cups, hour):
         assert type(hour) == datetime
         assert type(cups) == str
 
-        return list(self.dataset.get_specific(hour=hour,cups_one=cups))[0]
-
-
-
-
+        return list(self.dataset.get_specific(hour=hour, cups_one=cups))[0]
 
     def get_consumption_hourly(self):
         """
-        Extract the consumption by hours for the current history!
+        Extract the consumption by hours for the current history (live without storing it)
 
         All is done on DB side
-
-        Stores the result on self.consumptions_hourly
 
         Filter by dates the collection to review
 
@@ -200,6 +227,11 @@ class History(object):
         Process the sum foreach aggregate
 
         Sort by hour ascending the final result
+
+        Return a list with those fields:
+            [0] = hour
+            [1] = real consumption
+            [2] = proposed consumption
         """
         logger.info("Get consumption hourly by dates")
 
@@ -222,10 +254,19 @@ class History(object):
                                        fields_to_sort=sort_by_hour,
                                        fields_to_filter=filter_by_dates))
 
-        for consumption in consumptions:
-            self.consumptions_hourly.append(consumption)
+        return consumptions
+        #self.dump_history_hourly()
 
-        self.dump_history_hourly()
+    def load_consumption_hourly(self):
+        """
+        Load a consumption into the History!
+
+        Get consumption hourly from Datasource and stores it on the instance as a list
+
+        Stores it inside self.consumptions_hourly
+        """
+
+        self.consumptions_hourly = self.get_consumption_hourly()
 
     def consumption_decoder(self, JSON):
         """
@@ -252,6 +293,7 @@ class History(object):
 
         The number of entries to print can be limited
         """
+
         if not self.consumptions_hourly or len(self.consumptions_hourly) == 0:
             print "Hourly consumptions has not been processed for current History."
             return
