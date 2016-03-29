@@ -193,7 +193,11 @@ class History(object):
         "PK" will be (cups, hour)
         """
 
-        key_fields = ["cups", "hour"]
+        if values["_id"]: # if have the existing mongoID use it instead of cups,hour
+            key_fields = ["_id"]
+        else:
+            key_fields = ["cups", "hour"]
+
         fields_to_upsert = ["consumption_real", "consumption_proposal"]
 
         key = dict()
@@ -207,7 +211,7 @@ class History(object):
                 #key = { "cups" : values['cups'], "hour": values['hour']}
 
             for field_to_upsert in fields_to_upsert:
-                assert values[field_to_upsert]
+                assert values[field_to_upsert]!=None, "Field '{}' not found".format(field_to_upsert)
                 if values[field_to_upsert]:  #if None not update this field
                     update[field_to_upsert] = values[field_to_upsert]
 
@@ -258,7 +262,11 @@ class History(object):
         self.consumptions_hourly = []
 
         agg_by_hour = "hour"
-        filter_by_dates = ["hour",[self.date_start, self.date_end]]
+
+        if self.date_start and self.date_end:
+            filter_by_dates = ["hour",[self.date_start, self.date_end]]
+        else:
+            filter_by_dates = None
 
         sort_by_hour = [["hour", 1]]
 

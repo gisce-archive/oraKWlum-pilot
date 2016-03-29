@@ -34,7 +34,6 @@ class Scenario(object):
 
 
 
-
     def add_rule (self, name="Default rule", filter=None, filter_values=None, action=None, action_field=None, action_value=None):
         """
         Add a new rule to the scenario
@@ -49,27 +48,11 @@ class Scenario(object):
 
 
 
-    def operate_consumptions(self,what):
-        logger.info("Executing operation '{}'".format(what))
 
-        # Initialize consumptions_hourly
-        self.consumptions_hourly = []
+    def show_summary(self):
+        scenario_history = History(collection=self.collection)
 
-        agg_by_hour = "hour"
-        filter_by_dates = [self.date_start, self.date_end]
-
-        sort_by_hour = [["hour", 1]]
-
-        logger.info(
-            "Reaching consumption by {}, between {} and sort by {}".format(
-                agg_by_hour, filter_by_dates, sort_by_hour))
-
-        consumptions = list(
-            self.dataset.aggregate_sum(field_to_agg=agg_by_hour,
-                                       fields_to_sort=sort_by_hour,
-                                       fields_to_filter=filter_by_dates,
-                                       collection=self.collection))
-
+        scenario_history.get_consumption_hourly()
 
 
     def compute_rules (self):
@@ -78,10 +61,19 @@ class Scenario(object):
         scenario_history = History(collection=self.collection)
         for rule in self.rules:
             print rule.name, rule.action_value
-            print scenario_history.dataset.aggregate_dispatcher(fields_to_filter=[rule.filter, rule.filter_values],
+            changes = scenario_history.dataset.aggregate_dispatcher(fields_to_filter=[rule.filter, rule.filter_values],
                                                                 fields_to_operate=[rule.action, rule.action_field, rule.action_value])
 
+            # update changes to lite collection
+            for change in changes:
+                scenario_history.upsert_consumption(change)
 
+        logger.info("Here we go...")
+        print "Here we go.."
+        scenario_history.consumptions_hourly = scenario_history.get_consumption_hourly()
+        scenario_history.dump_history_hourly()
+
+        print "ended"
 
 
 class Rule(object):

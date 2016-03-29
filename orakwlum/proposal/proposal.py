@@ -25,8 +25,12 @@ class Proposal(object):
         self.scenarios = []
 
     def show_proposal(self):
-        print self.prediction.future.consumptions_hourly
         self.prediction.future.dump_history_hourly()
+
+        for scenario in self.scenarios:
+            print scenario.collection
+
+        print "ENDED"
 
 
     def render_scenarios(self):
@@ -35,6 +39,7 @@ class Proposal(object):
         for scenario in self.scenarios:
             logger.info ("Rendering scenario '{}' (collection '{}')".format(scenario.name, scenario.collection))
             scenario.compute_rules()
+
 
 
 
@@ -48,7 +53,8 @@ class Proposal(object):
         self.prediction.create_lite_prediction(collection_name)
 
         new_scenario = Scenario (name="CUPS increased", type=type, collection_name=collection_name)
-        new_scenario.add_rule(name="X cups + 5", filter="cups", filter_values="ES0031405458897012HQ0F", action="multiply", action_field="consumption_proposal", action_value="5")
+        new_scenario.add_rule(name="X cups x 2", filter="cups", filter_values="ES0031405458897012HQ0F", action="multiply", action_field="consumption_proposal", action_value="2")
+        new_scenario.add_rule(name="X cups + 1", filter="cups", filter_values="ES0031405458897012HQ0F", action="add", action_field="consumption_proposal", action_value="5")
 
         # save the scenario definition
         self.scenarios.append(new_scenario)

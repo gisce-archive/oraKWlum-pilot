@@ -79,6 +79,8 @@ def Proposal_tester():
     proposal.add_new_scenario(name="WTF",type="base",collection_name="WTF")
     proposal.render_scenarios()
 
+    proposal.show_proposal()
+
     #proposal.show_proposal()
     #proposal.create_report()
 

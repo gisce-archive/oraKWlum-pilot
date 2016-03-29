@@ -333,7 +333,7 @@ class Mongo(DataSource):
 
         elif fields_to_operate: # just operate
             # todo validate operation // create Operation and Filter objects!
-            project = {"$project": {"consum": {"$"+ fields_to_operate[0] : [ "$" + fields_to_operate[1], int(fields_to_operate[2]) ]}}}
+            project = {"$project": {"consumption_real":1,  fields_to_operate[1]: {"$"+ fields_to_operate[0] : [ "$" + fields_to_operate[1], int(fields_to_operate[2]) ]}}, }
             expression.append(project)
 
 
