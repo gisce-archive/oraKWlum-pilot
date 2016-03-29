@@ -67,6 +67,10 @@ def Prediction_tester():
 
 
 
+def Proposal_tester():
+    pass
+
+
 
 
 def Sampledata_tester():
@@ -77,4 +81,4 @@ def Sampledata_tester():
 
 logging.basicConfig(level=logging.INFO)
 
-Prediction_tester()
+Proposal_tester()
