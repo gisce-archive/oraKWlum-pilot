@@ -6,6 +6,9 @@ __author__ = 'XaviTorello'
 from orakwlum.prediction import Prediction
 from orakwlum.scenario import Scenario
 
+import logging
+logger = logging.getLogger(__name__)
+
 class Proposal(object):
     """
     Creates a new Proposal.
@@ -27,9 +30,12 @@ class Proposal(object):
 
 
     def render_scenarios(self):
+        logger.info("Rendering all scenarios...")
         assert self.scenarios != None and type(self.scenarios) == list and len(self.scenarios)>0, "It's needed at least one scenario to review to render it!"
         for scenario in self.scenarios:
-            print scenario
+            logger.info ("Rendering scenario '{}'".format(scenario.name))
+            scenario.compute_rules()
+
 
 
     def add_new_scenario(self, name="Default scenario", type="default"):
@@ -38,9 +44,10 @@ class Proposal(object):
         """
         assert type, "Scenario's type is not defined"
 
-        new_scenario = Scenario (name="CUPS incremented", type=type)
-        new_scenario.add_rule(filter="cups", filter_values="ES0031405458897012HQ0F", action="sum", action_value="5")
+        new_scenario = Scenario (name="CUPS increased", type=type, collection_name="CUPS_increased")
+        new_scenario.add_rule(name="X cups + 5", filter="cups", filter_values="ES0031405458897012HQ0F", action="sum", action_value="5")
 
+        # save the scenario definition
         self.scenarios.append(new_scenario)
 
 
