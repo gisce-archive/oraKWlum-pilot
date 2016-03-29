@@ -1,3 +1,3 @@
 __author__ = 'XaviTorello'
 
-from proposal import  *
+from proposal import *

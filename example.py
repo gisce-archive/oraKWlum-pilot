@@ -4,6 +4,7 @@ __author__ = 'XaviTorello'
 from orakwlum.consumption import *
 from orakwlum.datasource import *
 from orakwlum.prediction import *
+from orakwlum.proposal import *
 
 
 def Consumption_tester():
@@ -68,7 +69,19 @@ def Prediction_tester():
 
 
 def Proposal_tester():
-    pass
+    date_start = datetime(2016, 3, 01)
+    date_end = datetime(2016, 3, 2)
+
+    cups_to_filter = None
+
+    proposal = Proposal(start_date=date_start, end_date=date_end, filter_cups=cups_to_filter, compute=False)
+
+    proposal.add_new_scenario(name="WTF",type="base")
+    proposal.render_scenarios()
+
+    #proposal.show_proposal()
+    #proposal.create_report()
+
 
 
 

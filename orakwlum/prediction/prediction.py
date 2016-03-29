@@ -62,7 +62,7 @@ class Prediction(object):
                                   end_date=self.date_end,
                                   cups=self.cups_to_filter)
             self.future.load_consumption_hourly()
-            self.future.dump_history_hourly()
+            #self.future.dump_history_hourly()
             return
 
         ## if compute, reach the equivalent past Consumptions, project to future and save it on Datasource!
@@ -100,7 +100,8 @@ class Prediction(object):
         print "Created Prediction for {} - {}".format(self.date_start,
                                                       self.date_end)
         self.future.load_consumption_hourly()
-        self.future.dump_history_hourly()
+        #self.future.dump_history_hourly()
+
 
     def get_equivalent_hour(self, past_day=None, future_day=None):
         """

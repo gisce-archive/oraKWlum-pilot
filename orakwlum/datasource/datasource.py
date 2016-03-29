@@ -259,16 +259,38 @@ class Mongo(DataSource):
 
         return self.aggregate(collection, expression)
 
-    # todo multiple aggregation and standarize other aggreg
     def aggregate_sum(
             self,
             field_to_agg="hour",
             fields_to_sum=["consumption_real", "consumption_proposal"],
             fields_to_filter=None,
             fields_to_sort=None,
-            collection="test_data"):
+            collection="test_data",
+            collection_destiny=None):
         """
-        Aggregate a collection by field and extract the sum of field_to_sum
+        Aggregate a collection by field and extract the sum for each field in fields_to_operate
+        """
+
+        return self.aggregate_dispatcher(fields_to_filter=fields_to_filter,
+                                         field_to_agg=field_to_agg,
+                                         action="sum",
+                                         fields_to_operate=fields_to_sum,
+                                         fields_to_sort="",
+                                         collection=collection, collection_destiny=collection_destiny)
+
+
+    # todo multiple aggregation and standarize other aggreg
+    def aggregate_dispatcher(
+            self,
+            field_to_agg=None,
+            fields_to_operate=None,
+            action=None,
+            fields_to_filter=None,
+            fields_to_sort=None,
+            collection="test_data",
+            collection_destiny=None):
+        """
+        Aggregate a collection by field and execute the action for each field in fields_to_operate
 
         Filter the collection by fields_to_filter
 
@@ -287,11 +309,16 @@ class Mongo(DataSource):
             filter = self.set_filter(by_date=fields_to_filter)
             expression.append({"$match": filter})
 
-        # Set the agroupation and SUMs
-        group = {"$group": {"_id": "$" + field_to_agg, }}
-        group = self.aggregate_action(group, "sum", fields_to_sum)
-        expression.append(group)
 
+        # Set the group and operate (sum or count)
+        if field_to_agg:
+            assert action == "sum" or action == "count", "No valid action provided '{}'".format(action)
+            # Set the agroupation and SUMs
+            group = {"$group": {"_id": "$" + field_to_agg, }}
+            group = self.aggregate_action(group, "sum", fields_to_operate)
+            expression.append(group)
+
+        # Set the sorting criteria
         if fields_to_sort:
             #todo validate format of fields_to_sort
             for sort in fields_to_sort:
@@ -300,12 +327,17 @@ class Mongo(DataSource):
                     sort[0] = "_id"
                 expression.append({"$sort": {sort[0]: sort[1]}})
 
+
+        # Save output to a new collection
+        if collection_destiny:
+            expression.append({"$out": collection_destiny})
+
         #print "db.test_data.aggregate( " + str(expression) + ")"
 
         logger.info(" Using expression: \n{}".format(expression))
 
         logger.info("Aggregating by '{}' and adding by '{}'".format(
-            field_to_agg, fields_to_sum))
+            field_to_agg, fields_to_operate))
 
         return self.aggregate(collection, expression)
 
@@ -328,10 +360,12 @@ class Mongo(DataSource):
 
         dades = self.db[collection]
 
-        logger.debug("Val   ue pre  upserting: '{}'".format(list(dades.find(
+        logger.debug("Val   pre  upserting: '{}'".format(list(dades.find(
             key))))
 
         dades.update(key, update, upsert=True)
 
         logger.debug("Value post upserting: '{}'".format(list(dades.find(
             key))))
+
+

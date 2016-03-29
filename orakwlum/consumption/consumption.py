@@ -265,7 +265,6 @@ class History(object):
 
         Stores it inside self.consumptions_hourly
         """
-
         self.consumptions_hourly = self.get_consumption_hourly()
 
     def consumption_decoder(self, JSON):
@@ -337,3 +336,61 @@ class History(object):
                 print "  {}, sum: {} / {}".format(
                     entrada['_id'], entrada['sum_consumption_real'],
                     entrada['sum_consumption_proposal'])
+
+
+
+
+
+class History_lite (History):
+    """
+    History lite to replace main History...
+
+    Fully operates with Mongo
+    """
+
+    def __init__(self):
+
+        self.collection_origin = "test_data"
+        self.collection_base = "lite"
+
+        self.date_start = start_date
+        self.date_end = end_date
+        self.cups_to_filter = filter_cups
+
+        ## just fetch from DS the prediction and ¿draw the report?
+        if not compute:
+            self.future = History(start_date=self.date_start,
+                                  end_date=self.date_end,
+                                  cups=self.cups_to_filter)
+
+
+
+    def create_lite(self):
+        """
+        Create lite history saving output to a new collection from a basic aggregate
+
+        This lite collection will be the main collection to use
+
+        Filter by dates the collection to review
+
+        Sort by hour ascending the final result
+        """
+        logger.info("Creating lite collection '{}' from '{}'".format(self.collection_base, self.collection_origin))
+
+        # Delete existing lite collection
+        self.consumptions_hourly = []
+
+        filter_by_dates = [self.date_start, self.date_end]
+
+        sort_by_hour = [["hour", 1]]
+
+        logger.info(
+            "Reaching consumption by {}, between {} and sort by {}".format(
+                filter_by_dates, sort_by_hour))
+
+        consumptions = list(
+            self.dataset.aggregate_sum(
+                                       fields_to_sort=sort_by_hour, field_to_agg="hour", fields_to_sum=["consumption_real", "consumption_proposal"],
+                                       fields_to_filter=filter_by_dates, collection_destiny=self.collection_base, collection=self.collection_origin
+            )
+        )
