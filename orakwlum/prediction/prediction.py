@@ -26,7 +26,7 @@ one_day = timedelta(days=1)
 
 
 class Prediction(object):
-    def __init__(self, start_date, end_date, filter_cups=None, compute=True):
+    def __init__(self, start_date, end_date, filter_cups=None, compute=True, collection="test_data"):
         """
         Creates a new Prediction
 
@@ -49,18 +49,22 @@ class Prediction(object):
 
         assert type(compute) == bool, "compute must be a flag True/False"
 
+        assert type(collection) == str, "collection to use is not valid"
+
         logger.info("Initialising prediction for {} - {}".format(start_date,
                                                                  end_date))
 
         self.date_start = start_date
         self.date_end = end_date
         self.cups_to_filter = filter_cups
+        self.collection = collection
 
         ## just fetch from DS the prediction and ¿draw the report?
         if not compute:
             self.future = History(start_date=self.date_start,
                                   end_date=self.date_end,
-                                  cups=self.cups_to_filter)
+                                  cups=self.cups_to_filter,
+                                  collection=self.collection)
             self.future.load_consumption_hourly()
             #self.future.dump_history_hourly()
             return
@@ -229,3 +233,32 @@ class Prediction(object):
         date_end = TIMEZONE.localize(dini)
 
         estimated = Profile(date_start, date_end, []).estimate(t, {'P1': 5})
+
+
+
+    def create_lite_prediction(self, collection_new):
+        """
+        Create LITE history saving output to a new collection from a basic aggregate
+
+        Filter by dates the collection to review
+
+        Sort by hour ascending the final result
+        """
+        logger.info("Creating lite collection '{}' from '{}'".format(collection_new, self.collection))
+
+        # Delete existing lite collection
+        self.consumptions_hourly = []
+
+        filter_by_dates = ["hour", [self.date_start, self.date_end]]
+
+        sort_by_hour = [["hour", 1]]
+
+        logger.info(
+            "Reaching consumptions between {} and sort by {}".format(
+                filter_by_dates, sort_by_hour))
+
+        consumptions = list(
+            self.future.dataset.aggregate_dispatcher(
+                                       fields_to_filter=filter_by_dates, collection_destiny=collection_new, collection=self.collection
+            )
+        )

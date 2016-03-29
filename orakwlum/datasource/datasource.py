@@ -42,6 +42,7 @@ class Mongo(DataSource):
                  db="",
                  host="localhost",
                  port="27017"):
+
         self.db_name = db
         self.user = user
         self.passwd = passwd
@@ -143,17 +144,23 @@ class Mongo(DataSource):
 
         return list(data_filter.find(exp))
 
-    def set_filter(self, by_date=None, by_cups=None):
+
+    def set_filter(self, filter=None, values=None):
         """
         Return a filter expression based on date ranges or filtering by CUPS
         """
-        if by_date:
-            #validate [date_ini, date_fi] datetime
-            exp = {"hour": {"$gte": by_date[0], "$lte": by_date[1]}}
-            logger.debug("Date by hour expression {}".format(exp))
+        exp = {}
+        if filter == "hour":
+            by_date = values
+            if by_date[0] and by_date[1]:
+                #validate [date_ini, date_fi] datetime
+                exp = {"hour": {"$gte": by_date[0], "$lte": by_date[1]}}
+                logger.debug("Date by hour expression {}".format(exp))
 
-        if by_cups:
+        elif filter == "cups":
             #validate cups
+            exp = {"cups": {"$in": values}}
+            logger.debug("Date by hour expression {}".format(exp))
             pass
 
         return exp
@@ -162,6 +169,7 @@ class Mongo(DataSource):
         """
         Return a filtered collection cursor
         """
+
         exp = self.set_filter(by_date, by_cups)
 
         data_filter = self.db[collection]
@@ -279,6 +287,10 @@ class Mongo(DataSource):
                                          collection=collection, collection_destiny=collection_destiny)
 
 
+
+    def validate_filter(self,filter):
+        return True
+
     # todo multiple aggregation and standarize other aggreg
     def aggregate_dispatcher(
             self,
@@ -304,9 +316,10 @@ class Mongo(DataSource):
 
         # Set the match filter
         if fields_to_filter:
+            assert self.validate_filter(fields_to_filter[0]), "Filter {} is not valid".format(fields_to_filter[0])
             # todo validate filters
             #for filter in fields_to_filter:
-            filter = self.set_filter(by_date=fields_to_filter)
+            filter = self.set_filter(fields_to_filter[0], fields_to_filter[1])
             expression.append({"$match": filter})
 
 
@@ -318,12 +331,17 @@ class Mongo(DataSource):
             group = self.aggregate_action(group, "sum", fields_to_operate)
             expression.append(group)
 
+        elif fields_to_operate: # just operate
+            # todo validate operation // create Operation and Filter objects!
+            project = {"$project": {"consum": {"$"+ fields_to_operate[0] : [ "$" + fields_to_operate[1], int(fields_to_operate[2]) ]}}}
+            expression.append(project)
+
+
         # Set the sorting criteria
         if fields_to_sort:
             #todo validate format of fields_to_sort
             for sort in fields_to_sort:
-                if field_to_agg == sort[
-                        0]:  #if field_to_aggregate is the same thant the sort, ensure that sort name is "_id"
+                if field_to_agg == sort[0]:  #if field_to_aggregate is the same thant the sort, ensure that sort name is "_id"
                     sort[0] = "_id"
                 expression.append({"$sort": {sort[0]: sort[1]}})
 
@@ -336,8 +354,8 @@ class Mongo(DataSource):
 
         logger.info(" Using expression: \n{}".format(expression))
 
-        logger.info("Aggregating by '{}' and adding by '{}'".format(
-            field_to_agg, fields_to_operate))
+        logger.info("Aggregating by '{}', filtering by {} and adding by '{}'".format(
+            field_to_agg, fields_to_filter, fields_to_operate))
 
         return self.aggregate(collection, expression)
 

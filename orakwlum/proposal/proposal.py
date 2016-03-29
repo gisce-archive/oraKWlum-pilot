@@ -33,26 +33,29 @@ class Proposal(object):
         logger.info("Rendering all scenarios...")
         assert self.scenarios != None and type(self.scenarios) == list and len(self.scenarios)>0, "It's needed at least one scenario to review to render it!"
         for scenario in self.scenarios:
-            logger.info ("Rendering scenario '{}'".format(scenario.name))
+            logger.info ("Rendering scenario '{}' (collection '{}')".format(scenario.name, scenario.collection))
             scenario.compute_rules()
 
 
 
-    def add_new_scenario(self, name="Default scenario", type="default"):
+    def add_new_scenario(self, name="Default scenario", type="default", collection_name="default"):
         """
         Add new scenario templates using the type
         """
         assert type, "Scenario's type is not defined"
+        assert collection_name, "Collection name '{}' is not correct".format(collection_name)
 
-        new_scenario = Scenario (name="CUPS increased", type=type, collection_name="CUPS_increased")
-        new_scenario.add_rule(name="X cups + 5", filter="cups", filter_values="ES0031405458897012HQ0F", action="sum", action_value="5")
+        self.prediction.create_lite_prediction(collection_name)
+
+        new_scenario = Scenario (name="CUPS increased", type=type, collection_name=collection_name)
+        new_scenario.add_rule(name="X cups + 5", filter="cups", filter_values="ES0031405458897012HQ0F", action="multiply", action_field="consumption_proposal", action_value="5")
 
         # save the scenario definition
         self.scenarios.append(new_scenario)
 
 
     def create_proposal(self):
-        self.prediction.future
+        pass
 
 
     def create_report(self):

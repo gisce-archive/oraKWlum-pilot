@@ -128,19 +128,24 @@ class History(object):
         consumption_list: List of consumptions
         ...
 
-    If not reached any filter, will fetch for TOMORROW one year ago events for all CUPS
+    DISABLED! -> If not reached any filter, will fetch for TOMORROW one year ago events for all CUPS
     """
 
-    def __init__(self, start_date=None, end_date=None, cups=None):
+    def __init__(self, start_date=None, end_date=None, cups=None, collection="test_data"):
         logger.info('Creating new History')
         self.consumptions = []
         self.consumptions_hourly = []
+        self.collection = collection
 
         self.cups_list = cups if cups else []
-        self.date_end = end_date if end_date else datetime.today() + timedelta(
-            days=1)
-        self.date_start = start_date if start_date else self.date_end - timedelta(
-            days=365)
+
+
+        #self.date_end = end_date if end_date else datetime.today() + timedelta(days=1)
+        #self.date_start = start_date if start_date else self.date_end - timedelta(days=365)
+
+        self.date_start = start_date
+        self.date_end = end_date
+
         logger.debug('  between {ini} - {fi}'.format(ini=self.date_start,
                                                      fi=self.date_end))
         logger.debug('  filtering for cups: {cups}'.format(cups=cups))
@@ -148,6 +153,9 @@ class History(object):
         logger.info('Loading History from datasource')
 
         self.load_history()
+
+
+
 
     def load_history(self):
         """
@@ -159,16 +167,17 @@ class History(object):
         agg = "cup"
         #sum = ["consumption_real", "consumption_proposal"]
 
-        logger.info("Filtering datasource by dates")
+        logger.info("Filtering datasource '{}' by dates".format(self.collection))
 
         # Getting Consumption objects for current History from datasource
-        consumptions = list(self.dataset.filter([self.date_start, self.date_end
-                                                 ]))
+        consumptions = list(self.dataset.filter([self.date_start, self.date_end],
+                                                collection=self.collection))
         for consumption in consumptions:
             self.consumptions.append(self.consumption_from_JSON(consumption))
 
         # Getting cups list
-        cups_list = list(self.dataset.get_list_unique_fields(field="cups"))
+        cups_list = list(self.dataset.get_list_unique_fields(field="cups",
+                                                             collection=self.collection))
         for cups in cups_list:
             self.cups_list.append(cups['_id'])
 
@@ -203,7 +212,9 @@ class History(object):
                     update[field_to_upsert] = values[field_to_upsert]
 
             # Upsert it through datasource!
-            self.dataset.upsert(key=key, what=update)
+            self.dataset.upsert(key=key,
+                                what=update,
+                                collection=self.collection)
 
         elif type(values) == Consumption:
             values.save()
@@ -212,7 +223,13 @@ class History(object):
         assert type(hour) == datetime
         assert type(cups) == str
 
-        return list(self.dataset.get_specific(hour=hour, cups_one=cups))[0]
+        return list(self.dataset.get_specific(hour=hour,
+                                              cups_one=cups,
+                                              collection=self.collection))[0]
+
+
+
+
 
     def get_consumption_hourly(self):
         """
@@ -241,7 +258,7 @@ class History(object):
         self.consumptions_hourly = []
 
         agg_by_hour = "hour"
-        filter_by_dates = [self.date_start, self.date_end]
+        filter_by_dates = ["hour",[self.date_start, self.date_end]]
 
         sort_by_hour = [["hour", 1]]
 
@@ -252,7 +269,8 @@ class History(object):
         consumptions = list(
             self.dataset.aggregate_sum(field_to_agg=agg_by_hour,
                                        fields_to_sort=sort_by_hour,
-                                       fields_to_filter=filter_by_dates))
+                                       fields_to_filter=filter_by_dates,
+                                       collection=self.collection))
 
         return consumptions
         #self.dump_history_hourly()
@@ -326,7 +344,8 @@ class History(object):
         agg = "hour"
         sum = ["consumption_real", "consumption_proposal"]
         agregant_per_hores = self.dataset.aggregate_sum(field_to_agg=agg,
-                                                        fields_to_sum=sum)
+                                                        fields_to_sum=sum,
+                                                        collection=self.collection)
 
         print "{} elements aggregating by '{}':".format(
             len(agregant_per_hores), agg)
@@ -341,56 +360,3 @@ class History(object):
 
 
 
-class History_lite (History):
-    """
-    History lite to replace main History...
-
-    Fully operates with Mongo
-    """
-
-    def __init__(self):
-
-        self.collection_origin = "test_data"
-        self.collection_base = "lite"
-
-        self.date_start = start_date
-        self.date_end = end_date
-        self.cups_to_filter = filter_cups
-
-        ## just fetch from DS the prediction and ¿draw the report?
-        if not compute:
-            self.future = History(start_date=self.date_start,
-                                  end_date=self.date_end,
-                                  cups=self.cups_to_filter)
-
-
-
-    def create_lite(self):
-        """
-        Create lite history saving output to a new collection from a basic aggregate
-
-        This lite collection will be the main collection to use
-
-        Filter by dates the collection to review
-
-        Sort by hour ascending the final result
-        """
-        logger.info("Creating lite collection '{}' from '{}'".format(self.collection_base, self.collection_origin))
-
-        # Delete existing lite collection
-        self.consumptions_hourly = []
-
-        filter_by_dates = [self.date_start, self.date_end]
-
-        sort_by_hour = [["hour", 1]]
-
-        logger.info(
-            "Reaching consumption by {}, between {} and sort by {}".format(
-                filter_by_dates, sort_by_hour))
-
-        consumptions = list(
-            self.dataset.aggregate_sum(
-                                       fields_to_sort=sort_by_hour, field_to_agg="hour", fields_to_sum=["consumption_real", "consumption_proposal"],
-                                       fields_to_filter=filter_by_dates, collection_destiny=self.collection_base, collection=self.collection_origin
-            )
-        )
