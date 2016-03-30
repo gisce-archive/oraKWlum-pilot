@@ -4,6 +4,10 @@ __author__ = 'XaviTorello'
 from orakwlum.consumption import *
 from orakwlum.datasource import *
 from orakwlum.prediction import *
+from orakwlum.proposal import *
+
+import logging
+from datetime import datetime
 
 
 def Consumption_tester():
@@ -55,26 +59,57 @@ def History_tester():
     history.upsert_consumption(values=insert_example)
 
 
-
 def Prediction_tester():
     date_start = datetime(2016, 3, 01)
     date_end = datetime(2016, 3, 2)
 
     cups_to_filter = None
 
-    prediction = Prediction(start_date=date_start, end_date=date_end, filter_cups=cups_to_filter, compute=True)
+    prediction = Prediction(start_date=date_start,
+                            end_date=date_end,
+                            filter_cups=cups_to_filter,
+                            compute=True)
 
 
+def Proposal_tester():
+    date_start = datetime(2016, 3, 01)
+    date_end = datetime(2016, 3, 2)
 
+    cups_to_filter = None
 
+    proposal = Proposal(start_date=date_start,
+                        end_date=date_end,
+                        filter_cups=cups_to_filter,
+                        compute=False)
+
+    proposal.add_new_scenario(name="Original projection",
+                              type="base",
+                              collection_name="base")
+
+    proposal.add_new_scenario(name="CUPS increased",
+                              type="cups_increased",
+                              collection_name="cups_WTF")
+
+    proposal.add_new_scenario(name="CUPS erased",
+                              type="cups_erased",
+                              collection_name="cups_erased")
+
+    proposal.add_new_scenario(name="Margin +15%",
+                              type="margin",
+                              collection_name="margin")
+
+    proposal.render_scenarios()
+
+    proposal.show_proposal()
+
+    #proposal.create_report()
 
 
 def Sampledata_tester():
     dades = Mongo(user="orakwlum", db="orakwlum")
     dades.test_data(drop=True)
 
-#Sampledata_tester()
 
 logging.basicConfig(level=logging.INFO)
 
-Prediction_tester()
+Proposal_tester()

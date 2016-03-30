@@ -1,3 +1,3 @@
 __author__ = 'XaviTorello'
 
-from prediction import *
+from prediction import Prediction
