@@ -1,3 +1,4 @@
+/usr/bin/python2.7 /home/k/projectes/oraKWlum/example.py
 INFO:orakwlum.prediction.prediction:Initialising prediction for 2016-03-01 00:00:00 - 2016-03-02 00:00:00
 INFO:orakwlum.consumption.consumption:Creating new History
 INFO:orakwlum.consumption.consumption:Loading History from datasource
@@ -15,21 +16,28 @@ INFO:orakwlum.datasource.datasource: Using expression:
 [{'$match': {'hour': {'$lte': datetime.datetime(2016, 3, 2, 0, 0), '$gte': datetime.datetime(2016, 3, 1, 0, 0)}}}, {'$sort': {'hour': 1}}, {'$out': 'scenario_base'}]
 INFO:orakwlum.datasource.datasource:Aggregating by 'None', filtering by ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and adding by 'None'
 INFO:orakwlum.scenario.scenario:Creating new scenario 'Original projection' on collection 'scenario_base'
-INFO:orakwlum.prediction.prediction:Creating lite collection 'scenario_WTF' from 'test_data'
+INFO:orakwlum.prediction.prediction:Creating lite collection 'scenario_cups_WTF' from 'test_data'
 INFO:orakwlum.prediction.prediction:Reaching consumptions between ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and sort by [['hour', 1]]
 INFO:orakwlum.datasource.datasource: Using expression:
-[{'$match': {'hour': {'$lte': datetime.datetime(2016, 3, 2, 0, 0), '$gte': datetime.datetime(2016, 3, 1, 0, 0)}}}, {'$sort': {'hour': 1}}, {'$out': 'scenario_WTF'}]
+[{'$match': {'hour': {'$lte': datetime.datetime(2016, 3, 2, 0, 0), '$gte': datetime.datetime(2016, 3, 1, 0, 0)}}}, {'$sort': {'hour': 1}}, {'$out': 'scenario_cups_WTF'}]
 INFO:orakwlum.datasource.datasource:Aggregating by 'None', filtering by ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and adding by 'None'
-INFO:orakwlum.scenario.scenario:Creating new scenario 'CUPS increased' on collection 'scenario_WTF'
-INFO:orakwlum.scenario.scenario:Adding new rule 'X cups x 2' to 'CUPS increased' scenario //filter by cups ES0031300629986007HP0F, multiply consumption_proposal 2
-INFO:orakwlum.scenario.scenario:Adding new rule 'X cups + 1' to 'CUPS increased' scenario //filter by cups ES0031405879092008YP0F, add consumption_proposal 15
-INFO:orakwlum.prediction.prediction:Creating lite collection 'scenario_erased' from 'test_data'
+INFO:orakwlum.scenario.scenario:Creating new scenario 'CUPS increased' on collection 'scenario_cups_WTF'
+INFO:orakwlum.scenario.scenario:Adding new rule 'some CUPS x 2' to 'CUPS increased' scenario //filter by cups ES0031300629986007HP0F, multiply consumption_proposal 2
+INFO:orakwlum.scenario.scenario:Adding new rule 'some CUPS + 1' to 'CUPS increased' scenario //filter by cups ES0031405879092008YP0F, add consumption_proposal 15
+INFO:orakwlum.prediction.prediction:Creating lite collection 'scenario_cups_erased' from 'test_data'
 INFO:orakwlum.prediction.prediction:Reaching consumptions between ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and sort by [['hour', 1]]
 INFO:orakwlum.datasource.datasource: Using expression:
-[{'$match': {'hour': {'$lte': datetime.datetime(2016, 3, 2, 0, 0), '$gte': datetime.datetime(2016, 3, 1, 0, 0)}}}, {'$sort': {'hour': 1}}, {'$out': 'scenario_erased'}]
+[{'$match': {'hour': {'$lte': datetime.datetime(2016, 3, 2, 0, 0), '$gte': datetime.datetime(2016, 3, 1, 0, 0)}}}, {'$sort': {'hour': 1}}, {'$out': 'scenario_cups_erased'}]
 INFO:orakwlum.datasource.datasource:Aggregating by 'None', filtering by ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and adding by 'None'
-INFO:orakwlum.scenario.scenario:Creating new scenario 'CUPS erased' on collection 'scenario_erased'
-INFO:orakwlum.scenario.scenario:Adding new rule 'X cups x 2' to 'CUPS erased' scenario //filter by cups ES0031406213108001XL0F, multiply consumption_proposal 0
+INFO:orakwlum.scenario.scenario:Creating new scenario 'CUPS erased' on collection 'scenario_cups_erased'
+INFO:orakwlum.scenario.scenario:Adding new rule 'some CUPS erased' to 'CUPS erased' scenario //filter by cups ES0031406213108001XL0F, multiply consumption_proposal 0
+INFO:orakwlum.prediction.prediction:Creating lite collection 'scenario_margin' from 'test_data'
+INFO:orakwlum.prediction.prediction:Reaching consumptions between ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and sort by [['hour', 1]]
+INFO:orakwlum.datasource.datasource: Using expression:
+[{'$match': {'hour': {'$lte': datetime.datetime(2016, 3, 2, 0, 0), '$gte': datetime.datetime(2016, 3, 1, 0, 0)}}}, {'$sort': {'hour': 1}}, {'$out': 'scenario_margin'}]
+INFO:orakwlum.datasource.datasource:Aggregating by 'None', filtering by ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and adding by 'None'
+INFO:orakwlum.scenario.scenario:Creating new scenario 'Margin +15%' on collection 'scenario_margin'
+INFO:orakwlum.scenario.scenario:Adding new rule 'all +15%' to 'Margin +15%' scenario //filter by cups *, multiply consumption_proposal 1.10
 INFO:orakwlum.proposal.proposal:Rendering all scenarios...
 INFO:orakwlum.proposal.proposal:Rendering scenario 'Original projection' (collection 'scenario_base')
 INFO:orakwlum.consumption.consumption:Creating new History
@@ -42,35 +50,50 @@ INFO:orakwlum.consumption.consumption:Reaching consumption by hour, between None
 INFO:orakwlum.datasource.datasource: Using expression:
 [{'$group': {'_id': '$hour', 'sum_consumption_real': {'$sum': '$consumption_real'}, 'sum_consumption_proposal': {'$sum': '$consumption_proposal'}}}, {'$sort': {'_id': 1}}]
 INFO:orakwlum.datasource.datasource:Aggregating by 'hour', filtering by None and adding by '['consumption_real', 'consumption_proposal']'
-INFO:orakwlum.proposal.proposal:Rendering scenario 'CUPS increased' (collection 'scenario_WTF')
+INFO:orakwlum.proposal.proposal:Rendering scenario 'CUPS increased' (collection 'scenario_cups_WTF')
 INFO:orakwlum.consumption.consumption:Creating new History
 INFO:orakwlum.consumption.consumption:Loading History from datasource
 INFO:orakwlum.datasource.datasource:Establishing new Mongo datasource at 'mongodb://localhost:27017/'
-INFO:orakwlum.consumption.consumption:Filtering datasource 'scenario_WTF' by dates
+INFO:orakwlum.consumption.consumption:Filtering datasource 'scenario_cups_WTF' by dates
 INFO:orakwlum.datasource.datasource:Aggregating by 'cups'
-INFO:orakwlum.scenario.scenario:Processing rule 'X cups x 2' (2)
+INFO:orakwlum.scenario.scenario:Processing rule 'some CUPS x 2' (2)
 INFO:orakwlum.datasource.datasource: Using expression:
-[{'$match': {'cups': {'$in': ['ES0031300629986007HP0F']}}}, {'$project': {'consumption_real': 1, 'consumption_proposal': {'$multiply': ['$consumption_proposal', 2]}}}]
+[{'$match': {'cups': {'$in': ['ES0031300629986007HP0F']}}}, {'$project': {'consumption_real': 1, 'consumption_proposal': {'$multiply': ['$consumption_proposal', 2.0]}}}]
 INFO:orakwlum.datasource.datasource:Aggregating by 'None', filtering by ['cups', ['ES0031300629986007HP0F']] and adding by '['multiply', 'consumption_proposal', '2']'
-INFO:orakwlum.scenario.scenario:Processing rule 'X cups + 1' (15)
+INFO:orakwlum.scenario.scenario:Processing rule 'some CUPS + 1' (15)
 INFO:orakwlum.datasource.datasource: Using expression:
-[{'$match': {'cups': {'$in': ['ES0031405879092008YP0F']}}}, {'$project': {'consumption_real': 1, 'consumption_proposal': {'$add': ['$consumption_proposal', 15]}}}]
+[{'$match': {'cups': {'$in': ['ES0031405879092008YP0F']}}}, {'$project': {'consumption_real': 1, 'consumption_proposal': {'$add': ['$consumption_proposal', 15.0]}}}]
 INFO:orakwlum.datasource.datasource:Aggregating by 'None', filtering by ['cups', ['ES0031405879092008YP0F']] and adding by '['add', 'consumption_proposal', '15']'
 INFO:orakwlum.consumption.consumption:Get consumption hourly by dates
 INFO:orakwlum.consumption.consumption:Reaching consumption by hour, between None and sort by [['hour', 1]]
 INFO:orakwlum.datasource.datasource: Using expression:
 [{'$group': {'_id': '$hour', 'sum_consumption_real': {'$sum': '$consumption_real'}, 'sum_consumption_proposal': {'$sum': '$consumption_proposal'}}}, {'$sort': {'_id': 1}}]
 INFO:orakwlum.datasource.datasource:Aggregating by 'hour', filtering by None and adding by '['consumption_real', 'consumption_proposal']'
-INFO:orakwlum.proposal.proposal:Rendering scenario 'CUPS erased' (collection 'scenario_erased')
+INFO:orakwlum.proposal.proposal:Rendering scenario 'CUPS erased' (collection 'scenario_cups_erased')
 INFO:orakwlum.consumption.consumption:Creating new History
 INFO:orakwlum.consumption.consumption:Loading History from datasource
 INFO:orakwlum.datasource.datasource:Establishing new Mongo datasource at 'mongodb://localhost:27017/'
-INFO:orakwlum.consumption.consumption:Filtering datasource 'scenario_erased' by dates
+INFO:orakwlum.consumption.consumption:Filtering datasource 'scenario_cups_erased' by dates
 INFO:orakwlum.datasource.datasource:Aggregating by 'cups'
-INFO:orakwlum.scenario.scenario:Processing rule 'X cups x 2' (0)
+INFO:orakwlum.scenario.scenario:Processing rule 'some CUPS erased' (0)
 INFO:orakwlum.datasource.datasource: Using expression:
-[{'$match': {'cups': {'$in': ['ES0031406213108001XL0F']}}}, {'$project': {'consumption_real': 1, 'consumption_proposal': {'$multiply': ['$consumption_proposal', 0]}}}]
+[{'$match': {'cups': {'$in': ['ES0031406213108001XL0F']}}}, {'$project': {'consumption_real': 1, 'consumption_proposal': {'$multiply': ['$consumption_proposal', 0.0]}}}]
 INFO:orakwlum.datasource.datasource:Aggregating by 'None', filtering by ['cups', ['ES0031406213108001XL0F']] and adding by '['multiply', 'consumption_proposal', '0']'
+INFO:orakwlum.consumption.consumption:Get consumption hourly by dates
+INFO:orakwlum.consumption.consumption:Reaching consumption by hour, between None and sort by [['hour', 1]]
+INFO:orakwlum.datasource.datasource: Using expression:
+[{'$group': {'_id': '$hour', 'sum_consumption_real': {'$sum': '$consumption_real'}, 'sum_consumption_proposal': {'$sum': '$consumption_proposal'}}}, {'$sort': {'_id': 1}}]
+INFO:orakwlum.datasource.datasource:Aggregating by 'hour', filtering by None and adding by '['consumption_real', 'consumption_proposal']'
+INFO:orakwlum.proposal.proposal:Rendering scenario 'Margin +15%' (collection 'scenario_margin')
+INFO:orakwlum.consumption.consumption:Creating new History
+INFO:orakwlum.consumption.consumption:Loading History from datasource
+INFO:orakwlum.datasource.datasource:Establishing new Mongo datasource at 'mongodb://localhost:27017/'
+INFO:orakwlum.consumption.consumption:Filtering datasource 'scenario_margin' by dates
+INFO:orakwlum.datasource.datasource:Aggregating by 'cups'
+INFO:orakwlum.scenario.scenario:Processing rule 'all +15%' (1.10)
+INFO:orakwlum.datasource.datasource: Using expression:
+[{'$project': {'consumption_real': 1, 'consumption_proposal': {'$multiply': ['$consumption_proposal', 1.1]}}}]
+INFO:orakwlum.datasource.datasource:Aggregating by 'None', filtering by ['cups', ['*']] and adding by '['multiply', 'consumption_proposal', '1.10']'
 INFO:orakwlum.consumption.consumption:Get consumption hourly by dates
 INFO:orakwlum.consumption.consumption:Reaching consumption by hour, between None and sort by [['hour', 1]]
 INFO:orakwlum.datasource.datasource: Using expression:
@@ -78,31 +101,31 @@ INFO:orakwlum.datasource.datasource: Using expression:
 INFO:orakwlum.datasource.datasource:Aggregating by 'hour', filtering by None and adding by '['consumption_real', 'consumption_proposal']'
 
 
-     h     	'Original projection'	'CUPS increased'	'CUPS erased'
-01/03 00:00	        1176         	      1212      	    1139
-01/03 01:00	        1331         	      1377      	    1278
-01/03 02:00	        1340         	      1447      	    1256
-01/03 03:00	        1125         	      1158      	    1082
-01/03 04:00	        1432         	      1452      	    1382
-01/03 05:00	        1298         	      1364      	    1218
-01/03 06:00	        1357         	      1400      	    1324
-01/03 07:00	        1324         	      1384      	    1275
-01/03 08:00	        1424         	      1529      	    1369
-01/03 09:00	        1380         	      1478      	    1326
-01/03 10:00	        1308         	      1394      	    1230
-01/03 11:00	        1199         	      1280      	    1100
-01/03 12:00	        1319         	      1401      	    1300
-01/03 13:00	        1121         	      1182      	    1068
-01/03 14:00	        1146         	      1167      	    1106
-01/03 15:00	        1187         	      1264      	    1150
-01/03 16:00	        1125         	      1195      	    1033
-01/03 17:00	        1341         	      1409      	    1313
-01/03 18:00	        1283         	      1317      	    1244
-01/03 19:00	        1234         	      1289      	    1190
-01/03 20:00	        1236         	      1324      	    1226
-01/03 21:00	        1271         	      1363      	    1205
-01/03 22:00	        1317         	      1425      	    1235
-01/03 23:00	        1432         	      1522      	    1404
-02/03 00:00	        1303         	      1413      	    1289
+     h     	'Original projection'	'CUPS increased'	'CUPS erased'	'Margin +15%'
+01/03 00:00	        1176         	     1212.0     	   1139.0    	   1293.6
+01/03 01:00	        1331         	     1377.0     	   1278.0    	   1464.1
+01/03 02:00	        1340         	     1447.0     	   1256.0    	   1474.0
+01/03 03:00	        1125         	     1158.0     	   1082.0    	   1237.5
+01/03 04:00	        1432         	     1452.0     	   1382.0    	   1575.2
+01/03 05:00	        1298         	     1364.0     	   1218.0    	   1427.8
+01/03 06:00	        1357         	     1400.0     	   1324.0    	   1492.7
+01/03 07:00	        1324         	     1384.0     	   1275.0    	   1456.4
+01/03 08:00	        1424         	     1529.0     	   1369.0    	   1566.4
+01/03 09:00	        1380         	     1478.0     	   1326.0    	   1518.0
+01/03 10:00	        1308         	     1394.0     	   1230.0    	   1438.8
+01/03 11:00	        1199         	     1280.0     	   1100.0    	   1318.9
+01/03 12:00	        1319         	     1401.0     	   1300.0    	   1450.9
+01/03 13:00	        1121         	     1182.0     	   1068.0    	   1233.1
+01/03 14:00	        1146         	     1167.0     	   1106.0    	   1260.6
+01/03 15:00	        1187         	     1264.0     	   1150.0    	   1305.7
+01/03 16:00	        1125         	     1195.0     	   1033.0    	   1237.5
+01/03 17:00	        1341         	     1409.0     	   1313.0    	   1475.1
+01/03 18:00	        1283         	     1317.0     	   1244.0    	   1411.3
+01/03 19:00	        1234         	     1289.0     	   1190.0    	   1357.4
+01/03 20:00	        1236         	     1324.0     	   1226.0    	   1359.6
+01/03 21:00	        1271         	     1363.0     	   1205.0    	   1398.1
+01/03 22:00	        1317         	     1425.0     	   1235.0    	   1448.7
+01/03 23:00	        1432         	     1522.0     	   1404.0    	   1575.2
+02/03 00:00	        1303         	     1413.0     	   1289.0    	   1433.3
 
 Process finished with exit code 0

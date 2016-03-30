@@ -91,14 +91,17 @@ class Proposal(object):
                                 type=type,
                                 collection_name=collection_name)
 
+
+        #todo elegant way to switch the type...
+
         if type == "cups_increased":
-            new_scenario.add_rule(name="X cups x 2",
+            new_scenario.add_rule(name="some CUPS x 2",
                                   filter="cups",
                                   filter_values="ES0031300629986007HP0F",
                                   action="multiply",
                                   action_field="consumption_proposal",
                                   action_value="2")
-            new_scenario.add_rule(name="X cups + 1",
+            new_scenario.add_rule(name="some CUPS + 1",
                                   filter="cups",
                                   filter_values="ES0031405879092008YP0F",
                                   action="add",
@@ -106,15 +109,30 @@ class Proposal(object):
                                   action_value="15")
 
         if type == "cups_erased":
-            new_scenario.add_rule(name="X cups x 2",
+            new_scenario.add_rule(name="some CUPS erased",
                                   filter="cups",
                                   filter_values="ES0031406213108001XL0F",
                                   action="multiply",
                                   action_field="consumption_proposal",
                                   action_value="0")
 
+        if type == "margin":
+            new_scenario.add_rule(name="all +15%",
+                                  filter="cups",
+                                  filter_values="*",
+                                  action="multiply",
+                                  action_field="consumption_proposal",
+                                  action_value="1.10")
+
         # save the scenario definition
         self.scenarios.append(new_scenario)
+
+
+    #todo
+    def cleanup(self):
+        #drop scenario collections
+        #free memory alloc
+        pass
 
     def create_proposal(self):
         pass

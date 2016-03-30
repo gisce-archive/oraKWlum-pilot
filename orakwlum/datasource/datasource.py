@@ -313,12 +313,13 @@ class Mongo(DataSource):
 
         # Set the match filter
         if fields_to_filter:
-            assert self.validate_filter(fields_to_filter[
-                0]), "Filter {} is not valid".format(fields_to_filter[0])
-            # todo validate filters
-            #for filter in fields_to_filter:
-            filter = self.set_filter(fields_to_filter[0], fields_to_filter[1])
-            expression.append({"$match": filter})
+            assert self.validate_filter(fields_to_filter[0]), "Filter {} is not valid".format(fields_to_filter[0])
+
+            if fields_to_filter[1] != ["*"]:
+                # todo validate filters
+                #for filter in fields_to_filter:
+                filter = self.set_filter(fields_to_filter[0], fields_to_filter[1])
+                expression.append({"$match": filter})
 
         # Set the group and operate (sum or count)
         if field_to_agg:
@@ -335,7 +336,7 @@ class Mongo(DataSource):
                        {"consumption_real": 1,
                         fields_to_operate[1]: {"$" + fields_to_operate[0]:
                                                ["$" + fields_to_operate[1],
-                                                int(fields_to_operate[2])]}}, }
+                                                float(fields_to_operate[2])]}}, }
             expression.append(project)
 
         # Set the sorting criteria

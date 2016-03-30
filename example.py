@@ -84,13 +84,18 @@ def Proposal_tester():
                               collection_name="base")
     proposal.add_new_scenario(name="CUPS increased",
                               type="cups_increased",
-                              collection_name="WTF")
+                              collection_name="cups_WTF")
     proposal.add_new_scenario(name="CUPS erased",
                               type="cups_erased",
-                              collection_name="erased")
+                              collection_name="cups_erased")
+    proposal.add_new_scenario(name="Margin +15%",
+                              type="margin",
+                              collection_name="margin")
     proposal.render_scenarios()
 
     proposal.show_proposal()
+
+    proposal.cleanup()
 
     #proposal.show_proposal()
     #proposal.create_report()
