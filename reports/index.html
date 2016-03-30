@@ -74,6 +74,10 @@
                   </div>
                 </div>
               </div>
+
+
+                <div id="execucio_ultima" class="box-body" style="height: 250px";></div>
+
             </div>
             <div class="box-body table-responsive no-padding">
             </div>
@@ -85,7 +89,7 @@
         <div class="col-md-11">
           <div class="box">
             <div class="box-header with-border">
-              <h3 class="box-title">Previsions <span id="data_prev"></span></h3>
+              <h3 class="box-title">Propostes <span id="data_prev"></span></h3>
             </div>
             <div id="execucio" class="box-body">
             </div>
@@ -129,7 +133,7 @@
 
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Versió</b> 0.2.1
+      <b>Versió</b> 0.2.2
     </div>
     <strong><a href="http://gisce.net">GISCE-TI</a> - 2016</strong>
   </footer>
@@ -147,11 +151,11 @@
 
         $("#tree_llistat").html(get_hist());
 
-        create_chart("#execucio", "201603141742");
-        create_chart("#execucio", "201603141736");
-        create_chart("#execucio", "201603141731");
-        create_chart("#execucio", "201603111138");
-        create_chart("#execucio", "201603101352");
+        //Select the first entry of tree_llistat
+        first = $( '#tree_llistat > table > tbody > tr:nth-child(2) > td:nth-child(1) > a').text();
+
+        //Create the latest chart
+        create_chart("#execucio_ultima", first);
 
     });
 </script>
