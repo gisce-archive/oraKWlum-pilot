@@ -60,7 +60,6 @@ class Scenario(object):
     def compute_rules (self):
 #        scenario_history = super(Scenario).
 
-        print self.collection
         self.history = History(collection=self.collection)
         for rule in self.rules:
             logger.info("Processing rule '{}' ({})".format(rule.name, rule.action_value))

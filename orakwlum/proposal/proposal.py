@@ -48,14 +48,25 @@ class Proposal(object):
 
         comparation = []
         scenarios = 0
+        header = "{:^11}".format("h")+ "\t"
+        header_size = []
 
         for scenario in self.scenarios:
             comparation.append(scenario.history.consumptions_hourly)
             scenarios+=1
             hours_to_print=len(scenario.history.consumptions_hourly)
+            header += "'"+scenario.name +"'\t"
+            header_size.append( len(scenario.name)+2)
 
-        print comparation[0]
-        print comparation[1]
+        print header
+
+        for hour in range(0,hours_to_print):
+            hour_combo = "{}\t".format(str(comparation[0][hour]['_id'].strftime("%d/%m %H:%M")))
+
+            for id,entry in enumerate(comparation):
+                hour_combo += "{:^{}}".format(  str(entry[hour]['sum_consumption_proposal']), header_size[id]) + "\t"
+            print hour_combo
+
 
 
 
@@ -72,9 +83,12 @@ class Proposal(object):
 
         new_scenario = Scenario (name=name, type=type, collection_name=collection_name)
 
-        if type == "cups":
+        if type == "cups_increased":
             new_scenario.add_rule(name="X cups x 2", filter="cups", filter_values="ES0031300629986007HP0F", action="multiply", action_field="consumption_proposal", action_value="2")
-            new_scenario.add_rule(name="X cups + 1", filter="cups", filter_values="ES0031300629986007HP0F", action="add", action_field="consumption_proposal", action_value="5")
+            new_scenario.add_rule(name="X cups + 1", filter="cups", filter_values="ES0031405879092008YP0F", action="add", action_field="consumption_proposal", action_value="15")
+
+        if type == "cups_erased":
+            new_scenario.add_rule(name="X cups x 2", filter="cups", filter_values="ES0031406213108001XL0F", action="multiply", action_field="consumption_proposal", action_value="0")
 
         # save the scenario definition
         self.scenarios.append(new_scenario)

@@ -206,13 +206,13 @@ class History(object):
         # Prepare the key and the values. Handles dict and Consumption objects
         if values and type(values) == dict:
             for key_field in key_fields:
-                assert values[key_field]
+                assert values[key_field]!=None
                 key[key_field] = values[key_field]
                 #key = { "cups" : values['cups'], "hour": values['hour']}
 
             for field_to_upsert in fields_to_upsert:
                 assert values[field_to_upsert]!=None, "Field '{}' not found".format(field_to_upsert)
-                if values[field_to_upsert]:  #if None not update this field
+                if values[field_to_upsert]!=None:  #if None not update this field
                     update[field_to_upsert] = values[field_to_upsert]
 
             # Upsert it through datasource!

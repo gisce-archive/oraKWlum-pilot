@@ -367,9 +367,10 @@ class Mongo(DataSource):
             key: restriction to update
 
         """
+
         if not what or type(what) is not dict:
-            print "Upsert failed, not correctly formatted values to insert/update :'{}'".format(
-                what)
+            print "Upsert failed, not correctly formatted values to insert/update :'{}' [{}]".format(
+                what, key)
             return
 
         logger.debug("Upserting {} for {} on {}".format(what, key, collection))
