@@ -2,7 +2,6 @@
 __author__ = 'XaviTorello'
 #__name__ = 'Report'
 
-
 import logging
 logger = logging.getLogger(__name__)
 
@@ -23,8 +22,6 @@ class Report(object):
             create_method = getattr(Report, method)
             create_method(self)
 
-
-
     def validate_format(self, format):
         if type(format) != list:
             format = list(format)
@@ -41,22 +38,21 @@ class Report(object):
 
         return method
 
-
-
     def create_stdout(self):
-        logging.info ("Reporting to STDOUT in table format{}".format(self.title))
+        logging.info("Reporting to STDOUT in table format{}".format(
+            self.title))
 
         (header, content) = self.prepare_scenarios(type="table")
 
         self.print_table(header=header, content=content)
 
     def create_html(self):
-        logging.info ("Reporting to STDOUT in HTML table format{}".format(self.title))
+        logging.info("Reporting to STDOUT in HTML table format{}".format(
+            self.title))
 
         (header, content) = self.prepare_scenarios(type="table")
 
-        self.print_html_table (header=header, content=content)
-
+        self.print_html_table(header=header, content=content)
 
     def prepare_scenarios(self, type):
         """
@@ -66,7 +62,7 @@ class Report(object):
 
         data = self.data
 
-        if type=="table":
+        if type == "table":
             # The header of the table
             header = []
 
@@ -85,17 +81,17 @@ class Report(object):
             # Set the content of the table
             for hour in range(0, hours_to_print):
                 row = []
-                row.append( str(comparation[0][hour]['_id'].strftime("%d/%m %H:%M")) )
+                row.append(str(comparation[0][hour]['_id'].strftime(
+                    "%d/%m %H:%M")))
 
                 for id, entry in enumerate(comparation):
-                    row.append (str(entry[hour]['sum_consumption_proposal']) )
+                    row.append(str(entry[hour]['sum_consumption_proposal']))
 
                 content.append(row)
 
             return header, content
 
-
-    def print_table (self, header, content):
+    def print_table(self, header, content):
         """
         Create a stdout table to compare all scenarios
         """
@@ -120,13 +116,11 @@ class Report(object):
             content_str = ""
 
             for idx, column in enumerate(entry):
-                content_str += "{:^{}}".format( column, header_size[idx]) + "\t"
+                content_str += "{:^{}}".format(column, header_size[idx]) + "\t"
 
             print content_str
 
-
-
-    def print_html_table (self, header, content):
+    def print_html_table(self, header, content):
         """
         Create a stdout table to compare all scenarios
         """
@@ -134,7 +128,7 @@ class Report(object):
 
         #Set the unit of time centered
         iterheader = iter(header)
-        header_str = "<table> <thead> <tr> <th>"+ "h"  + "</th>"
+        header_str = "<table> <thead> <tr> <th>" + "h" + "</th>"
         header_size.append(11)
         next(iterheader)
 

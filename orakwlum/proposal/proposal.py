@@ -47,15 +47,13 @@ class Proposal(object):
 
         #interact with enduser to select scenario
 
-
     def compare_scenarios(self):
         """
         Create a stdout table to compare all scenarios
         """
         assert self.scenarios, "There are no scenarios to compare"
 
-        report = Report(format=["stdout","html"], data=self.scenarios)
-
+        report = Report(format=["stdout", "html"], data=self.scenarios)
 
     def render_scenarios(self):
         """
@@ -111,7 +109,7 @@ class Proposal(object):
                                   action_field="consumption_proposal",
                                   action_value="15")
 
-        if type == "cups_erased":
+        elif type == "cups_erased":
             new_scenario.add_rule(name="some CUPS erased",
                                   filter="cups",
                                   filter_values="ES0031406213108001XL0F",
@@ -119,7 +117,7 @@ class Proposal(object):
                                   action_field="consumption_proposal",
                                   action_value="0")
 
-        if type == "margin":
+        elif type == "margin":
             new_scenario.add_rule(name="all +15%",
                                   filter="cups",
                                   filter_values="*",
