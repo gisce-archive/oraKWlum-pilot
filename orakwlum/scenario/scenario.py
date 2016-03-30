@@ -29,7 +29,9 @@ class Scenario(object):
         self.name = name
         self.type = type
         self.collection = collection_name
+        #self.collection = "scenario_"+collection_name
         self.rules = []
+        self.history = None
 
 
 
@@ -58,22 +60,21 @@ class Scenario(object):
     def compute_rules (self):
 #        scenario_history = super(Scenario).
 
-        scenario_history = History(collection=self.collection)
+        print self.collection
+        self.history = History(collection=self.collection)
         for rule in self.rules:
-            print rule.name, rule.action_value
-            changes = scenario_history.dataset.aggregate_dispatcher(fields_to_filter=[rule.filter, rule.filter_values],
-                                                                fields_to_operate=[rule.action, rule.action_field, rule.action_value])
+            logger.info("Processing rule '{}' ({})".format(rule.name, rule.action_value))
+
+            changes = self.history.dataset.aggregate_dispatcher(fields_to_filter=[rule.filter, rule.filter_values],
+                                                                fields_to_operate=[rule.action, rule.action_field, rule.action_value], collection=self.collection)
 
             # update changes to lite collection
             for change in changes:
-                scenario_history.upsert_consumption(change)
+                logger.debug("Applying changes to collection '{}'".format(self.collection))
+                self.history.upsert_consumption(change)
 
-        logger.info("Here we go...")
-        print "Here we go.."
-        scenario_history.consumptions_hourly = scenario_history.get_consumption_hourly()
-        scenario_history.dump_history_hourly()
-
-        print "ended"
+        self.history.consumptions_hourly = self.history.get_consumption_hourly()
+        #self.history.dump_history_hourly()
 
 
 class Rule(object):

@@ -76,7 +76,8 @@ def Proposal_tester():
 
     proposal = Proposal(start_date=date_start, end_date=date_end, filter_cups=cups_to_filter, compute=False)
 
-    proposal.add_new_scenario(name="WTF",type="base",collection_name="WTF")
+    proposal.add_new_scenario(name="Original projection",type="base",collection_name="base")
+    proposal.add_new_scenario(name="CUPS increased",type="cups",collection_name="WTF")
     proposal.render_scenarios()
 
     proposal.show_proposal()

@@ -258,7 +258,7 @@ class Prediction(object):
                 filter_by_dates, sort_by_hour))
 
         consumptions = list(
-            self.future.dataset.aggregate_dispatcher(
+            self.future.dataset.aggregate_dispatcher( fields_to_sort=sort_by_hour,
                                        fields_to_filter=filter_by_dates, collection_destiny=collection_new, collection=self.collection
             )
         )

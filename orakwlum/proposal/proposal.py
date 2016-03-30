@@ -25,21 +25,37 @@ class Proposal(object):
         self.scenarios = []
 
     def show_proposal(self):
-        self.prediction.future.dump_history_hourly()
+        self.compare_scenarios()
+        #self.prediction.future.dump_history_hourly()
 
-        for scenario in self.scenarios:
-            print scenario.collection
+        #for scenario in self.scenarios:
+        #    print "XX",scenario.collection
 
-        print "ENDED"
 
 
     def render_scenarios(self):
         logger.info("Rendering all scenarios...")
-        assert self.scenarios != None and type(self.scenarios) == list and len(self.scenarios)>0, "It's needed at least one scenario to review to render it!"
+        assert self.scenarios != None and type(self.scenarios) == list and len(self.scenarios)>0, "It's needed at least one scenario to review for render it!"
         for scenario in self.scenarios:
             logger.info ("Rendering scenario '{}' (collection '{}')".format(scenario.name, scenario.collection))
             scenario.compute_rules()
 
+
+
+
+    def compare_scenarios (self):
+        assert self.scenarios, "There are no scenarios to compare"
+
+        comparation = []
+        scenarios = 0
+
+        for scenario in self.scenarios:
+            comparation.append(scenario.history.consumptions_hourly)
+            scenarios+=1
+            hours_to_print=len(scenario.history.consumptions_hourly)
+
+        print comparation[0]
+        print comparation[1]
 
 
 
@@ -50,14 +66,20 @@ class Proposal(object):
         assert type, "Scenario's type is not defined"
         assert collection_name, "Collection name '{}' is not correct".format(collection_name)
 
+        collection_name = "scenario_" + collection_name
+
         self.prediction.create_lite_prediction(collection_name)
 
-        new_scenario = Scenario (name="CUPS increased", type=type, collection_name=collection_name)
-        new_scenario.add_rule(name="X cups x 2", filter="cups", filter_values="ES0031405458897012HQ0F", action="multiply", action_field="consumption_proposal", action_value="2")
-        new_scenario.add_rule(name="X cups + 1", filter="cups", filter_values="ES0031405458897012HQ0F", action="add", action_field="consumption_proposal", action_value="5")
+        new_scenario = Scenario (name=name, type=type, collection_name=collection_name)
+
+        if type == "cups":
+            new_scenario.add_rule(name="X cups x 2", filter="cups", filter_values="ES0031300629986007HP0F", action="multiply", action_field="consumption_proposal", action_value="2")
+            new_scenario.add_rule(name="X cups + 1", filter="cups", filter_values="ES0031300629986007HP0F", action="add", action_field="consumption_proposal", action_value="5")
 
         # save the scenario definition
         self.scenarios.append(new_scenario)
+
+
 
 
     def create_proposal(self):
