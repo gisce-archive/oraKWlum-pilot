@@ -12,55 +12,151 @@ class Report(object):
         assert data, "There are no data for create a report..."
         self.name = name
 
-        method = self.validate_format(format)
-        assert method, "Format '{}' is not valid.".format(format)
+        methods = self.validate_format(format)
+        assert methods, "Format '{}' is not valid.".format(format)
 
         self.format = format
         self.data = data
         self.title = self.name + " [{}]".format(format)
 
-        create_method = getattr(Report, method)
-        create_method(self)
+        for method in methods:
+            create_method = getattr(Report, method)
+            create_method(self)
 
 
 
     def validate_format(self, format):
-        return {
-            'html': 'create_html',
-            'stdout': 'create_stdout',
-            'graph': 'create_graph',
-        }.get(format, False)
+        if type(format) != list:
+            format = list(format)
+
+        method = []
+        for element in format:
+            format_method = {
+                'html': 'create_html',
+                'stdout': 'create_stdout',
+                'graph': 'create_graph',
+            }.get(element, False)
+
+            method.append(format_method)
+
+        return method
+
 
 
     def create_stdout(self):
-        self.compare_scenarios(self.data)
+        logging.info ("Reporting to STDOUT in table format{}".format(self.title))
 
-    def compare_scenarios(self, data):
+        (header, content) = self.prepare_scenarios(type="table")
+
+        self.print_table(header=header, content=content)
+
+    def create_html(self):
+        logging.info ("Reporting to STDOUT in HTML table format{}".format(self.title))
+
+        (header, content) = self.prepare_scenarios(type="table")
+
+        self.print_html_table (header=header, content=content)
+
+
+    def prepare_scenarios(self, type):
         """
         Create a stdout table to compare all scenarios
         """
-        assert data, "There are no data to compare"
+        assert self.data, "There are no data to compare"
 
-        comparation = []
-        scenarios = 0
-        header = "{:^11}".format("h") + "\t"
+        data = self.data
+
+        if type=="table":
+            # The header of the table
+            header = []
+
+            # The content of the table
+            content = []
+
+            comparation = []
+            header.append("h")
+
+            # Set the header, get hours to print and prepare data
+            for scenario in data:
+                comparation.append(scenario.history.consumptions_hourly)
+                hours_to_print = len(scenario.history.consumptions_hourly)
+                header.append(scenario.name)
+
+            # Set the content of the table
+            for hour in range(0, hours_to_print):
+                row = []
+                row.append( str(comparation[0][hour]['_id'].strftime("%d/%m %H:%M")) )
+
+                for id, entry in enumerate(comparation):
+                    row.append (str(entry[hour]['sum_consumption_proposal']) )
+
+                content.append(row)
+
+            return header, content
+
+
+    def print_table (self, header, content):
+        """
+        Create a stdout table to compare all scenarios
+        """
         header_size = []
 
-        for scenario in data:
-            comparation.append(scenario.history.consumptions_hourly)
-            scenarios += 1
-            hours_to_print = len(scenario.history.consumptions_hourly)
-            header += "'" + scenario.name + "'\t"
-            header_size.append(len(scenario.name) + 2)
+        #Set the unit of time centered
+        iterheader = iter(header)
+        header_str = "{:^11}".format("h") + "\t"
+        header_size.append(11)
+        next(iterheader)
 
-        print header
+        # Stores the str len of each title
 
-        for hour in range(0, hours_to_print):
-            hour_combo = "{}\t".format(str(comparation[0][hour][
-                '_id'].strftime("%d/%m %H:%M")))
+        #format header
+        for title in iterheader:
+            header_str += "'" + title + "'\t"
+            header_size.append(len(title) + 2)
 
-            for id, entry in enumerate(comparation):
-                hour_combo += "{:^{}}".format(
-                    str(entry[hour]['sum_consumption_proposal']),
-                    header_size[id]) + "\t"
-            print hour_combo
+        print header_str
+
+        for entry in content:
+            content_str = ""
+
+            for idx, column in enumerate(entry):
+                content_str += "{:^{}}".format( column, header_size[idx]) + "\t"
+
+            print content_str
+
+
+
+    def print_html_table (self, header, content):
+        """
+        Create a stdout table to compare all scenarios
+        """
+        header_size = []
+
+        #Set the unit of time centered
+        iterheader = iter(header)
+        header_str = "<table> <thead> <tr> <th>"+ "h"  + "</th>"
+        header_size.append(11)
+        next(iterheader)
+
+        # Stores the str len of each title
+
+        #format header
+        for title in iterheader:
+            header_str += "<th>" + title + "</th>"
+            header_size.append(len(title) + 2)
+
+        header_str += "</tr></thead>"
+
+        content_str = "<tbody>"
+        for entry in content:
+            content_str += "<tr>"
+
+            for idx, column in enumerate(entry):
+                content_str += "<td>" + column + "</td>"
+
+            content_str += "</tr>"
+
+        content_str += "</tbody></table>"
+
+        print header_str
+        print content_str

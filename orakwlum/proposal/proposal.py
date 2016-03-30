@@ -45,13 +45,16 @@ class Proposal(object):
         """
         self.compare_scenarios()
 
+        #interact with enduser to select scenario
+
+
     def compare_scenarios(self):
         """
         Create a stdout table to compare all scenarios
         """
         assert self.scenarios, "There are no scenarios to compare"
 
-        report = Report(format="stdout", data=self.scenarios)
+        report = Report(format=["stdout","html"], data=self.scenarios)
 
 
     def render_scenarios(self):
