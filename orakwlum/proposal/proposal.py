@@ -4,6 +4,7 @@ __author__ = 'XaviTorello'
 
 from orakwlum.prediction import Prediction
 from orakwlum.scenario import Scenario
+from orakwlum.proposal.report import Report
 
 import logging
 logger = logging.getLogger(__name__)
@@ -50,29 +51,8 @@ class Proposal(object):
         """
         assert self.scenarios, "There are no scenarios to compare"
 
-        comparation = []
-        scenarios = 0
-        header = "{:^11}".format("h") + "\t"
-        header_size = []
+        report = Report(format="stdout", data=self.scenarios)
 
-        for scenario in self.scenarios:
-            comparation.append(scenario.history.consumptions_hourly)
-            scenarios += 1
-            hours_to_print = len(scenario.history.consumptions_hourly)
-            header += "'" + scenario.name + "'\t"
-            header_size.append(len(scenario.name) + 2)
-
-        print header
-
-        for hour in range(0, hours_to_print):
-            hour_combo = "{}\t".format(str(comparation[0][hour][
-                '_id'].strftime("%d/%m %H:%M")))
-
-            for id, entry in enumerate(comparation):
-                hour_combo += "{:^{}}".format(
-                    str(entry[hour]['sum_consumption_proposal']),
-                    header_size[id]) + "\t"
-            print hour_combo
 
     def render_scenarios(self):
         """
