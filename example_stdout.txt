@@ -1,105 +1,107 @@
-/usr/bin/python2.7 /home/k/projectes/oraKWlum/example.py
 INFO:orakwlum.prediction.prediction:Initialising prediction for 2016-03-01 00:00:00 - 2016-03-02 00:00:00
-INFO:orakwlum.consumption.consumption:Creating new History
-INFO:orakwlum.consumption.consumption:Loading History from datasource
-INFO:orakwlum.datasource.datasource:Establishing new Mongo datasource at 'mongodb://localhost:27017/'
-INFO:orakwlum.consumption.consumption:Filtering datasource 'test_data' by dates
-INFO:orakwlum.datasource.datasource:Aggregating by 'cups'
-INFO:orakwlum.consumption.consumption:Get consumption hourly by dates
-INFO:orakwlum.consumption.consumption:Reaching consumption by hour, between ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and sort by [['hour', 1]]
-INFO:orakwlum.datasource.datasource: Using expression:
+INFO:orakwlum.consumption.history:Creating new History
+INFO:orakwlum.consumption.history:Loading History from datasource
+INFO:orakwlum.datasource.mongo:Establishing new Mongo datasource at 'mongodb://localhost:27017/'
+INFO:orakwlum.consumption.history:Filtering datasource 'test_data' by dates
+INFO:orakwlum.datasource.mongo:Aggregating by 'cups'
+INFO:orakwlum.consumption.history:Get consumption hourly by dates
+INFO:orakwlum.consumption.history:Reaching consumption by hour, between ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and sort by [['hour', 1]]
+INFO:orakwlum.datasource.mongo: Using expression:
 [{'$match': {'hour': {'$lte': datetime.datetime(2016, 3, 2, 0, 0), '$gte': datetime.datetime(2016, 3, 1, 0, 0)}}}, {'$group': {'_id': '$hour', 'sum_consumption_real': {'$sum': '$consumption_real'}, 'sum_consumption_proposal': {'$sum': '$consumption_proposal'}}}, {'$sort': {'_id': 1}}]
-INFO:orakwlum.datasource.datasource:Aggregating by 'hour', filtering by ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and adding by '['consumption_real', 'consumption_proposal']'
+INFO:orakwlum.datasource.mongo:Aggregating by 'hour', filtering by ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and adding by '['consumption_real', 'consumption_proposal']'
 INFO:orakwlum.prediction.prediction:Creating lite collection 'scenario_base' from 'test_data'
 INFO:orakwlum.prediction.prediction:Reaching consumptions between ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and sort by [['hour', 1]]
-INFO:orakwlum.datasource.datasource: Using expression:
+INFO:orakwlum.datasource.mongo: Using expression:
 [{'$match': {'hour': {'$lte': datetime.datetime(2016, 3, 2, 0, 0), '$gte': datetime.datetime(2016, 3, 1, 0, 0)}}}, {'$sort': {'hour': 1}}, {'$out': 'scenario_base'}]
-INFO:orakwlum.datasource.datasource:Aggregating by 'None', filtering by ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and adding by 'None'
+INFO:orakwlum.datasource.mongo:Aggregating by 'None', filtering by ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and adding by 'None'
 INFO:orakwlum.scenario.scenario:Creating new scenario 'Original projection' on collection 'scenario_base'
 INFO:orakwlum.prediction.prediction:Creating lite collection 'scenario_cups_WTF' from 'test_data'
 INFO:orakwlum.prediction.prediction:Reaching consumptions between ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and sort by [['hour', 1]]
-INFO:orakwlum.datasource.datasource: Using expression:
+INFO:orakwlum.datasource.mongo: Using expression:
 [{'$match': {'hour': {'$lte': datetime.datetime(2016, 3, 2, 0, 0), '$gte': datetime.datetime(2016, 3, 1, 0, 0)}}}, {'$sort': {'hour': 1}}, {'$out': 'scenario_cups_WTF'}]
-INFO:orakwlum.datasource.datasource:Aggregating by 'None', filtering by ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and adding by 'None'
+INFO:orakwlum.datasource.mongo:Aggregating by 'None', filtering by ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and adding by 'None'
 INFO:orakwlum.scenario.scenario:Creating new scenario 'CUPS increased' on collection 'scenario_cups_WTF'
 INFO:orakwlum.scenario.scenario:Adding new rule 'some CUPS x 2' to 'CUPS increased' scenario //filter by cups ES0031300629986007HP0F, multiply consumption_proposal 2
 INFO:orakwlum.scenario.scenario:Adding new rule 'some CUPS + 1' to 'CUPS increased' scenario //filter by cups ES0031405879092008YP0F, add consumption_proposal 15
 INFO:orakwlum.prediction.prediction:Creating lite collection 'scenario_cups_erased' from 'test_data'
 INFO:orakwlum.prediction.prediction:Reaching consumptions between ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and sort by [['hour', 1]]
-INFO:orakwlum.datasource.datasource: Using expression:
+INFO:orakwlum.datasource.mongo: Using expression:
 [{'$match': {'hour': {'$lte': datetime.datetime(2016, 3, 2, 0, 0), '$gte': datetime.datetime(2016, 3, 1, 0, 0)}}}, {'$sort': {'hour': 1}}, {'$out': 'scenario_cups_erased'}]
-INFO:orakwlum.datasource.datasource:Aggregating by 'None', filtering by ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and adding by 'None'
+INFO:orakwlum.datasource.mongo:Aggregating by 'None', filtering by ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and adding by 'None'
 INFO:orakwlum.scenario.scenario:Creating new scenario 'CUPS erased' on collection 'scenario_cups_erased'
 INFO:orakwlum.scenario.scenario:Adding new rule 'some CUPS erased' to 'CUPS erased' scenario //filter by cups ES0031406213108001XL0F, multiply consumption_proposal 0
 INFO:orakwlum.prediction.prediction:Creating lite collection 'scenario_margin' from 'test_data'
 INFO:orakwlum.prediction.prediction:Reaching consumptions between ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and sort by [['hour', 1]]
-INFO:orakwlum.datasource.datasource: Using expression:
+INFO:orakwlum.datasource.mongo: Using expression:
 [{'$match': {'hour': {'$lte': datetime.datetime(2016, 3, 2, 0, 0), '$gte': datetime.datetime(2016, 3, 1, 0, 0)}}}, {'$sort': {'hour': 1}}, {'$out': 'scenario_margin'}]
-INFO:orakwlum.datasource.datasource:Aggregating by 'None', filtering by ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and adding by 'None'
+INFO:orakwlum.datasource.mongo:Aggregating by 'None', filtering by ['hour', [datetime.datetime(2016, 3, 1, 0, 0), datetime.datetime(2016, 3, 2, 0, 0)]] and adding by 'None'
 INFO:orakwlum.scenario.scenario:Creating new scenario 'Margin +15%' on collection 'scenario_margin'
 INFO:orakwlum.scenario.scenario:Adding new rule 'all +15%' to 'Margin +15%' scenario //filter by cups *, multiply consumption_proposal 1.10
 INFO:orakwlum.proposal.proposal:Rendering all scenarios...
 INFO:orakwlum.proposal.proposal:Rendering scenario 'Original projection' (collection 'scenario_base')
-INFO:orakwlum.consumption.consumption:Creating new History
-INFO:orakwlum.consumption.consumption:Loading History from datasource
-INFO:orakwlum.datasource.datasource:Establishing new Mongo datasource at 'mongodb://localhost:27017/'
-INFO:orakwlum.consumption.consumption:Filtering datasource 'scenario_base' by dates
-INFO:orakwlum.datasource.datasource:Aggregating by 'cups'
-INFO:orakwlum.consumption.consumption:Get consumption hourly by dates
-INFO:orakwlum.consumption.consumption:Reaching consumption by hour, between None and sort by [['hour', 1]]
-INFO:orakwlum.datasource.datasource: Using expression:
+INFO:orakwlum.consumption.history:Creating new History
+INFO:orakwlum.consumption.history:Loading History from datasource
+INFO:orakwlum.datasource.mongo:Establishing new Mongo datasource at 'mongodb://localhost:27017/'
+INFO:orakwlum.consumption.history:Filtering datasource 'scenario_base' by dates
+INFO:orakwlum.datasource.mongo:Aggregating by 'cups'
+INFO:orakwlum.consumption.history:Get consumption hourly by dates
+INFO:orakwlum.consumption.history:Reaching consumption by hour, between None and sort by [['hour', 1]]
+INFO:orakwlum.datasource.mongo: Using expression:
 [{'$group': {'_id': '$hour', 'sum_consumption_real': {'$sum': '$consumption_real'}, 'sum_consumption_proposal': {'$sum': '$consumption_proposal'}}}, {'$sort': {'_id': 1}}]
-INFO:orakwlum.datasource.datasource:Aggregating by 'hour', filtering by None and adding by '['consumption_real', 'consumption_proposal']'
+INFO:orakwlum.datasource.mongo:Aggregating by 'hour', filtering by None and adding by '['consumption_real', 'consumption_proposal']'
 INFO:orakwlum.proposal.proposal:Rendering scenario 'CUPS increased' (collection 'scenario_cups_WTF')
-INFO:orakwlum.consumption.consumption:Creating new History
-INFO:orakwlum.consumption.consumption:Loading History from datasource
-INFO:orakwlum.datasource.datasource:Establishing new Mongo datasource at 'mongodb://localhost:27017/'
-INFO:orakwlum.consumption.consumption:Filtering datasource 'scenario_cups_WTF' by dates
-INFO:orakwlum.datasource.datasource:Aggregating by 'cups'
+INFO:orakwlum.consumption.history:Creating new History
+INFO:orakwlum.consumption.history:Loading History from datasource
+INFO:orakwlum.datasource.mongo:Establishing new Mongo datasource at 'mongodb://localhost:27017/'
+INFO:orakwlum.consumption.history:Filtering datasource 'scenario_cups_WTF' by dates
+INFO:orakwlum.datasource.mongo:Aggregating by 'cups'
 INFO:orakwlum.scenario.scenario:Processing rule 'some CUPS x 2' (2)
-INFO:orakwlum.datasource.datasource: Using expression:
+INFO:orakwlum.datasource.mongo: Using expression:
 [{'$match': {'cups': {'$in': ['ES0031300629986007HP0F']}}}, {'$project': {'consumption_real': 1, 'consumption_proposal': {'$multiply': ['$consumption_proposal', 2.0]}}}]
-INFO:orakwlum.datasource.datasource:Aggregating by 'None', filtering by ['cups', ['ES0031300629986007HP0F']] and adding by '['multiply', 'consumption_proposal', '2']'
+INFO:orakwlum.datasource.mongo:Aggregating by 'None', filtering by ['cups', ['ES0031300629986007HP0F']] and adding by '['multiply', 'consumption_proposal', '2']'
 INFO:orakwlum.scenario.scenario:Processing rule 'some CUPS + 1' (15)
-INFO:orakwlum.datasource.datasource: Using expression:
+INFO:orakwlum.datasource.mongo: Using expression:
 [{'$match': {'cups': {'$in': ['ES0031405879092008YP0F']}}}, {'$project': {'consumption_real': 1, 'consumption_proposal': {'$add': ['$consumption_proposal', 15.0]}}}]
-INFO:orakwlum.datasource.datasource:Aggregating by 'None', filtering by ['cups', ['ES0031405879092008YP0F']] and adding by '['add', 'consumption_proposal', '15']'
-INFO:orakwlum.consumption.consumption:Get consumption hourly by dates
-INFO:orakwlum.consumption.consumption:Reaching consumption by hour, between None and sort by [['hour', 1]]
-INFO:orakwlum.datasource.datasource: Using expression:
+INFO:orakwlum.datasource.mongo:Aggregating by 'None', filtering by ['cups', ['ES0031405879092008YP0F']] and adding by '['add', 'consumption_proposal', '15']'
+INFO:orakwlum.consumption.history:Get consumption hourly by dates
+INFO:orakwlum.consumption.history:Reaching consumption by hour, between None and sort by [['hour', 1]]
+INFO:orakwlum.datasource.mongo: Using expression:
 [{'$group': {'_id': '$hour', 'sum_consumption_real': {'$sum': '$consumption_real'}, 'sum_consumption_proposal': {'$sum': '$consumption_proposal'}}}, {'$sort': {'_id': 1}}]
-INFO:orakwlum.datasource.datasource:Aggregating by 'hour', filtering by None and adding by '['consumption_real', 'consumption_proposal']'
+INFO:orakwlum.datasource.mongo:Aggregating by 'hour', filtering by None and adding by '['consumption_real', 'consumption_proposal']'
 INFO:orakwlum.proposal.proposal:Rendering scenario 'CUPS erased' (collection 'scenario_cups_erased')
-INFO:orakwlum.consumption.consumption:Creating new History
-INFO:orakwlum.consumption.consumption:Loading History from datasource
-INFO:orakwlum.datasource.datasource:Establishing new Mongo datasource at 'mongodb://localhost:27017/'
-INFO:orakwlum.consumption.consumption:Filtering datasource 'scenario_cups_erased' by dates
-INFO:orakwlum.datasource.datasource:Aggregating by 'cups'
+INFO:orakwlum.consumption.history:Creating new History
+INFO:orakwlum.consumption.history:Loading History from datasource
+INFO:orakwlum.datasource.mongo:Establishing new Mongo datasource at 'mongodb://localhost:27017/'
+INFO:orakwlum.consumption.history:Filtering datasource 'scenario_cups_erased' by dates
+INFO:orakwlum.datasource.mongo:Aggregating by 'cups'
 INFO:orakwlum.scenario.scenario:Processing rule 'some CUPS erased' (0)
-INFO:orakwlum.datasource.datasource: Using expression:
+INFO:orakwlum.datasource.mongo: Using expression:
 [{'$match': {'cups': {'$in': ['ES0031406213108001XL0F']}}}, {'$project': {'consumption_real': 1, 'consumption_proposal': {'$multiply': ['$consumption_proposal', 0.0]}}}]
-INFO:orakwlum.datasource.datasource:Aggregating by 'None', filtering by ['cups', ['ES0031406213108001XL0F']] and adding by '['multiply', 'consumption_proposal', '0']'
-INFO:orakwlum.consumption.consumption:Get consumption hourly by dates
-INFO:orakwlum.consumption.consumption:Reaching consumption by hour, between None and sort by [['hour', 1]]
-INFO:orakwlum.datasource.datasource: Using expression:
+INFO:orakwlum.datasource.mongo:Aggregating by 'None', filtering by ['cups', ['ES0031406213108001XL0F']] and adding by '['multiply', 'consumption_proposal', '0']'
+INFO:orakwlum.consumption.history:Get consumption hourly by dates
+INFO:orakwlum.consumption.history:Reaching consumption by hour, between None and sort by [['hour', 1]]
+INFO:orakwlum.datasource.mongo: Using expression:
 [{'$group': {'_id': '$hour', 'sum_consumption_real': {'$sum': '$consumption_real'}, 'sum_consumption_proposal': {'$sum': '$consumption_proposal'}}}, {'$sort': {'_id': 1}}]
-INFO:orakwlum.datasource.datasource:Aggregating by 'hour', filtering by None and adding by '['consumption_real', 'consumption_proposal']'
+INFO:orakwlum.datasource.mongo:Aggregating by 'hour', filtering by None and adding by '['consumption_real', 'consumption_proposal']'
 INFO:orakwlum.proposal.proposal:Rendering scenario 'Margin +15%' (collection 'scenario_margin')
-INFO:orakwlum.consumption.consumption:Creating new History
-INFO:orakwlum.consumption.consumption:Loading History from datasource
-INFO:orakwlum.datasource.datasource:Establishing new Mongo datasource at 'mongodb://localhost:27017/'
-INFO:orakwlum.consumption.consumption:Filtering datasource 'scenario_margin' by dates
-INFO:orakwlum.datasource.datasource:Aggregating by 'cups'
+INFO:orakwlum.consumption.history:Creating new History
+INFO:orakwlum.consumption.history:Loading History from datasource
+INFO:orakwlum.datasource.mongo:Establishing new Mongo datasource at 'mongodb://localhost:27017/'
+INFO:orakwlum.consumption.history:Filtering datasource 'scenario_margin' by dates
+INFO:orakwlum.datasource.mongo:Aggregating by 'cups'
 INFO:orakwlum.scenario.scenario:Processing rule 'all +15%' (1.10)
-INFO:orakwlum.datasource.datasource: Using expression:
+INFO:orakwlum.datasource.mongo: Using expression:
 [{'$project': {'consumption_real': 1, 'consumption_proposal': {'$multiply': ['$consumption_proposal', 1.1]}}}]
-INFO:orakwlum.datasource.datasource:Aggregating by 'None', filtering by ['cups', ['*']] and adding by '['multiply', 'consumption_proposal', '1.10']'
-INFO:orakwlum.consumption.consumption:Get consumption hourly by dates
-INFO:orakwlum.consumption.consumption:Reaching consumption by hour, between None and sort by [['hour', 1]]
-INFO:orakwlum.datasource.datasource: Using expression:
+INFO:orakwlum.datasource.mongo:Aggregating by 'None', filtering by ['cups', ['*']] and adding by '['multiply', 'consumption_proposal', '1.10']'
+INFO:orakwlum.consumption.history:Get consumption hourly by dates
+INFO:orakwlum.consumption.history:Reaching consumption by hour, between None and sort by [['hour', 1]]
+INFO:orakwlum.datasource.mongo: Using expression:
 [{'$group': {'_id': '$hour', 'sum_consumption_real': {'$sum': '$consumption_real'}, 'sum_consumption_proposal': {'$sum': '$consumption_proposal'}}}, {'$sort': {'_id': 1}}]
-INFO:orakwlum.datasource.datasource:Aggregating by 'hour', filtering by None and adding by '['consumption_real', 'consumption_proposal']'
-
+INFO:orakwlum.datasource.mongo:Aggregating by 'hour', filtering by None and adding by '['consumption_real', 'consumption_proposal']'
+INFO:orakwlum.datasource.mongo:Deleting collection 'scenario_base'
+INFO:orakwlum.datasource.mongo:Deleting collection 'scenario_cups_WTF'
+INFO:orakwlum.datasource.mongo:Deleting collection 'scenario_cups_erased'
+INFO:orakwlum.datasource.mongo:Deleting collection 'scenario_margin'
 
      h     	'Original projection'	'CUPS increased'	'CUPS erased'	'Margin +15%'
 01/03 00:00	        1176         	     1212.0     	   1139.0    	   1293.6

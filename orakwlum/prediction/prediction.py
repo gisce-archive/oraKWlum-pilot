@@ -2,17 +2,13 @@
 __author__ = 'XaviTorello'
 #__name__ = 'Prediction'
 
-from datetime import datetime, date, timedelta
+from datetime import datetime, timedelta
 import logging
 
-from enerdata.contracts.tariff import *
-from enerdata.cups.cups import CUPS
 from enerdata.datetime.timezone import TIMEZONE
 from enerdata.profiles.profile import Profile
 
-from orakwlum.datasource import *
 from orakwlum.consumption import History
-#import json
 
 from one_year_ago import OneYearAgo
 

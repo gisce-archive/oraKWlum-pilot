@@ -6,6 +6,9 @@ from orakwlum.datasource import *
 from orakwlum.prediction import *
 from orakwlum.proposal import *
 
+import logging
+from datetime import datetime
+
 
 def Consumption_tester():
     consum = Consumption("ES0031406229285001HS0F", 2016, 3, 2, 15)
@@ -99,7 +102,6 @@ def Proposal_tester():
 
     proposal.show_proposal()
 
-    #proposal.show_proposal()
     #proposal.create_report()
 
 
@@ -107,7 +109,6 @@ def Sampledata_tester():
     dades = Mongo(user="orakwlum", db="orakwlum")
     dades.test_data(drop=True)
 
-#Sampledata_tester()
 
 logging.basicConfig(level=logging.INFO)
 

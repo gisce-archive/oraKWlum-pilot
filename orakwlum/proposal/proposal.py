@@ -156,8 +156,5 @@ class Proposal(object):
             self.prediction.delete_lite_prediction(scenario.collection)
         #free memory alloc
 
-    def create_proposal(self):
-        pass
-
     def create_report(self):
         pass
