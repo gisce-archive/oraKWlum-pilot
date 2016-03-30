@@ -238,6 +238,9 @@ class Prediction(object):
 
         estimated = Profile(date_start, date_end, []).estimate(t, {'P1': 5})
 
+    def delete_lite_prediction(self, collection):
+        self.future.dataset.drop_collection(collection)
+
     def create_lite_prediction(self, collection_new):
         """
         Create LITE history saving output to a new collection from a basic aggregate

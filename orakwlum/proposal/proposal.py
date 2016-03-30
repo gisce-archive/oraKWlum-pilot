@@ -16,11 +16,15 @@ class Proposal(object):
     A Proposal is a Prediction for a defined time range, for a set of cups, with the capability of compute it or just show it
 
     A Proposal can handle different Scenarios that alter the Prediction.
-        Prediction remains "static" but the Scenarios contains the rules to modify the final amounts
+        Prediction remains "static" but the Scenarios alter it with a set of changes
+            Each Scenario have rules that modify the Prediction
 
     """
 
     def __init__(self, start_date, end_date, filter_cups=None, compute=True):
+        """
+        Create a new Proposal
+        """
         # Just create the proposal for the desired dates and CUPS
         self.prediction = Prediction(start_date=start_date,
                                      end_date=end_date,
@@ -28,24 +32,22 @@ class Proposal(object):
                                      compute=compute)
         self.scenarios = []
 
+    def __del__(self):
+        """
+        On destroy Proposal, delete related scenario collections
+        """
+        self.cleanup()
+
     def show_proposal(self):
+        """
+        Show a Proposal summary
+        """
         self.compare_scenarios()
-        #self.prediction.future.dump_history_hourly()
-
-        #for scenario in self.scenarios:
-        #    print "XX",scenario.collection
-
-    def render_scenarios(self):
-        logger.info("Rendering all scenarios...")
-        assert self.scenarios != None and type(self.scenarios) == list and len(
-            self.
-            scenarios) > 0, "It's needed at least one scenario to review for render it!"
-        for scenario in self.scenarios:
-            logger.info("Rendering scenario '{}' (collection '{}')".format(
-                scenario.name, scenario.collection))
-            scenario.compute_rules()
 
     def compare_scenarios(self):
+        """
+        Create a stdout table to compare all scenarios
+        """
         assert self.scenarios, "There are no scenarios to compare"
 
         comparation = []
@@ -72,12 +74,31 @@ class Proposal(object):
                     header_size[id]) + "\t"
             print hour_combo
 
+    def render_scenarios(self):
+        """
+        Render all scenarios computing all related rules over each scenario collection
+        """
+
+        logger.info("Rendering all scenarios...")
+        assert self.scenarios != None and type(self.scenarios) == list and len(
+            self.
+            scenarios) > 0, "It's needed at least one scenario to review for render it!"
+        for scenario in self.scenarios:
+            logger.info("Rendering scenario '{}' (collection '{}')".format(
+                scenario.name, scenario.collection))
+            scenario.compute_rules()
+
+    # todo
+    #    create Filter object
+    #    create Action object
+    #    elegant switch template
+    #    ¿load templates from alt collection?
     def add_new_scenario(self,
                          name="Default scenario",
                          type="default",
                          collection_name="default"):
         """
-        Add new scenario templates using the type
+        Add a new scenario using templates by type
         """
         assert type, "Scenario's type is not defined"
         assert collection_name, "Collection name '{}' is not correct".format(
@@ -90,7 +111,6 @@ class Proposal(object):
         new_scenario = Scenario(name=name,
                                 type=type,
                                 collection_name=collection_name)
-
 
         #todo elegant way to switch the type...
 
@@ -127,12 +147,14 @@ class Proposal(object):
         # save the scenario definition
         self.scenarios.append(new_scenario)
 
-
-    #todo
     def cleanup(self):
+        """
+        Drop all scenario collections from DB
+        """
         #drop scenario collections
+        for scenario in self.scenarios:
+            self.prediction.delete_lite_prediction(scenario.collection)
         #free memory alloc
-        pass
 
     def create_proposal(self):
         pass

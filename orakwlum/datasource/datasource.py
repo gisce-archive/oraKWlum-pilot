@@ -313,12 +313,14 @@ class Mongo(DataSource):
 
         # Set the match filter
         if fields_to_filter:
-            assert self.validate_filter(fields_to_filter[0]), "Filter {} is not valid".format(fields_to_filter[0])
+            assert self.validate_filter(fields_to_filter[
+                0]), "Filter {} is not valid".format(fields_to_filter[0])
 
             if fields_to_filter[1] != ["*"]:
                 # todo validate filters
                 #for filter in fields_to_filter:
-                filter = self.set_filter(fields_to_filter[0], fields_to_filter[1])
+                filter = self.set_filter(fields_to_filter[0],
+                                         fields_to_filter[1])
                 expression.append({"$match": filter})
 
         # Set the group and operate (sum or count)
@@ -332,11 +334,11 @@ class Mongo(DataSource):
 
         elif fields_to_operate:  # just operate
             # todo validate operation // create Operation and Filter objects!
-            project = {"$project":
-                       {"consumption_real": 1,
-                        fields_to_operate[1]: {"$" + fields_to_operate[0]:
-                                               ["$" + fields_to_operate[1],
-                                                float(fields_to_operate[2])]}}, }
+            project = {"$project": {"consumption_real": 1,
+                                    fields_to_operate[1]:
+                                    {"$" + fields_to_operate[0]:
+                                     ["$" + fields_to_operate[1],
+                                      float(fields_to_operate[2])]}}, }
             expression.append(project)
 
         # Set the sorting criteria
@@ -389,3 +391,8 @@ class Mongo(DataSource):
 
         logger.debug("Value post upserting: '{}'".format(list(dades.find(
             key))))
+
+    def drop_collection(self, collection):
+        logger.info("Deleting collection '{}'".format(collection))
+
+        return self.db[collection].drop()
