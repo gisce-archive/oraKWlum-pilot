@@ -131,14 +131,17 @@ class History(object):
     DISABLED! -> If not reached any filter, will fetch for TOMORROW one year ago events for all CUPS
     """
 
-    def __init__(self, start_date=None, end_date=None, cups=None, collection="test_data"):
+    def __init__(self,
+                 start_date=None,
+                 end_date=None,
+                 cups=None,
+                 collection="test_data"):
         logger.info('Creating new History')
         self.consumptions = []
         self.consumptions_hourly = []
         self.collection = collection
 
         self.cups_list = cups if cups else []
-
 
         #self.date_end = end_date if end_date else datetime.today() + timedelta(days=1)
         #self.date_start = start_date if start_date else self.date_end - timedelta(days=365)
@@ -154,9 +157,6 @@ class History(object):
 
         self.load_history()
 
-
-
-
     def load_history(self):
         """
         Load all Consumptions from datasource for the defined History
@@ -167,17 +167,20 @@ class History(object):
         agg = "cup"
         #sum = ["consumption_real", "consumption_proposal"]
 
-        logger.info("Filtering datasource '{}' by dates".format(self.collection))
+        logger.info("Filtering datasource '{}' by dates".format(
+            self.collection))
 
         # Getting Consumption objects for current History from datasource
-        consumptions = list(self.dataset.filter([self.date_start, self.date_end],
-                                                collection=self.collection))
+        consumptions = list(self.dataset.filter(
+            [self.date_start, self.date_end],
+            collection=self.collection))
         for consumption in consumptions:
             self.consumptions.append(self.consumption_from_JSON(consumption))
 
         # Getting cups list
-        cups_list = list(self.dataset.get_list_unique_fields(field="cups",
-                                                             collection=self.collection))
+        cups_list = list(
+            self.dataset.get_list_unique_fields(field="cups",
+                                                collection=self.collection))
         for cups in cups_list:
             self.cups_list.append(cups['_id'])
 
@@ -193,7 +196,8 @@ class History(object):
         "PK" will be (cups, hour)
         """
 
-        if values["_id"]: # if have the existing mongoID use it instead of cups,hour
+        if values[
+                "_id"]:  # if have the existing mongoID use it instead of cups,hour
             key_fields = ["_id"]
         else:
             key_fields = ["cups", "hour"]
@@ -206,13 +210,16 @@ class History(object):
         # Prepare the key and the values. Handles dict and Consumption objects
         if values and type(values) == dict:
             for key_field in key_fields:
-                assert values[key_field]!=None
+                assert values[key_field] != None
                 key[key_field] = values[key_field]
                 #key = { "cups" : values['cups'], "hour": values['hour']}
 
             for field_to_upsert in fields_to_upsert:
-                assert values[field_to_upsert]!=None, "Field '{}' not found".format(field_to_upsert)
-                if values[field_to_upsert]!=None:  #if None not update this field
+                assert values[
+                    field_to_upsert] != None, "Field '{}' not found".format(
+                        field_to_upsert)
+                if values[
+                        field_to_upsert] != None:  #if None not update this field
                     update[field_to_upsert] = values[field_to_upsert]
 
             # Upsert it through datasource!
@@ -230,10 +237,6 @@ class History(object):
         return list(self.dataset.get_specific(hour=hour,
                                               cups_one=cups,
                                               collection=self.collection))[0]
-
-
-
-
 
     def get_consumption_hourly(self):
         """
@@ -264,7 +267,7 @@ class History(object):
         agg_by_hour = "hour"
 
         if self.date_start and self.date_end:
-            filter_by_dates = ["hour",[self.date_start, self.date_end]]
+            filter_by_dates = ["hour", [self.date_start, self.date_end]]
         else:
             filter_by_dates = None
 
@@ -351,9 +354,10 @@ class History(object):
 
         agg = "hour"
         sum = ["consumption_real", "consumption_proposal"]
-        agregant_per_hores = self.dataset.aggregate_sum(field_to_agg=agg,
-                                                        fields_to_sum=sum,
-                                                        collection=self.collection)
+        agregant_per_hores = self.dataset.aggregate_sum(
+            field_to_agg=agg,
+            fields_to_sum=sum,
+            collection=self.collection)
 
         print "{} elements aggregating by '{}':".format(
             len(agregant_per_hores), agg)
@@ -363,8 +367,3 @@ class History(object):
                 print "  {}, sum: {} / {}".format(
                     entrada['_id'], entrada['sum_consumption_real'],
                     entrada['sum_consumption_proposal'])
-
-
-
-
-

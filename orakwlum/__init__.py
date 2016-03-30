@@ -5,5 +5,3 @@ from orakwlum.datasource import *
 from orakwlum.consumption import *
 from orakwlum.prediction import *
 from orakwlum.proposal import *
-
-

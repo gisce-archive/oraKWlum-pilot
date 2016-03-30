@@ -1,4 +1,3 @@
 __author__ = 'XaviTorello'
 
-from scenario import  *
-
+from scenario import *

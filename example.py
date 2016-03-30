@@ -56,16 +56,16 @@ def History_tester():
     history.upsert_consumption(values=insert_example)
 
 
-
 def Prediction_tester():
     date_start = datetime(2016, 3, 01)
     date_end = datetime(2016, 3, 2)
 
     cups_to_filter = None
 
-    prediction = Prediction(start_date=date_start, end_date=date_end, filter_cups=cups_to_filter, compute=True)
-
-
+    prediction = Prediction(start_date=date_start,
+                            end_date=date_end,
+                            filter_cups=cups_to_filter,
+                            compute=True)
 
 
 def Proposal_tester():
@@ -74,20 +74,26 @@ def Proposal_tester():
 
     cups_to_filter = None
 
-    proposal = Proposal(start_date=date_start, end_date=date_end, filter_cups=cups_to_filter, compute=False)
+    proposal = Proposal(start_date=date_start,
+                        end_date=date_end,
+                        filter_cups=cups_to_filter,
+                        compute=False)
 
-    proposal.add_new_scenario(name="Original projection",type="base",collection_name="base")
-    proposal.add_new_scenario(name="CUPS increased",type="cups_increased",collection_name="WTF")
-    proposal.add_new_scenario(name="CUPS erased",type="cups_erased",collection_name="erased")
+    proposal.add_new_scenario(name="Original projection",
+                              type="base",
+                              collection_name="base")
+    proposal.add_new_scenario(name="CUPS increased",
+                              type="cups_increased",
+                              collection_name="WTF")
+    proposal.add_new_scenario(name="CUPS erased",
+                              type="cups_erased",
+                              collection_name="erased")
     proposal.render_scenarios()
 
     proposal.show_proposal()
 
     #proposal.show_proposal()
     #proposal.create_report()
-
-
-
 
 
 def Sampledata_tester():
