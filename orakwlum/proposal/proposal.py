@@ -151,7 +151,7 @@ class Proposal(object):
 
         for scenario in self.scenarios:
             # append scenario to summary array
-            scenarios_summary.append( { 'name': scenario.name, 'prediction': self.prediction.future.consumptions_hourly} )
+            scenarios_summary.append( { 'name': scenario.name, 'prediction': scenario.history.consumptions_hourly} )
 
             # delete prediction temp collection
             self.prediction.delete_lite_prediction(scenario.collection)
