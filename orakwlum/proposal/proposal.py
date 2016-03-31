@@ -26,6 +26,9 @@ class Proposal(object):
         """
         Create a new Proposal
         """
+        self.start_date = start_date
+        self.end_date = end_date
+
         # Just create the proposal for the desired dates and CUPS
         self.prediction = Prediction(start_date=start_date,
                                      end_date=end_date,
@@ -38,6 +41,12 @@ class Proposal(object):
         On destroy Proposal, delete related scenario collections
         """
         self.cleanup()
+
+
+
+    def get_proposal_name (self):
+        return self.start_date.strftime("%y%m%d") + '_' + self.end_date.strftime("%y%m%d")
+
 
     def show_proposal(self):
         """
@@ -63,7 +72,7 @@ class Proposal(object):
         logger.info("Rendering all scenarios...")
         assert self.scenarios != None and type(self.scenarios) == list and len(
             self.
-            scenarios) > 0, "It's needed at least one scenario to review for render it!"
+                scenarios) > 0, "It's needed at least one scenario to review for render it!"
         for scenario in self.scenarios:
             logger.info("Rendering scenario '{}' (collection '{}')".format(
                 scenario.name, scenario.collection))
@@ -130,12 +139,26 @@ class Proposal(object):
 
     def cleanup(self):
         """
+        Extract the summary of each scenario and dump it on the proposals collection
         Drop all scenario collections from DB
         """
+        #scenarios_summary = dict
         #drop scenario collections
-        for scenario in self.scenarios:
-            self.prediction.delete_lite_prediction(scenario.collection)
-        #free memory alloc
 
-    def create_report(self):
-        pass
+        proposal = {'name': self.get_proposal_name(), 'scenarios': [], 'dates': [self.start_date, self.end_date]  }
+        scenarios_summary = []
+
+
+        for scenario in self.scenarios:
+            # append scenario to summary array
+            scenarios_summary.append( { 'name': scenario.name, 'prediction': self.prediction.future.consumptions_hourly} )
+
+            # delete prediction temp collection
+            self.prediction.delete_lite_prediction(scenario.collection)
+
+            #free memory alloc
+
+        proposal['scenarios'] = scenarios_summary
+
+        # nonclean way to upsert proposals... todo more elegant way
+        self.prediction.future.dataset.upsert({'name': self.get_proposal_name()}, proposal, collection='proposals')
