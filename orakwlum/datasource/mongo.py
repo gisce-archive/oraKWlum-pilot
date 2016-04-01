@@ -77,8 +77,9 @@ class Mongo(DataSource):
         hour_start = 00
         hour_end = 24
         day_start = 01
-        day_end = 29
-        month = 02
+        day_end = 31
+        month_start = 01
+        month_end = 12
         year = 2015
 
         dades_test = self.db[collection]
@@ -93,17 +94,21 @@ class Mongo(DataSource):
                 print "Error dropping '{}'".format(collection)
 
         dades_mostra = []
-        for day in range(day_start, day_end):
-            for hour in range(hour_start, hour_end):
-                for cups in cups_list:
-                    new_data = {"cups": cups,
-                                "hour": datetime(year, month, day, hour, 0),
-                                "consumption_real": random.randint(0, 100),
-                                "consumption_proposal": random.randint(0, 100)}
-                    dades_mostra.append(new_data)
-                    logger.debug(
-                        " - Creating new dummy data in '{}': '{}'".format(
-                            collection, new_data))
+        for month in range(month_start, month_end):
+            for day in range(day_start, day_end):
+                for hour in range(hour_start, hour_end):
+                    for cups in cups_list:
+                        try:
+                            new_data = {"cups": cups,
+                                        "hour": datetime(year, month, day, hour, 0),
+                                        "consumption_real": random.randint(0, 100),
+                                        "consumption_proposal": 0}
+                            dades_mostra.append(new_data)
+                            logger.debug(
+                                " - Creating new dummy data in '{}': '{}'".format(
+                                    collection, new_data))
+                        except ValueError: #"day is out of range for month":
+                            continue
 
         try:
             resultat = dades_test.insert_many(dades_mostra)
@@ -132,6 +137,10 @@ class Mongo(DataSource):
         """
         Return a filter expression based on date ranges or filtering by CUPS
         """
+
+        assert filter and type(filter) == str, "Filter field not correctly defined"
+        assert values and type(values) == list, "Filter values not correctly defined"
+
         exp = {}
         if filter == "hour":
             by_date = values
@@ -148,14 +157,16 @@ class Mongo(DataSource):
 
         return exp
 
-    def filter(self, by_date=None, by_cups=None, collection="test_data"):
+    def filter(self, what=None, values=None, collection="test_data"):
         """
         Return a filtered collection cursor
         """
 
-        exp = self.set_filter(by_date, by_cups)
+        exp = self.set_filter(what, values)
 
         data_filter = self.db[collection]
+
+        logger.info("Adding filter by {} to {}".format(exp, collection))
 
         return data_filter.find(exp)
 

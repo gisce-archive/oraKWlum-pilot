@@ -88,7 +88,7 @@ class Consumption(object):
                 distr=self.distributor,
                 time_disc=self.time_disc))
 
-    def save(self, dataset):
+    def save(self, dataset, collection):
         """
         Update or Insert a Consumption to DB
 
@@ -98,6 +98,7 @@ class Consumption(object):
 
         "PK" will be (cups, hour)
         """
+        assert dataset, "Dataset where to save not correctly defined"
 
         key_fields = ["cups", "hour"]
         fields_to_upsert = ["consumption_real", "consumption_proposal"]
@@ -112,4 +113,4 @@ class Consumption(object):
         update = {"consumption_real": self.consumption_real,
                   "consumption_proposal": self.consumption_proposal}
 
-        dataset.upsert(key=key, what=update)
+        dataset.upsert(key=key, what=update, collection=collection)

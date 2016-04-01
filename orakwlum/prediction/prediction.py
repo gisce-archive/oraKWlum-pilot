@@ -40,16 +40,11 @@ class Prediction(object):
         If not, just initializes the History, load related consumption and print it
 
         """
-        assert type(
-            start_date) == datetime, "Start date must contain a valid datetime"
-        assert type(
-            end_date) == datetime, "End date must contain a valid datetime"
+        assert type(start_date) == datetime, "Start date must contain a valid datetime"
+        assert type(end_date) == datetime, "End date must contain a valid datetime"
         assert end_date >= start_date, "End date must be greater than start date"
-        assert filter_cups == None or type(
-            filter_cups) == list, "cups filter must be None or a list"
-
+        assert filter_cups == None or type(filter_cups) == list, "cups filter must be None or a list"
         assert type(compute) == bool, "compute must be a flag True/False"
-
         assert type(collection) == str, "collection to use is not valid"
 
         logger.info("Initialising prediction for {} - {}".format(start_date,
@@ -76,7 +71,9 @@ class Prediction(object):
         logger.info("Creating FUTURE history")
         self.future = History(start_date=self.date_start,
                               end_date=self.date_end,
-                              cups=self.cups_to_filter)
+                              cups=self.cups_to_filter,
+                              collection=self.collection)
+
         self.future_days = self.get_list_of_days(self.date_start,
                                                  self.date_end)
 
@@ -90,8 +87,10 @@ class Prediction(object):
         for past_day in self.past_days:
             past_hist = History(start_date=past_day,
                                 end_date=past_day + one_day,
-                                cups=self.cups_to_filter)
+                                cups=self.cups_to_filter,
+                                collection=self.collection)
             self.past.append(past_hist)
+
 
         # Start projection from past
         self.project_past_to_future()
@@ -99,7 +98,8 @@ class Prediction(object):
         # Update future definition
         self.future = History(start_date=self.date_start,
                               end_date=self.date_end,
-                              cups=self.cups_to_filter)
+                              cups=self.cups_to_filter,
+                              collection=self.collection)
 
         # Load hourly aggregation and print it!
         print "Created Prediction for {} - {}".format(self.date_start,
@@ -149,6 +149,7 @@ class Prediction(object):
 
         Save to datasource as Future
         """
+
         logger.info("")
         logger.info("Starting DELOREAN's engine....")
         logger.info("   DOC >> Marty, are you ready to jump to the future?")
@@ -156,6 +157,9 @@ class Prediction(object):
         logger.info("Taking past real values to future as a proposal!")
 
         previous_hour = datetime(1500, 1, 1, 0, 0)
+
+        logger.info("list of days:" + str(self.future_days))
+        logger.info("list of days:" + str(self.past_days))
 
         # each past History
         for past in self.past:
@@ -183,7 +187,7 @@ class Prediction(object):
 
                 #save it to DB with the new values!
                 ## todo think about use different datasets (self.futureXX.dataset)
-                consumption.save(self.future.dataset)
+                consumption.save(dataset=self.future.dataset, collection=self.collection)
 
     def get_past_days(self, future):
         """
