@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head>
+    <script src="lib/d3.v3.min.js"></script>
+    <link href="lib/nv.d3.min.css" rel="stylesheet">
+    <script src="lib/nv.d3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="lib/report.js"></script>
+
+    <style>
+        text {
+            font: 12px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        html, body, #chart, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+        .dashed {
+            stroke-dasharray: 5,5;
+        }
+    </style>
+</head>
+
+<body class='with-3d-shadow with-transitions'>
+<div id="chart"></div>
+
+<script>
+    $(document).ready(function () {
+        create_chart("#chart");
+    });
+</script>
+</body>
+</html>
