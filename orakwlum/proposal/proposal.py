@@ -22,7 +22,7 @@ class Proposal(object):
 
     """
 
-    def __init__(self, start_date, end_date, filter_cups=None, compute=True):
+    def __init__(self, start_date, end_date, filter_cups=None, compute=True, collection="dataset", collection_proposals='proposals'):
         """
         Create a new Proposal
         """
@@ -33,8 +33,12 @@ class Proposal(object):
         self.prediction = Prediction(start_date=start_date,
                                      end_date=end_date,
                                      filter_cups=filter_cups,
-                                     compute=compute)
+                                     compute=compute,
+                                     collection=collection)
         self.scenarios = []
+
+        self.collection = collection
+        self.collection_proposals=collection_proposals
 
     def __del__(self):
         """
@@ -161,4 +165,6 @@ class Proposal(object):
         proposal['scenarios'] = scenarios_summary
 
         # nonclean way to upsert proposals... todo more elegant way
-        self.prediction.future.dataset.upsert({'name': self.get_proposal_name()}, proposal, collection='proposals')
+        self.prediction.future.dataset.upsert({'name': self.get_proposal_name()}, proposal, collection=self.collection_proposals)
+
+

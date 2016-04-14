@@ -72,15 +72,16 @@ def Prediction_tester():
 
 
 def Proposal_tester():
-    date_start = datetime(2016, 3, 01)
-    date_end = datetime(2016, 3, 2)
+    date_start = datetime(2016, 04, 01)
+    date_end = datetime(2016, 04, 30)
 
     cups_to_filter = None
 
     proposal = Proposal(start_date=date_start,
                         end_date=date_end,
                         filter_cups=cups_to_filter,
-                        compute=False)
+                        compute=True,
+                        collection="dataset")
 
     proposal.add_new_scenario(name="Original projection",
                               type="base",
@@ -102,14 +103,13 @@ def Proposal_tester():
 
     proposal.show_proposal()
 
-    #proposal.create_report()
-
 
 def Sampledata_tester():
     dades = Mongo(user="orakwlum", db="orakwlum")
-    dades.test_data(drop=True)
+    dades.test_data(drop=True, collection="dataset")
 
 
 logging.basicConfig(level=logging.INFO)
 
+#Sampledata_tester()
 Proposal_tester()
