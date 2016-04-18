@@ -114,14 +114,27 @@ def Sampledata_tester():
 
 def Import_tester():
     importer = F1_importer("./testData.xml")
-    print "Type", importer.get_type()
+    print "Type: {}".format(importer.type)
 
-    print "Count", importer.get_invoices_count()
+    print "Count: {}".format(importer.invoices_count)
 
-    invoices = importer.get_invoices()
+    invoices = importer.invoices
 
     for factura_atr in invoices['FacturaATR']:
-        print "CUPS", factura_atr.cups
+        print "CUPS {}".format(factura_atr.cups)
+        print "Invoicing date{}".format(factura_atr.data_factura)
+        print "Amount {}".format(factura_atr.import_net)
+
+        (periods, total) = factura_atr.get_info_activa()
+
+        print "KW {}".format(total)
+
+        for period in periods:
+            print "  {}, between {} - {}".format(period._name, period._data_inici, period._data_final)
+            quantity = float(period.periode.ValorEnergiaActiva.text)
+            price = float(period.periode.PrecioEnergia.text)
+
+            print "  {}kw * {}€ = {}".format(quantity, price, quantity*price)
 
 logging.basicConfig(level=logging.INFO)
 

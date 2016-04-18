@@ -16,26 +16,24 @@ class F1_importer(Import):
     """
 
     def __init__(self, file):
-        self.file = open((file), "r")
+        self.file = open(file, "r")
         self.parse()
 
+    def parse(self):
+        self.f1 = F1(self.file)
+        self.f1.set_xsd()
+        self.f1.parse_xml()
 
-
-    def get_type (self):
+    @property
+    def type(self):
         return self.f1.get_tipus_xml()
     #   return "F1"
 
-
-    def parse (self):
-        self.f1 = F1(self.file)
-        self.f1.set_xsd()
-        self.type = self.f1.get_tipus_xml()
-        self.f1.parse_xml()
-
-
-    def get_invoices_count (self):
+    @property
+    def invoices_count(self):
         return self.f1.num_factures
 
-
-    def get_invoices(self):
+    @property
+    def invoices(self):
         return self.f1.get_factures()
+
