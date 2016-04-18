@@ -120,21 +120,7 @@ def Import_tester():
 
     invoices = importer.invoices
 
-    for factura_atr in invoices['FacturaATR']:
-        print "CUPS {}".format(factura_atr.cups)
-        print "Invoicing date{}".format(factura_atr.data_factura)
-        print "Amount {}".format(factura_atr.import_net)
-
-        (periods, total) = factura_atr.get_info_activa()
-
-        print "KW {}".format(total)
-
-        for period in periods:
-            print "  {}, between {} - {}".format(period._name, period._data_inici, period._data_final)
-            quantity = float(period.periode.ValorEnergiaActiva.text)
-            price = float(period.periode.PrecioEnergia.text)
-
-            print "  {}kw * {}€ = {}".format(quantity, price, quantity*price)
+    importer.process_consumptions()
 
 logging.basicConfig(level=logging.INFO)
 

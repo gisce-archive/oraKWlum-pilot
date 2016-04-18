@@ -59,8 +59,7 @@ class Consumption(object):
         elif type_hour == datetime:
             self.hour = hour
         else:
-            print "Hour is not propertly defined:"
-            print type_hour
+            print "Hour is not propertly defined:", type_hour
             raise
 
         self.consumption_real = real
