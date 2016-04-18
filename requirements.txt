@@ -2,3 +2,4 @@ pytz
 enerdata
 pymongo
 https://github.com/gisce/one_year_ago/archive/master.zip
+https://github.com/gisce/switching/archive/master.zip
