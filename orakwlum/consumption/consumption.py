@@ -72,6 +72,16 @@ class Consumption(object):
                 proposal=self.consumption_proposal))
         logger.debug(self.stringify_static_data())
 
+    def __str__(self):
+        return "<orakwlum.consumption.consumption.Consumption " + self.stringify_consumption() + " >"
+
+    def stringify_consumption(self):
+        return '{cups} at {hour}. Real: {real}, estimated: {proposal}'.format(
+            cups=self.cups.number,
+            hour=self.hour,
+            real=self.consumption_real,
+            proposal=self.consumption_proposal)
+
     def stringify_static_data(self):
         return (
             '  static data: prov: {prov}, ZIP: {zip}, Tariff: {tariff}, voltage: {voltage}, PoM: {pom}, Distr: {distr}, Time Discrimination: {time_disc}'.format(

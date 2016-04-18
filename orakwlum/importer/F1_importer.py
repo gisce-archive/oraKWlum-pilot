@@ -48,34 +48,24 @@ class F1_importer(Import):
     def print_invoice_summary(self, factura_atr):
         print "CUPS {}".format(factura_atr.cups)
         print "Invoicing date {}".format(factura_atr.data_factura)
-        print "Amount {}".format(factura_atr.import_net)
+        print "Amount {}€".format(factura_atr.import_net)
+        print "Tariff {}".format(defs.INFO_TARIFA[factura_atr.codi_tarifa]['name'])
 
         periods, total = factura_atr.get_info_activa()
 
-        print "{}".format(total)
+        print "Energy {}".format(total)
 
         for period in periods:
             quantity = float(period.quantitat)
             price = float(period.preu_unitat)
             print "  {}, between {} - {}".format(period._name, period._data_inici, period._data_final)
             print "  {}kw * {}€/kw = {}€".format(quantity, price, quantity * price)
-            print "  Tarifa {}".format(factura_atr.codi_tarifa)
 
 
     def convert_string_to_datetime(self, string):
         return datetime.strptime(string + " 1","%Y-%m-%d %I")
 
 
-    def get_tariff_per_tarif(self, tarifa):
-        return {
-            '2.0DHS': T20DHS,
-            '2.1DHS': T21DHS,
-            '2.0A': T20A,
-            '2.0DHA': T20DHA,
-            '2.1A': T21A,
-            '2.1DHA': T21DHA,
-            '3.0A': T30A,
-        }.get(tarifa, None)
 
     def process_consumptions(self):
         invoices = self.invoices
@@ -88,7 +78,7 @@ class F1_importer(Import):
             codi_tarifa = factura_atr.codi_tarifa
 
             tariff_name = defs.INFO_TARIFA[codi_tarifa]['name']
-            tariff = self.get_tariff_per_tarif(tariff_name)()
+            tariff = get_tariff_by_code(tariff_name)()
 
             #Profile and estimate Invoice range for each period
 
@@ -98,14 +88,16 @@ class F1_importer(Import):
                 measures = []
 
                 profile = Profile(start_hour, end_hour, [])
-                #t = get_tariff_per_tarif()
-
 
                 estimation = profile.estimate(tariff, {str(period._name): int(period.quantitat)})
 
                 print estimation
 
-                #For each hour of the profile create a Consumption
-                #consumption = Consumption(factura_atr.cups, [2016, 3, 2, 15], consumption_total)
+                for measure in estimation.measures:
+                    print measure.date, measure.measure
 
-                #Save (Upsert) consumtion following strategy "importance of data"
+                    #For each hour of the profile create a Consumption
+                    consumption = Consumption(factura_atr.cups, measure.date, measure.measure)
+                    print consumption
+
+                    #Save (Upsert) consumtion following strategy "importance of data"
