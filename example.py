@@ -5,6 +5,7 @@ from orakwlum.consumption import *
 from orakwlum.datasource import *
 from orakwlum.prediction import *
 from orakwlum.proposal import *
+from orakwlum.importer import *
 
 import logging
 from datetime import datetime
@@ -109,7 +110,14 @@ def Sampledata_tester():
     dades.test_data(drop=True, collection="dataset")
 
 
+
+
+def Import_tester():
+    pass
+
 logging.basicConfig(level=logging.INFO)
 
 #Sampledata_tester()
-Proposal_tester()
+#Proposal_tester()
+
+Import_tester()
