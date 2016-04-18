@@ -15,5 +15,5 @@ class Import(object):
     def __init__(self, file):
         self.file = file
 
-    def get_type (self)
+    def get_type (self):
         pass

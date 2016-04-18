@@ -113,7 +113,8 @@ def Sampledata_tester():
 
 
 def Import_tester():
-    pass
+    importer = F1_importer("file")
+    print importer.get_type()
 
 logging.basicConfig(level=logging.INFO)
 
