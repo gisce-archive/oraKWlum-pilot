@@ -113,7 +113,7 @@ def Sampledata_tester():
 
 
 def Import_tester():
-    importer = F1_importer("./testData.xml")
+    importer = F1Importer("./testData.xml")
     print "Type: {}".format(importer.type)
 
     print "Count: {}".format(importer.invoices_count)

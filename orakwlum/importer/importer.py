@@ -13,7 +13,8 @@ class Import(object):
     """
 
     def __init__(self, file):
-        self.file = file
+        self.file_name = file
+        self.file = open(file, "r")
 
-    def get_type (self):
+    def get_type(self):
         pass
