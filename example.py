@@ -113,8 +113,15 @@ def Sampledata_tester():
 
 
 def Import_tester():
-    importer = F1_importer("file")
-    print importer.get_type()
+    importer = F1_importer("./testData.xml")
+    print "Type", importer.get_type()
+
+    print "Count", importer.get_invoices_count()
+
+    invoices = importer.get_invoices()
+
+    for factura_atr in invoices['FacturaATR']:
+        print "CUPS", factura_atr.cups
 
 logging.basicConfig(level=logging.INFO)
 
