@@ -7,6 +7,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+from orakwlum.datasource import Mongo
+
 
 
 class Import(object):
@@ -14,16 +16,12 @@ class Import(object):
     Main Import object
     """
 
-    SOURCE_PRIORITY = {
-        'F5D': '00',
-        'F1': '10',
-        'P5D': '20',
-        'Q1': '30'
-    }
 
-    def __init__(self, file):
+    def __init__(self, file, collection):
         self.file_name = file
         self.file = open(file, "r")
+        self.dataset = Mongo(user="orakwlum", db="orakwlum")
+        self.collection = collection
 
     def get_type(self):
         pass
