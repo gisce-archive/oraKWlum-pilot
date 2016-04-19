@@ -29,16 +29,15 @@ class Consumption(object):
        time_disc: Hourly discrimination of this CUPS at this hour. Static info related to the cups used for advanced filtering
     """
 
-    #Static info
-    tariff = None
-    ZIP = None
-    province = None
-    voltage = None
-    pom_type = None
-    distributor = None
-    time_disc = None
+    SOURCE_PRIORITY = {
+        'F5D': '00',
+        'F1': '10',
+        'P5D': '20',
+        'Q1': '30'
+    }
 
-    def __init__(self, cups, hour, real=None, proposal=None):
+
+    def __init__(self, cups, hour, origin, real=None, proposal=None):
         logger.debug('Creating new consumption')
         assert cups, "CUPS is needed to create a Consumption"
         assert hour, "hour is mandatory to create a Consumption"
@@ -62,8 +61,25 @@ class Consumption(object):
             print "Hour is not propertly defined:", type_hour
             raise
 
+
+        assert origin in self.SOURCE_PRIORITY, "Origin '{}' not knowed...\n origins: '{}'".format(origin, self.SOURCE_PRIORITY)
+
         self.consumption_real = real
         self.consumption_proposal = proposal
+
+        # Origin and priority of this consumption (F5D, F1, P5D, Q1)
+        self.origin = origin
+        self.origin_priority = self.set_origin_priority(self.origin)
+
+        # Static info
+        self.tariff = None
+        self.ZIP = None
+        self.province = None
+        self.voltage = None
+        self.pom_type = None
+        self.distributor = None
+        self.time_disc = None
+
         logger.debug(
             '  for {cups} at {hour}. Real: {real}, estimated: {proposal}'.format(
                 cups=self.cups.number,
@@ -74,6 +90,12 @@ class Consumption(object):
 
     def __str__(self):
         return "<orakwlum.consumption.consumption.Consumption " + self.stringify_consumption() + " >"
+
+    def __getitem__(self, item):
+        return self.__getattribute__(item)
+
+    def set_origin_priority(self,origin):
+        return self.SOURCE_PRIORITY.get(origin, "10000")
 
     def stringify_consumption(self):
         return '{cups} at {hour}. Real: {real}, estimated: {proposal}'.format(
@@ -110,7 +132,8 @@ class Consumption(object):
         assert dataset, "Dataset where to save not correctly defined"
 
         key_fields = ["cups", "hour"]
-        fields_to_upsert = ["consumption_real", "consumption_proposal"]
+        fields_to_upsert = ["consumption_real", "consumption_proposal", "origin", "origin_priority",
+                            "province", "ZIP", "tariff", "voltage", "pom_type", "distributor", "time_disc"]
 
         key = dict()
         update = dict()
@@ -119,7 +142,15 @@ class Consumption(object):
         key = {"cups": self.cups.number, "hour": self.hour}
 
         assert self.consumption_proposal >= 0 or self.consumption_real >= 0
-        update = {"consumption_real": self.consumption_real,
-                  "consumption_proposal": self.consumption_proposal}
+
+        # Create update expression using fields_to_upsert array
+        for field in fields_to_upsert:
+            update.update({ field: self[field]})
 
         dataset.upsert(key=key, what=update, collection=collection)
+
+
+    def get_one (self, dataset, collection):
+        assert dataset, "Dataset where fetch is not correctly defined"
+
+        return dataset.get_specific(self.hour, self.cups, collection)
