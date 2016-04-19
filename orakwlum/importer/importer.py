@@ -19,9 +19,15 @@ class Import(object):
 
     def __init__(self, file, collection):
         self.file_name = file
-        self.file = open(file, "r")
-        self.dataset = Mongo(user="orakwlum", db="orakwlum")
-        self.collection = collection
+        try:
+            self.file = open(file, "r")
+            self.dataset = Mongo(user="orakwlum", db="orakwlum")
+            self.collection = collection
+            
+        except Exception, e:
+            print "The file {} can't be processed\n{}".format(file,e)
+
+
 
     def get_type(self):
         pass
