@@ -96,16 +96,21 @@ class F1Importer(Import):
                     consumption_from_measure = Consumption(factura_atr.cups,
                                                            measure.date,
                                                            measure.measure)
+
+                    
                     print consumption_from_measure
 
                     # todo Save (Upsert) consumtion following strategy "importance of data"
+
+
+
 
     def convert_string_to_datetime(self, string):
         "Auxiliar tmp toDate function"
         # todo review what it's better
         #   - assume 00 / 01h of each day  <----- now implemented
         #   - fetch the <LecturaDesde><FechaHora> / <LecturaHasta><FechaHora> from F1 file
-        return datetime.strptime(string + " 1", "%Y-%m-%d %I")
+        return datetime.strptime(string + " 0", "%Y-%m-%d %H")
 
     @staticmethod
     def print_invoice_summary(factura_atr):
