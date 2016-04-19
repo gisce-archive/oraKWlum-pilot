@@ -97,12 +97,26 @@ class F1Importer(Import):
                                                            measure.date,
                                                            measure.measure)
 
-                    
-                    print consumption_from_measure
+                    self.save_consumption_if_needed(consumption_from_measure)
 
                     # todo Save (Upsert) consumtion following strategy "importance of data"
 
 
+    def save_consumption_if_needed (self, consumption):
+        print consumption
+
+        importer_priority = self.SOURCE_PRIORITY[self.type]
+
+        # If highest priority directly upsert to datasource
+        if importer_priority == 0:
+            #consumption.save()
+            print "Saving by 0 priority"
+            pass
+        else:
+            # Fetch current data from datasource and compare priorities
+
+            current_data = None
+            #current_data_priority = self.SOURCE_PRIORITY[current_data.type]
 
 
     def convert_string_to_datetime(self, string):

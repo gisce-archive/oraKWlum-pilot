@@ -7,10 +7,19 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+
+
 class Import(object):
     """
     Main Import object
     """
+
+    SOURCE_PRIORITY = {
+        'F5D': '00',
+        'F1': '10',
+        'P5D': '20',
+        'Q1': '30'
+    }
 
     def __init__(self, file):
         self.file_name = file
