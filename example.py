@@ -132,7 +132,7 @@ def Import_tester():
 
 
 def Import_testerLiteF1():
-    importer = F1Importer("./testData.xml")
+    importer = F1Importer("./testDataF1.xml", collection="rolf")
     print "Type: {}".format(importer.type)
     print "Count: {}".format(importer.invoices_count)
 
@@ -141,13 +141,12 @@ def Import_testerLiteF1():
 
 
 def Import_testerLiteQ1():
-    importer = Q1Importer("./testData.xml")
+    importer = Q1Importer("./testDataQ1.xml", collection="rolf")
     print "Type: {}".format(importer.type)
-    #print "Count: {}".format(importer.invoices_count)
 
-    #comptadors = importer.q1.get_comptadors()
-    print importer.q1
-    #importer.process_consumptions()
+    comptadors = importer.lectures
+
+    importer.process_consumptions()
 
 
 logging.basicConfig(level=logging.DEBUG)

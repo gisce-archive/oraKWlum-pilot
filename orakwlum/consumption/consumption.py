@@ -37,7 +37,7 @@ class Consumption(object):
     }
 
 
-    def __init__(self, cups, hour, origin, real=None, proposal=None):
+    def __init__(self, cups, hour, origin, real=None, proposal=None, time_disc=None):
         logger.debug('Creating new consumption')
         assert cups, "CUPS is needed to create a Consumption"
         assert hour, "hour is mandatory to create a Consumption"
@@ -78,7 +78,7 @@ class Consumption(object):
         self.voltage = None
         self.pom_type = None
         self.distributor = None
-        self.time_disc = None
+        self.time_disc = time_disc
 
         logger.debug(
             '  for {cups} at {hour}. Real: {real}, estimated: {proposal}'.format(

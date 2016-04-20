@@ -1,6 +1,7 @@
 .idea/
 *.swp
 *testData*
+orakwlum/importer/merge/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
