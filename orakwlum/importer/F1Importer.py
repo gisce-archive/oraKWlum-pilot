@@ -87,11 +87,11 @@ class F1Importer(Import):
                 estimation = profile.estimate(tariff,
                                               {str(period.name): int(period.quantitat)})
 
-                print estimation
+                logger.debug(estimation)
 
                 # For each measure of the profile create a Consumption
                 for measure in estimation.measures:
-                    print "  [F1] Processing", factura_atr.cups, measure.date, measure.measure
+                    logger.info( "  [F1] Processing {} {} {}".format( factura_atr.cups, measure.date, measure.measure) )
 
                     consumption_from_measure = Consumption(cups=factura_atr.cups,
                                                            hour=measure.date,

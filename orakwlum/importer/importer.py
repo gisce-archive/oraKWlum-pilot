@@ -23,7 +23,7 @@ class Import(object):
             self.file = open(file, "r")
             self.dataset = Mongo(user="orakwlum", db="orakwlum")
             self.collection = collection
-            
+
         except Exception, e:
             print "The file {} can't be processed\n{}".format(file,e)
 

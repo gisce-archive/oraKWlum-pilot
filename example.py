@@ -111,20 +111,37 @@ def Sampledata_tester():
 
 
 
-
+import glob, os
 def Import_tester():
+
+    os.chdir("/opt/srcs/abe/abe_f1_comer_706/2015-01-Mes/0706/")
+    files = glob.glob("*.xml")
+    max = len(files)
+
+    for idx,file in enumerate(files):
+        if idx<149:
+            continue
+        print "{}/{} Procesing F1 '{}'".format(idx+1, max, file)
+        importer = F1Importer(file, "import")
+        #print "Type: {}".format(importer.type)
+        #print "Count: {}".format(importer.invoices_count)
+        invoices = importer.invoices
+        importer.process_consumptions()
+
+
+
+
+def Import_testerLite():
     importer = F1Importer("./testData.xml")
     print "Type: {}".format(importer.type)
-
     print "Count: {}".format(importer.invoices_count)
 
     invoices = importer.invoices
-
     importer.process_consumptions()
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 #Sampledata_tester()
 #Proposal_tester()
 
-Import_tester()
+Import_testerLite()
