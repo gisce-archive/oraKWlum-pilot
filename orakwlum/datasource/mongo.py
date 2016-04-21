@@ -36,7 +36,7 @@ class Mongo(DataSource):
 
         self.db_connection_string = "mongodb://" + host + ":" + port + "/"
 
-        logger.info("Establishing new Mongo datasource at '{}'".format(
+        logger.debug("Establishing new Mongo datasource at '{}'".format(
             self.db_connection_string))
 
         try:
@@ -166,7 +166,7 @@ class Mongo(DataSource):
 
         data_filter = self.db[collection]
 
-        logger.info("Adding filter by {} to {}".format(exp, collection))
+        logger.debug("Adding filter by {} to {}".format(exp, collection))
 
         return data_filter.find(exp)
 
@@ -222,7 +222,7 @@ class Mongo(DataSource):
         """
         expression = [{"$group": {"_id": "$" + field, "count": {"$sum": 1}}}]
 
-        logger.info("Aggregating and counting by '{}'".format(field))
+        logger.debug("Aggregating and counting by '{}'".format(field))
 
         return self.aggregate(collection, expression)
 
@@ -235,7 +235,7 @@ class Mongo(DataSource):
         """
         expression = [{"$group": {"_id": "$" + field}}]
 
-        logger.info("Aggregating by '{}'".format(field))
+        logger.debug("Aggregating by '{}'".format(field))
 
         return self.aggregate(collection, expression)
 
@@ -256,7 +256,7 @@ class Mongo(DataSource):
         expression = self.aggregate_action(expression, "count",
                                            fields_to_count)
 
-        logger.info("Aggregating by '{}' and adding by '{}'".format(
+        logger.debug("Aggregating by '{}' and adding by '{}'".format(
             field_to_agg, field_to_agg))
 
         return self.aggregate(collection, expression)
@@ -351,9 +351,9 @@ class Mongo(DataSource):
 
         #print "db.test_data.aggregate( " + str(expression) + ")"
 
-        logger.info(" Using expression: \n{}".format(expression))
+        logger.debug(" Using expression: \n{}".format(expression))
 
-        logger.info(
+        logger.debug(
             "Aggregating by '{}', filtering by {} and adding by '{}'".format(
                 field_to_agg, fields_to_filter, fields_to_operate))
 
@@ -391,6 +391,6 @@ class Mongo(DataSource):
         """
         Drops a collection
         """
-        logger.info("Deleting collection '{}'".format(collection))
+        logger.debug("Deleting collection '{}'".format(collection))
 
         return self.db[collection].drop()
