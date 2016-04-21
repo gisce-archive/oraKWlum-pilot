@@ -149,9 +149,44 @@ def Import_testerLiteQ1():
     importer.process_consumptions()
 
 
-logging.basicConfig(level=logging.DEBUG)
+def process_file(args):
+    file, idx, max = args
+    mess ="{}/{} Procesing F1 '{}'".format(idx, max, file)
+    print mess
+    logging.info(mess)
+
+    importer = F1Importer(file, "import")
+    #print "Type: {}".format(importer.type)
+    #print "Count: {}".format(importer.invoices_count)
+    invoices = importer.invoices
+    importer.process_consumptions()
+    os.rename(file, file+"_done")
+
+
+
+from multiprocessing.dummy import Pool as ThreadPool
+import glob, os
+def Import_Q1():
+
+    os.chdir("/opt/srcs/abe/abe_f1_comer_706/2015-01-Mes/0706/")
+    files = glob.glob("*.xml")
+    max = len(files)
+
+    pool = ThreadPool(4)
+    #pool.map( process_file, files )
+    pool.map( process_file, ((file, idx, max) for idx, file in enumerate(files)) )
+
+    pool.close()
+    pool.join()
+
+    #for idx,file in enumerate(files):
+        #process_file(file)
+
+
+
+logging.basicConfig(level=logging.INFO)
 
 #Sampledata_tester()
 #Proposal_tester()
 
-Import_testerLiteQ1()
+Import_Q1()
