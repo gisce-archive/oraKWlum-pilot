@@ -204,7 +204,7 @@ def Import_Massive(path_="/opt/srcs/f1/F101", type="F1", CPUs=4):
     try:
         pool.map(processer , ((fileF1, idx, max) for idx, fileF1 in enumerate(files)) )
     except Exception as e:
-        print "Thread error at processing '<{}> {}'".format( type(e), e.args )
+        print "Thread error at processing '<{}>'".format(e)
 
     pool.close()
     pool.join()
