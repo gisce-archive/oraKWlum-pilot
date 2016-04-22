@@ -1,5 +1,6 @@
 pytz
 enerdata
 switching
+https://github.com/gisce/cchloader/archive/gisce.zip
 pymongo
 one_year_ago
