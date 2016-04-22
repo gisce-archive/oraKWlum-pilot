@@ -104,8 +104,6 @@ class Q1Importer(Import):
             ## tariff = get_tariff_by_code(tariff_name)()
             tariff = T20A()
 
-            print lectura
-
             start_hour = TIMEZONE.localize(self.convert_string_to_datetime(lectura['data_inici']))
             end_hour = TIMEZONE.localize(self.convert_string_to_datetime(lectura['data_final']))
             measures = []
@@ -121,7 +119,7 @@ class Q1Importer(Import):
 
             # For each measure of the profile create a Consumption
             for measure in estimation.measures:
-                logger.info( "  [Q1] Processing {} {} {}".format( lectura['cups'], measure.date, measure.measure) )
+                logger.debug( "  [Q1] Processing {} {} {}".format( lectura['cups'], measure.date, measure.measure) )
 
                 consumption_from_measure = Consumption(cups=lectura['cups'],
                                                        hour=measure.date,

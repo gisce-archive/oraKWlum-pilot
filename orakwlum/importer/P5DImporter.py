@@ -26,11 +26,13 @@ class P5DImporter(Import):
         Set P5D file and start parsing it
         """
         super(P5DImporter, self).__init__(file_to_import, collection)
-        self.parse()
 
     @property
     def type(self):
         return "P5D"
+
+    def process_consumption(self):
+        self.parse()
 
     def parse(self):
         """
@@ -46,7 +48,6 @@ class P5DImporter(Import):
                     for line in cch_file:
                         if not line:
                             continue
-                        print line
                         self.parse_line(line)
         else:
             with CchFile(self.file_name) as cch_file:
