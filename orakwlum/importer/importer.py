@@ -70,7 +70,7 @@ class Import(object):
 
         # Finally, IMPORTER vs DATA    ## if the same priority override datasource (rectifications)
         if (importer_priority <= current_data_priority):
-            logger.info("Saving imported consumption to DB (priorities: '{} vs {}')".format(importer_priority, current_data_priority))
+            logger.debug("Saving imported consumption to DB (priorities: '{} vs {}')".format(importer_priority, current_data_priority))
             consumption_to_save.save(self.dataset, self.collection)
 
 

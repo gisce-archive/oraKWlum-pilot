@@ -64,7 +64,7 @@ class F1Importer(Import):
 
         # Get all FacturaATR invoices
         for factura_atr in invoices['FacturaATR']:
-            self.print_invoice_summary(factura_atr)
+            #self.print_invoice_summary(factura_atr)
             periods, consumption_total = factura_atr.get_info_activa()
 
             tariff_code = factura_atr.codi_tarifa
@@ -91,7 +91,7 @@ class F1Importer(Import):
 
                 # For each measure of the profile create a Consumption
                 for measure in estimation.measures:
-                    logger.info( "  [F1] Processing {} {} {}".format( factura_atr.cups, measure.date, measure.measure) )
+                    logger.debug( "  [F1] Processing {} {} {}".format( factura_atr.cups, measure.date, measure.measure) )
 
                     consumption_from_measure = Consumption(cups=factura_atr.cups,
                                                            hour=measure.date,
