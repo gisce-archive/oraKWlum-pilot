@@ -76,32 +76,32 @@ class F1Importer(Import):
                 assert isinstance(period.data_inici, str)
                 assert isinstance(period.data_final, str)
 
-                start_hour = TIMEZONE.localize(self.convert_string_to_datetime(period.data_inici))
-                end_hour = TIMEZONE.localize(self.convert_string_to_datetime(period.data_final))
+                start_hour = TIMEZONE.localize(self.convert_string_to_datetime(
+                    period.data_inici))
+                end_hour = TIMEZONE.localize(self.convert_string_to_datetime(
+                    period.data_final))
                 measures = []
 
-                profile = Profile(start_hour,
-                                  end_hour,
-                                  measures)
+                profile = Profile(start_hour, end_hour, measures)
 
-                estimation = profile.estimate(tariff,
-                                              {str(period.name): int(period.quantitat)})
+                estimation = profile.estimate(
+                    tariff, {str(period.name): int(period.quantitat)})
 
                 logger.debug(estimation)
 
                 # For each measure of the profile create a Consumption
                 for measure in estimation.measures:
-                    logger.debug( "  [F1] Processing {} {} {}".format( factura_atr.cups, measure.date, measure.measure) )
+                    logger.debug("  [F1] Processing {} {} {}".format(
+                        factura_atr.cups, measure.date, measure.measure))
 
-                    consumption_from_measure = Consumption(cups=factura_atr.cups,
-                                                           hour=measure.date,
-                                                           real=measure.measure,
-                                                           origin=self.type)
+                    consumption_from_measure = Consumption(
+                        cups=factura_atr.cups,
+                        hour=measure.date,
+                        real=measure.measure,
+                        origin=self.type)
 
                     # Save (Upsert) consumtion following strategy "importance of data"
                     self.save_consumption_if_needed(consumption_from_measure)
-
-
 
     @staticmethod
     def print_invoice_summary(factura_atr):
@@ -111,7 +111,8 @@ class F1Importer(Import):
         print "CUPS {}".format(factura_atr.cups)
         print "Invoicing date {}".format(factura_atr.data_factura)
         print "Amount {}€".format(factura_atr.import_net)
-        print "Tariff {}".format(defs.INFO_TARIFA[factura_atr.codi_tarifa]['name'])
+        print "Tariff {}".format(defs.INFO_TARIFA[factura_atr.codi_tarifa][
+            'name'])
 
         periods, total = factura_atr.get_info_activa()
 
@@ -123,10 +124,8 @@ class F1Importer(Import):
             quantity = float(period.quantitat)
 
             price = float(period.preu_unitat)
-            print "  {}, between {} - {}".format(period.name,
-                                                 period.data_inici,
-                                                 period.data_final)
+            print "  {}, between {} - {}".format(
+                period.name, period.data_inici, period.data_final)
 
-            print "  {}kw * {}€/kw = {}€".format(quantity,
-                                                 price,
+            print "  {}kw * {}€/kw = {}€".format(quantity, price,
                                                  quantity * price)

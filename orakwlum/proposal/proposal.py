@@ -22,7 +22,13 @@ class Proposal(object):
 
     """
 
-    def __init__(self, start_date, end_date, filter_cups=None, compute=True, collection="dataset", collection_proposals='proposals'):
+    def __init__(self,
+                 start_date,
+                 end_date,
+                 filter_cups=None,
+                 compute=True,
+                 collection="dataset",
+                 collection_proposals='proposals'):
         """
         Create a new Proposal
         """
@@ -38,7 +44,7 @@ class Proposal(object):
         self.scenarios = []
 
         self.collection = collection
-        self.collection_proposals=collection_proposals
+        self.collection_proposals = collection_proposals
 
     def __del__(self):
         """
@@ -46,11 +52,9 @@ class Proposal(object):
         """
         self.cleanup()
 
-
-
-    def get_proposal_name (self):
-        return self.start_date.strftime("%y%m%d") + '_' + self.end_date.strftime("%y%m%d")
-
+    def get_proposal_name(self):
+        return self.start_date.strftime(
+            "%y%m%d") + '_' + self.end_date.strftime("%y%m%d")
 
     def show_proposal(self):
         """
@@ -76,7 +80,7 @@ class Proposal(object):
         logger.info("Rendering all scenarios...")
         assert self.scenarios != None and type(self.scenarios) == list and len(
             self.
-                scenarios) > 0, "It's needed at least one scenario to review for render it!"
+            scenarios) > 0, "It's needed at least one scenario to review for render it!"
         for scenario in self.scenarios:
             logger.info("Rendering scenario '{}' (collection '{}')".format(
                 scenario.name, scenario.collection))
@@ -149,13 +153,16 @@ class Proposal(object):
         #scenarios_summary = dict
         #drop scenario collections
 
-        proposal = {'name': self.get_proposal_name(), 'scenarios': [], 'dates': [self.start_date, self.end_date]  }
+        proposal = {'name': self.get_proposal_name(),
+                    'scenarios': [],
+                    'dates': [self.start_date, self.end_date]}
         scenarios_summary = []
-
 
         for scenario in self.scenarios:
             # append scenario to summary array
-            scenarios_summary.append( { 'name': scenario.name, 'prediction': scenario.history.consumptions_hourly} )
+            scenarios_summary.append(
+                {'name': scenario.name,
+                 'prediction': scenario.history.consumptions_hourly})
 
             # delete prediction temp collection
             self.prediction.delete_lite_prediction(scenario.collection)
@@ -165,6 +172,7 @@ class Proposal(object):
         proposal['scenarios'] = scenarios_summary
 
         # nonclean way to upsert proposals... todo more elegant way
-        self.prediction.future.dataset.upsert({'name': self.get_proposal_name()}, proposal, collection=self.collection_proposals)
-
-
+        self.prediction.future.dataset.upsert(
+            {'name': self.get_proposal_name()},
+            proposal,
+            collection=self.collection_proposals)

@@ -100,14 +100,16 @@ class Mongo(DataSource):
                     for cups in cups_list:
                         try:
                             new_data = {"cups": cups,
-                                        "hour": datetime(year, month, day, hour, 0),
-                                        "consumption_real": random.randint(0, 100),
+                                        "hour":
+                                        datetime(year, month, day, hour, 0),
+                                        "consumption_real":
+                                        random.randint(0, 100),
                                         "consumption_proposal": 0}
                             dades_mostra.append(new_data)
                             logger.debug(
                                 " - Creating new dummy data in '{}': '{}'".format(
                                     collection, new_data))
-                        except ValueError: #"day is out of range for month":
+                        except ValueError:  #"day is out of range for month":
                             continue
 
         try:
@@ -138,8 +140,10 @@ class Mongo(DataSource):
         Return a filter expression based on date ranges or filtering by CUPS
         """
 
-        assert filter and type(filter) == str, "Filter field not correctly defined"
-        assert values and type(values) == list, "Filter values not correctly defined"
+        assert filter and type(
+            filter) == str, "Filter field not correctly defined"
+        assert values and type(
+            values) == list, "Filter values not correctly defined"
 
         exp = {}
         if filter == "hour":

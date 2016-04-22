@@ -40,10 +40,13 @@ class Prediction(object):
         If not, just initializes the History, load related consumption and print it
 
         """
-        assert type(start_date) == datetime, "Start date must contain a valid datetime"
-        assert type(end_date) == datetime, "End date must contain a valid datetime"
+        assert type(
+            start_date) == datetime, "Start date must contain a valid datetime"
+        assert type(
+            end_date) == datetime, "End date must contain a valid datetime"
         assert end_date >= start_date, "End date must be greater than start date"
-        assert filter_cups == None or type(filter_cups) == list, "cups filter must be None or a list"
+        assert filter_cups == None or type(
+            filter_cups) == list, "cups filter must be None or a list"
         assert type(compute) == bool, "compute must be a flag True/False"
         assert type(collection) == str, "collection to use is not valid"
 
@@ -90,7 +93,6 @@ class Prediction(object):
                                 cups=self.cups_to_filter,
                                 collection=self.collection)
             self.past.append(past_hist)
-
 
         # Start projection from past
         self.project_past_to_future()
@@ -187,7 +189,8 @@ class Prediction(object):
 
                 #save it to DB with the new values!
                 ## todo think about use different datasets (self.futureXX.dataset)
-                consumption.save(dataset=self.future.dataset, collection=self.collection)
+                consumption.save(dataset=self.future.dataset,
+                                 collection=self.collection)
 
     def get_past_days(self, future):
         """

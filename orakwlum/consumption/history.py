@@ -47,7 +47,10 @@ class History(object):
                                                      fi=self.date_end))
         logger.debug('  filtering for cups: {cups}'.format(cups=cups))
 
-        logger.info('Loading History from datasource for dates between {ini} - {fi}'.format(ini=self.date_start, fi=self.date_end))
+        logger.info(
+            'Loading History from datasource for dates between {ini} - {fi}'.format(
+                ini=self.date_start,
+                fi=self.date_end))
 
         self.load_history()
 
@@ -65,12 +68,13 @@ class History(object):
             self.collection))
 
         # Getting Consumption objects for current History from datasource
-        consumptions = list(self.dataset.filter("hour",[self.date_start, self.date_end],collection=self.collection))
-
+        consumptions = list(self.dataset.filter("hour",
+                                                [self.date_start, self.date_end
+                                                 ],
+                                                collection=self.collection))
 
         for consumption in consumptions:
             self.consumptions.append(self.consumption_from_JSON(consumption))
-
 
         # Getting cups list
         cups_list = list(
