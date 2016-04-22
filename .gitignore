@@ -1,5 +1,6 @@
 .idea/
-*.swp
+*.log
+*.sw*
 orakwlum/importer/merge/
 
 # Byte-compiled / optimized / DLL files

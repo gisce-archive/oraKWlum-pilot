@@ -66,7 +66,8 @@ class P5DImporter(Import):
         #ao = data['ao']
         hour = TIMEZONE.localize(data['datetime'])
 
-        logger.debug("  [P5D] Processing {} {} {}".format(cups, hour, consumption))
+        logger.debug("  [P5D] Processing {} {} {}".format(cups, hour,
+                                                          consumption))
 
         consumption_from_line = Consumption(cups=cups,
                                             hour=hour,

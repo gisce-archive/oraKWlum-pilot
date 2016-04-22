@@ -74,18 +74,18 @@ class Q1Importer(Import):
 
             for lectura in comptador.get_lectures():
                 if not lectura.ometre:
-                    lectura_parsed = { "cups": cups,
-                                       "codiDH": codiDH,
-                                       "data_inici": lectura.data_lectura_inicial,
-                                       "data_final": lectura.data_lectura_final,
-                                       "consum": lectura.consum,
-                                       "periode": lectura.periode,
-                                       "constant_multip": lectura.constant_multiplicadora
-                                       }
+                    lectura_parsed = {"cups": cups,
+                                      "codiDH": codiDH,
+                                      "data_inici":
+                                      lectura.data_lectura_inicial,
+                                      "data_final": lectura.data_lectura_final,
+                                      "consum": lectura.consum,
+                                      "periode": lectura.periode,
+                                      "constant_multip":
+                                      lectura.constant_multiplicadora}
 
                     llista_lectures.append(lectura_parsed)
         return llista_lectures
-
 
     def process_consumptions(self):
         """
@@ -104,32 +104,30 @@ class Q1Importer(Import):
             ## tariff = get_tariff_by_code(tariff_name)()
             tariff = T20A()
 
-            start_hour = TIMEZONE.localize(self.convert_string_to_datetime(lectura['data_inici']))
-            end_hour = TIMEZONE.localize(self.convert_string_to_datetime(lectura['data_final']))
+            start_hour = TIMEZONE.localize(self.convert_string_to_datetime(
+                lectura['data_inici']))
+            end_hour = TIMEZONE.localize(self.convert_string_to_datetime(
+                lectura['data_final']))
             measures = []
 
-            profile = Profile(start_hour,
-                              end_hour,
-                              measures)
+            profile = Profile(start_hour, end_hour, measures)
 
-            estimation = profile.estimate(tariff,
-                                          {str(lectura['periode']): int(lectura['consum'])})
+            estimation = profile.estimate(
+                tariff, {str(lectura['periode']): int(lectura['consum'])})
 
             logger.debug(estimation)
 
             # For each measure of the profile create a Consumption
             for measure in estimation.measures:
-                logger.debug( "  [Q1] Processing {} {} {}".format( lectura['cups'], measure.date, measure.measure) )
+                logger.debug("  [Q1] Processing {} {} {}".format(lectura[
+                    'cups'], measure.date, measure.measure))
 
-                consumption_from_measure = Consumption(cups=lectura['cups'],
-                                                       hour=measure.date,
-                                                       real=measure.measure,
-                                                       origin=self.type,
-                                                       time_disc=lectura['codiDH']
-                                                       )
+                consumption_from_measure = Consumption(
+                    cups=lectura['cups'],
+                    hour=measure.date,
+                    real=measure.measure,
+                    origin=self.type,
+                    time_disc=lectura['codiDH'])
 
                 # Save (Upsert) consumtion following strategy "importance of data"
                 self.save_consumption_if_needed(consumption_from_measure)
-
-
-

@@ -38,6 +38,12 @@ RENAME_PROCESSED = False
 
 logging.basicConfig(level=logging.INFO)
 
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+    filename='../oraKWlum.log',
+    filemode='a')
+
 #Import_Massive(path_="../inputs/F1", filter="*.xml", type="F1", CPUs=2)
 #Import_Massive(path_="../inputs/Q1", filter="*.xml", type="Q1", CPUs=2)
 Import_Massive(path_="../inputs/P5D", filter="*0*", type="P5D", CPUs=2)

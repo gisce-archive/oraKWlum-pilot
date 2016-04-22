@@ -6,7 +6,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-
 from orakwlum.datasource import Mongo
 
 from datetime import datetime
@@ -17,7 +16,6 @@ class Import(object):
     Main Import object
     """
 
-
     def __init__(self, file, collection):
         self.file_name = file
         try:
@@ -26,15 +24,10 @@ class Import(object):
             self.collection = collection
 
         except Exception, e:
-            print "The file {} can't be processed\n{}".format(file,e)
-
-
+            print "The file {} can't be processed\n{}".format(file, e)
 
     def get_type(self):
         pass
-
-
-
 
     # todo Take maths on Mongo to speed up it!
     def save_consumption_if_needed(self, consumption_to_save):
@@ -51,13 +44,16 @@ class Import(object):
         # If not highest priority fetch the current data priority from datasource
         if importer_priority > 0:
             # Fetch current data from datasource and compare priorities
-            current_data = consumption_to_save.get_one(self.dataset, self.collection)
+            current_data = consumption_to_save.get_one(self.dataset,
+                                                       self.collection)
 
             # If there aren't any data on datasource, ensure to save it the new one!
             if not current_data:
                 current_data_priority = str(int(importer_priority) + 1)
             else:
-                assert len(current_data) == 1, "There are more than one entries for this key...{}".format(current_data)
+                assert len(
+                    current_data) == 1, "There are more than one entries for this key...{}".format(
+                        current_data)
 
                 # todo on PROD erase if and enforce assert
                 #assert 'origin' in current_data[0], "No origin defined on datasource for this consumption\n'{}'".format(current_data)
@@ -70,11 +66,10 @@ class Import(object):
 
         # Finally, IMPORTER vs DATA    ## if the same priority override datasource (rectifications)
         if (importer_priority <= current_data_priority):
-            logger.debug("Saving imported consumption to DB (priorities: '{} vs {}')".format(importer_priority, current_data_priority))
+            logger.debug(
+                "Saving imported consumption to DB (priorities: '{} vs {}')".format(
+                    importer_priority, current_data_priority))
             consumption_to_save.save(self.dataset, self.collection)
-
-
-
 
     def convert_string_to_datetime(self, string):
         """
