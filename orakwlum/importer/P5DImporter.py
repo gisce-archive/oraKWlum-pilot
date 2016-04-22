@@ -3,14 +3,9 @@ __author__ = 'XaviTorello'
 # __name__ = "P5D_importer"
 
 import logging
-from datetime import datetime
 
 from cchloader.file import CchFile, PackedCchFile
 from cchloader.compress import is_compressed_file
-
-
-from enerdata.profiles.profile import Profile
-from enerdata.contracts.tariff import *
 
 from enerdata.datetime.timezone import TIMEZONE
 
@@ -42,6 +37,8 @@ class P5DImporter(Import):
         Adapted from gisce/cchloader/blob/gisce/cchloader/cli/__init__.py
 
         Review if a P5D file is compressed or not and extract all lines
+
+        Parse each line and update DB if needed
         """
         if is_compressed_file(self.file_name):
             with PackedCchFile(self.file_name) as psf:
@@ -49,6 +46,7 @@ class P5DImporter(Import):
                     for line in cch_file:
                         if not line:
                             continue
+                        print line
                         self.parse_line(line)
         else:
             with CchFile(self.file_name) as cch_file:
@@ -57,7 +55,7 @@ class P5DImporter(Import):
                         continue
                     self.parse_line(line)
 
-    def parse_line(self,line):
+    def parse_line(self, line):
         """
         Create the Consumption object from a P5D line and save it (if more significant) to DB
         """
@@ -76,4 +74,3 @@ class P5DImporter(Import):
 
         # Save (Upsert) consumption following strategy "importance of data"
         self.save_consumption_if_needed(consumption_from_line)
-
