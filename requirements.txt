@@ -1,4 +1,5 @@
 pytz
 enerdata
+switching
 pymongo
-https://github.com/gisce/one_year_ago/archive/master.zip
+one_year_ago
