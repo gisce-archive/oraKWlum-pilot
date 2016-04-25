@@ -201,9 +201,13 @@ class History(object):
         """
         # Ensure object type at DB
         #if '__type__' in obj and obj['__type__'] == 'Consumption':
-        return Consumption(JSON['cups'], JSON['hour'],
-                           JSON['consumption_real'],
-                           JSON['consumption_proposal'])
+        return Consumption(cups=JSON['cups'],
+                           hour=JSON['hour'],
+                           origin=JSON['origin'],
+                           real=JSON['consumption_real'],
+                           proposal=JSON['consumption_proposal'],
+                           time_disc=JSON['time_disc'])
+
 
     def consumption_from_JSON(self, JSON):
         """

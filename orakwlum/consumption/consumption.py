@@ -61,8 +61,8 @@ class Consumption(object):
             print "Hour is not propertly defined:", type_hour
             raise
 
-        assert origin in self.SOURCE_PRIORITY, "Origin '{}' not knowed...\n origins: '{}'".format(
-            origin, self.SOURCE_PRIORITY)
+        assert origin in self.SOURCE_PRIORITY, "Origin '{}' not knowed...\n origins: '{}'\n line: {}".format(
+            origin, self.SOURCE_PRIORITY, cups)
 
         self.consumption_real = real
         self.consumption_proposal = proposal

@@ -76,8 +76,8 @@ def Prediction_tester():
 
 
 def Proposal_tester():
-    date_start = datetime(2016, 04, 01)
-    date_end = datetime(2016, 04, 30)
+    date_start = datetime(2015, 12, 04)
+    date_end = datetime(2015, 12, 05)
 
     cups_to_filter = None
 
@@ -85,7 +85,7 @@ def Proposal_tester():
                         end_date=date_end,
                         filter_cups=cups_to_filter,
                         compute=True,
-                        collection="dataset")
+                        collection=COLLECTION)
 
     proposal.add_new_scenario(name="Original projection",
                               type="base",
@@ -148,9 +148,9 @@ def Import_testerLiteQ1():
     importer.process_consumptions()
 
 
-COLLECTION = "rolf"
+COLLECTION = "importer_test2"
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 #Sampledata_tester()
-#Proposal_tester()
+Proposal_tester()

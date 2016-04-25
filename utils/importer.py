@@ -47,7 +47,8 @@ logging.basicConfig(
     filename='../oraKWlum.log',
     filemode='a')
 
-#Import_Massive(path_="../inputs/F1", filter="*.xml", type="F1", CPUs=2)
+Import_Massive(path_="../inputs/F1", filter="*.xml", type="F1", CPUs=2)
 #Import_Massive(path_="../inputs/Q1", filter="*.xml", type="Q1", CPUs=2)
 #Import_Massive(path_="../inputs/P5D", filter="*0*", type="P5D", CPUs=2)
-Import_Massive(path_="../inputs/F5D", filter="*0*", type="F5D", CPUs=2)
+#Import_Massive(path_="../inputs/F5D", filter="*0*", type="F5D", CPUs=2)
+
