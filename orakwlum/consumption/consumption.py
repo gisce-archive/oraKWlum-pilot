@@ -130,6 +130,7 @@ class Consumption(object):
 
         "PK" will be (cups, hour)
         """
+
         assert dataset, "Dataset where to save not correctly defined"
 
         key_fields = ["cups", "hour"]

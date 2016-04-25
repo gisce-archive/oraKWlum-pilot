@@ -20,6 +20,8 @@ def Import_Massive(path_="./inputs/F1", filter="*.xml", type="F1", CPUs=4):
         processer = process_Q1file
     elif type == "P5D":
         processer = process_P5Dfile
+    elif type == "F5D":
+        processer = process_F5Dfile
 
     try:
         pool.map(processer,
@@ -33,7 +35,8 @@ def Import_Massive(path_="./inputs/F1", filter="*.xml", type="F1", CPUs=4):
     pool.join()
 
 
-COLLECTION = "importer_test"
+
+COLLECTION = "importer_test2"
 RENAME_PROCESSED = False
 
 logging.basicConfig(level=logging.INFO)
@@ -46,4 +49,5 @@ logging.basicConfig(
 
 #Import_Massive(path_="../inputs/F1", filter="*.xml", type="F1", CPUs=2)
 #Import_Massive(path_="../inputs/Q1", filter="*.xml", type="Q1", CPUs=2)
-Import_Massive(path_="../inputs/P5D", filter="*0*", type="P5D", CPUs=2)
+#Import_Massive(path_="../inputs/P5D", filter="*0*", type="P5D", CPUs=2)
+Import_Massive(path_="../inputs/F5D", filter="*0*", type="F5D", CPUs=2)
