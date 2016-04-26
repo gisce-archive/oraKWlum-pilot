@@ -63,7 +63,7 @@ parser.add_option('-c',
 parser.add_option('-n',
                   '--number-days',
                   dest="window",
-                  help="Number of days to integrate for each prediction")
+                  help="Number of days for each prediction")
 options, args = parser.parse_args()
 
 
@@ -89,14 +89,20 @@ def main():
     if hasattr(options, "cpu") and isinstance(options.cpu, int):
         CPUs = int(options.cpu)
 
+    if hasattr(options, "collection") and isinstance(options.collection, str):
+        COLLECTION_STORE = str(options.collection)
+    else:
+        COLLECTION_STORE = COLLECTION
+
     DAYS_LIST = datetime_list_from_range(DAY_INITIAL, DAY_LAST, WINDOW)
 
     Proposal_Massive(days_list=DAYS_LIST,
                      proposal_days_interval=WINDOW,
-                     CPUs=CPUs)
+                     CPUs=CPUs,
+                     collection=COLLECTION_STORE)
 
 
-def Proposal_tester(args):
+def Proposal_creator(args):
     date_start, interval, id, max, collection = args
 
     assert isinstance(date_start, datetime), "Date start must be a datetime"
@@ -137,7 +143,8 @@ def Proposal_tester(args):
 
 def Proposal_Massive(days_list=None,
                      proposal_days_interval=1,
-                     CPUs=4):
+                     CPUs=4,
+                     collection=COLLECTION):
 
     assert isinstance(days_list, list), "Days list must be a list"
 
@@ -145,11 +152,10 @@ def Proposal_Massive(days_list=None,
 
     pool = ThreadPool(CPUs)
 
-    # diff hardcoded functions to speedup pool.map without internal conditionals
-
     try:
-        pool.map(Proposal_tester, (
-            (day, proposal_days_interval, idx + 1, days_count, COLLECTION)
+        print "Creating proposals for days between {}-{} in {}".format(days_list[0], days_list[-1], collection)
+        pool.map(Proposal_creator, (
+            (day, proposal_days_interval, idx + 1, days_count, collection)
             for idx, day in enumerate(days_list)))
 
     except Exception as e:
