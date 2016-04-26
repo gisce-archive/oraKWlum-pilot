@@ -37,7 +37,16 @@ class Consumption(object):
                  origin,
                  real=None,
                  proposal=None,
-                 time_disc=None):
+                 time_disc=None,
+                 province=None,
+                 ZIP=None,
+                 voltage=None,
+                 distributor=None,
+                 origin_priority=None,
+                 tariff=None,
+                 pom_type=None,
+                 ):
+
         logger.debug('Creating new consumption')
         assert cups, "CUPS is needed to create a Consumption"
         assert hour, "hour is mandatory to create a Consumption"
@@ -61,8 +70,8 @@ class Consumption(object):
             print "Hour is not propertly defined:", type_hour
             raise
 
-        assert origin in self.SOURCE_PRIORITY, "Origin '{}' not knowed...\n origins: '{}'".format(
-            origin, self.SOURCE_PRIORITY)
+        assert origin in self.SOURCE_PRIORITY, "Origin '{}' not knowed...\n origins: '{}'\n line: {}".format(
+            origin, self.SOURCE_PRIORITY, cups)
 
         self.consumption_real = real
         self.consumption_proposal = proposal
@@ -72,12 +81,12 @@ class Consumption(object):
         self.origin_priority = self.set_origin_priority(self.origin)
 
         # Static info
-        self.tariff = None
-        self.ZIP = None
-        self.province = None
-        self.voltage = None
-        self.pom_type = None
-        self.distributor = None
+        self.tariff = tariff
+        self.ZIP = ZIP
+        self.province = province
+        self.voltage = voltage
+        self.pom_type = pom_type
+        self.distributor = distributor
         self.time_disc = time_disc
 
         logger.debug(
