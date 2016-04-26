@@ -19,7 +19,8 @@ from orakwlum import Proposal
 # Optional parameters (overrides default config)
 #   - C NumberOfCPUs
 #   - c MongoCollectionName
-#
+#   - v, Verbose mode (INFO loggging)
+#   - d, Debug mode (DEBUG loggging)
 ###################################################################################################
 
 
@@ -29,17 +30,11 @@ from orakwlum import Proposal
 # Overrided with manual parameters at run it!
 COLLECTION = "importer_test2"
 CPUS = 1
+VERBOSE = False
+DEBUG = False
 ##############################
 
 ###################################################################################################
-
-logging.basicConfig(level=logging.INFO)
-
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
-    filename='../oraKWlum.log',
-    filemode='a')
 
 parser = optparse.OptionParser()
 
@@ -64,6 +59,16 @@ parser.add_option('-n',
                   '--number-days',
                   dest="window",
                   help="Number of days for each prediction")
+parser.add_option('-v',
+                  '--verbose',
+                  dest="verbose",
+                  action="store_true",
+                  help="Verbose mode. Activates INFO traces")
+parser.add_option('-d',
+                  '--debug',
+                  dest="debug",
+                  action="store_true",
+                  help="Debug mode. Activates DEBUG traces")
 options, args = parser.parse_args()
 
 
@@ -86,15 +91,33 @@ def main():
     assert DAY_INITIAL <= DAY_LAST, "End range date must be greater than initial date"
 
     CPUs = CPUS
-    if hasattr(options, "cpu") and isinstance(options.cpu, int):
+    if isinstance(options.cpu, int):
         CPUs = int(options.cpu)
 
-    if hasattr(options, "collection") and isinstance(options.collection, str):
+    if isinstance(options.collection, str):
         COLLECTION_STORE = str(options.collection)
     else:
         COLLECTION_STORE = COLLECTION
 
     DAYS_LIST = datetime_list_from_range(DAY_INITIAL, DAY_LAST, WINDOW)
+
+
+    LEVEL = logging.ERROR
+    if options.verbose or VERBOSE:
+        print "INFO"
+        LEVEL = logging.INFO
+
+    if options.debug or DEBUG:
+        print "DEBUG"
+        LEVEL = logging.DEBUG
+
+    logging.basicConfig(level=LEVEL)
+
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+        filename='../oraKWlum.log',
+        filemode='a')
 
     Proposal_Massive(days_list=DAYS_LIST,
                      proposal_days_interval=WINDOW,
